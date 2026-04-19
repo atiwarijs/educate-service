@@ -1,0 +1,71 @@
+<div class="card-grid">
+  <p-card header="Student Registration">
+    <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+      <div class="formgrid grid">
+
+        <!-- Name -->
+        <div class="field col-12 md:col-4">
+          <label for="name" class="block font-semibold mb-2">Name</label>
+          <input id="name" pInputText formControlName="name" class="w-full" placeholder="Enter full name" />
+        </div>
+
+        <!-- Date of Birth -->
+        <div class="field col-12 md:col-4">
+          <label for="dob" class="block font-semibold mb-2">Date of Birth</label>
+          <p-datePicker id="dob" formControlName="dob" dateFormat="yy-mm-dd" class="w-full" placeholder="Select DOB"
+            showIcon></p-datePicker>
+        </div>
+
+        <!-- Gender -->
+        <div class="field col-12 md:col-4">
+          <label class="block font-semibold mb-2">Gender</label>
+          <div class="flex align-items-center gap-4">
+            <div class="flex align-items-center">
+              <p-radioButton name="gender" value="Male" formControlName="gender" inputId="male">
+              </p-radioButton>
+              <label for="male" class="ml-2">Male</label>
+            </div>
+            <div class="flex align-items-center">
+              <p-radioButton name="gender" value="Female" formControlName="gender" inputId="female">
+              </p-radioButton>
+              <label for="female" class="ml-2">Female</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Father's Name -->
+        <div class="field col-12 md:col-4">
+          <label for="fatherName" class="block font-semibold mb-2">Father's Name</label>
+          <input id="fatherName" pInputText formControlName="fatherName" class="w-full"
+            placeholder="Enter father's name" />
+        </div>
+
+        <!-- Mother's Name -->
+        <div class="field col-12 md:col-4">
+          <label for="motherName" class="block font-semibold mb-2">Mother's Name</label>
+          <input id="motherName" pInputText formControlName="motherName" class="w-full"
+            placeholder="Enter mother's name" />
+        </div>
+
+        <!-- Email -->
+        <div class="field col-12 md:col-4">
+          <label for="email" class="block font-semibold mb-2">Email</label>
+          <input id="email" type="email" pInputText formControlName="email" class="w-full"
+            placeholder="Enter email address" />
+        </div>
+
+        <!-- Phone -->
+        <div class="field col-12 md:col-4">
+          <label for="phone" class="block font-semibold mb-2">Phone</label>
+          <input id="phone" pInputText appFormValidator formControlName="phone" class="w-full" placeholder="Enter phone number"/>
+        </div>
+
+      </div>
+
+      <!-- Submit Button -->
+      <div class="mt-3">
+        <p-button type="submit" label="Register Student" icon="pi pi-save" [disabled]="studentForm.invalid"></p-button>
+      </div>
+    </form>
+  </p-card>
+</div>

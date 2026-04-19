@@ -1,0 +1,408 @@
+/* Converted from SCSS -> valid CSS so Angular component styles apply correctly */
+:host {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: auto !important;
+  position: relative !important;
+}
+
+app-login .login-container {
+  display: block !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%) !important;
+  padding: 20px !important;
+  position: relative !important;
+  z-index: 1 !important;
+  width: 100% !important;
+  min-height: 80vh !important;
+}
+
+.login-background {
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto;
+  padding-top: 3vh;
+  padding-bottom: 3vh;
+}
+
+.login-card-wrapper {
+  width: 100%;
+}
+
+app-login ::ng-deep .login-card {
+  border-radius: 12px !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.4) !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+  border: none !important;
+  overflow: hidden !important;
+  position: relative !important;
+  margin: 0 !important;
+}
+
+app-login ::ng-deep .login-card .p-card-header {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #ec4899 100%) !important;
+  border-radius: 12px 12px 0 0 !important;
+  padding: 20px 0 !important;
+  border-bottom: none !important;
+  color: white !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.login-header {
+  text-align: center;
+  color: white;
+}
+
+.login-header .logo {
+  margin-bottom: 1rem;
+}
+
+.login-header h1 {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  letter-spacing: -0.3px;
+}
+
+.login-header .subtitle {
+  margin: 0;
+  font-size: 0.8rem;
+  opacity: 0.85;
+}
+
+.form-field {
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+app-login ::ng-deep .p-floatlabel input,
+app-login ::ng-deep .p-floatlabel .p-inputtext,
+app-login ::ng-deep .p-floatlabel .p-inputtext.p-inputtext {
+  width: 100% !important;
+  padding: 0.5rem 0.625rem 0.5rem 2.25rem !important;
+  border: 2px solid #e5e7eb !important;
+  border-radius: 6px !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  box-sizing: border-box !important;
+  font-size: 0.85rem !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  background-clip: padding-box !important;
+  transition: all 0.25s ease !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  line-height: 1.3 !important;
+}
+
+app-login ::ng-deep .p-floatlabel input:focus,
+app-login ::ng-deep .p-floatlabel .p-inputtext:focus,
+app-login ::ng-deep .p-floatlabel .p-inputtext.p-inputtext:focus {
+  border-color: #4f46e5 !important;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15), 0 4px 12px rgba(79, 70, 229, 0.2) !important;
+  background: white !important;
+  outline: none !important;
+}
+
+app-login ::ng-deep .input-wrapper .p-password {
+  width: 100% !important;
+  display: block !important;
+  position: relative !important;
+}
+
+app-login ::ng-deep .input-wrapper .p-password input,
+app-login ::ng-deep .p-password .p-inputtext,
+app-login ::ng-deep .p-password .p-password-input {
+  width: 100% !important;
+  padding: 0.5rem 2.75rem 0.5rem 2.25rem !important;
+  border: 2px solid #e5e7eb !important;
+  border-radius: 6px !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  box-sizing: border-box !important;
+  font-size: 0.85rem !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  background-clip: padding-box !important;
+  transition: all 0.25s ease !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  line-height: 1.3 !important;
+}
+
+app-login ::ng-deep .input-wrapper .p-password input:focus,
+app-login ::ng-deep .p-password .p-inputtext:focus,
+app-login ::ng-deep .p-password .p-password-input:focus {
+  border-color: #4f46e5 !important;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15), 0 4px 12px rgba(79, 70, 229, 0.2) !important;
+  background: white !important;
+  outline: none !important;
+}
+
+:host ::ng-deep .p-password .p-password-panel {
+  margin-top: 8px;
+}
+
+app-login ::ng-deep .input-wrapper .p-password .p-password-toggle {
+  position: absolute !important;
+  right: 0.625rem !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  color: #6b7280 !important;
+  font-size: 0.85rem !important;
+  cursor: pointer !important;
+  z-index: 4 !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-radius: 4px !important;
+  width: 24px !important;
+  height: 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid #e5e7eb !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+app-login ::ng-deep .input-icon {
+  position: absolute !important;
+  left: 0.625rem !important;
+  color: #6b7280 !important;
+  font-size: 0.875rem !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 3 !important;
+  pointer-events: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.form-field:focus-within .input-icon {
+  color: #4f46e5 !important;
+}
+
+app-login ::ng-deep .p-button.login-button {
+  width: 100% !important;
+  padding: 0.625rem 1rem !important;
+  margin-top: 1.25rem !important;
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #ec4899 100%) !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-weight: 500 !important;
+  font-size: 0.85rem !important;
+  transition: all 0.25s ease !important;
+  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3) !important;
+  height: auto !important;
+  min-height: 36px !important;
+}
+
+app-login ::ng-deep .p-button.login-button:hover {
+  box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4) !important;
+}
+
+app-login ::ng-deep .p-button.login-button:focus {
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.3), 0 8px 25px rgba(79, 70, 229, 0.4) !important;
+}
+
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.75rem 0;
+}
+
+.login-options .remember-me {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.login-options .remember-me label {
+  color: #4b5563;
+  font-size: 0.8rem;
+  margin: 0;
+  cursor: pointer;
+}
+
+.login-options .forgot-password {
+  color: #4f46e5;
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 0.8rem;
+  transition: color 0.25s ease;
+}
+
+.login-options .forgot-password:hover {
+  color: #7c3aed;
+  text-decoration: underline;
+}
+
+.error-message {
+  color: #dc2626;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  display: block;
+  padding: 0.375rem 0.625rem;
+  background: rgba(220, 38, 38, 0.1);
+  border: 1px solid rgba(220, 38, 38, 0.2);
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(220, 38, 38, 0.1);
+}
+
+:host ::ng-deep .p-divider {
+  margin: 2rem 0;
+}
+
+:host ::ng-deep .p-divider .divider-text {
+  background: white;
+  padding: 0 1rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.oauth-buttons {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.oauth-buttons .oauth-button {
+  flex: 1;
+  border-radius: 6px !important;
+  padding: 0.5rem 0.75rem !important;
+  font-weight: 400 !important;
+  transition: all 0.25s ease !important;
+  border: 2px solid #e5e7eb !important;
+  background: white !important;
+  color: #374151 !important;
+  font-size: 0.8rem !important;
+}
+
+.oauth-buttons .oauth-button:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  transform: translateY(-1px) !important;
+}
+
+.oauth-buttons .oauth-button.google:hover {
+  border-color: #ea4335 !important;
+  color: #ea4335 !important;
+  background: rgba(234, 67, 53, 0.05) !important;
+}
+
+.oauth-buttons .oauth-button.microsoft:hover {
+  border-color: #00a4ef !important;
+  color: #00a4ef !important;
+  background: rgba(0, 164, 239, 0.05) !important;
+}
+
+.signup-prompt {
+  text-align: center;
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+
+.signup-prompt .signup-link {
+  color: #4f46e5;
+  text-decoration: none;
+  font-weight: 400;
+  margin-left: 0.5rem;
+  transition: color 0.25s ease;
+}
+
+.signup-prompt .signup-link:hover {
+  color: #7c3aed;
+  text-decoration: underline;
+}
+
+@media (max-width: 576px) {
+  app-login .login-container {
+    align-items: flex-start !important;
+    padding: 10px !important;
+    min-height: auto !important;
+  }
+
+  .login-background {
+    padding-top: 2vh !important;
+    min-height: auto !important;
+  }
+
+  .login-card-wrapper {
+    max-width: 100%;
+    margin: 20px 0;
+  }
+
+  app-login ::ng-deep .login-card .p-card-content {
+    padding: 1.25rem !important;
+  }
+
+  .login-options {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .oauth-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .login-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .form-field {
+    margin-bottom: 1rem;
+  }
+
+  app-login ::ng-deep .p-floatlabel input,
+  app-login ::ng-deep .p-floatlabel .p-inputtext,
+  app-login ::ng-deep .p-floatlabel .p-inputtext.p-inputtext {
+    height: 40px !important;
+    min-height: 40px !important;
+    font-size: 0.85rem !important;
+    padding: 0.5rem 0.75rem 0.5rem 2.25rem !important;
+  }
+
+  app-login ::ng-deep .input-wrapper .p-password input,
+  app-login ::ng-deep .input-wrapper .p-password .p-inputtext,
+  app-login ::ng-deep .input-wrapper .p-password .p-password-input {
+    height: 40px !important;
+    min-height: 40px !important;
+    font-size: 0.85rem !important;
+    padding: 0.5rem 2.75rem 0.5rem 2.25rem !important;
+  }
+
+  app-login ::ng-deep .p-button.login-button {
+    padding: 0.625rem 1rem !important;
+    min-height: 36px !important;
+    font-size: 0.85rem !important;
+  }
+}
+
+@media (max-height: 600px) {
+  app-login .login-container {
+    align-items: flex-start !important;
+    padding: 10px !important;
+  }
+
+  .login-background {
+    padding-top: 1vh !important;
+  }
+
+  app-login ::ng-deep .login-card .p-card-header {
+    padding: 20px 0 !important;
+  }
+
+  .login-header h1 {
+    font-size: 1.6rem;
+  }
+
+  app-login ::ng-deep .login-card .p-card-content {
+    padding: 1rem !important;
+  }
+
+  .form-field {
+    margin-bottom: 0.75rem;
+  }
+}

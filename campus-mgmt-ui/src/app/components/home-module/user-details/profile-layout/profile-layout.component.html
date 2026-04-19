@@ -1,0 +1,628 @@
+<!-- Breadcrumb at top -->
+<!-- <div class="breadcrumb-container">
+  <p-breadcrumb [model]="breadcrumbItems" [home]="homeItem"></p-breadcrumb>
+</div> -->
+
+<!-- Steps component for form navigation -->
+<div class="steps-container">
+  <p-steps
+    [model]="formSteps"
+    [activeIndex]="currentStepIndex"
+    [readonly]="false"
+  ></p-steps>
+</div>
+
+<div class="form-container">
+  <form [formGroup]="personalForm" (ngSubmit)="submitForm()">
+    <!-- Step content container with animation -->
+    <div class="step-content" [@stepTransition]="currentStepIndex">
+      <!-- Step 1: Personal Details -->
+      <div *ngIf="currentStepIndex === 0" class="step-panel">
+        <div class="cards-row">
+
+         
+          <div class="form-section">
+            <div class="form-group">
+              <label for="role">Role</label>
+              <p-dropdown 
+                formControlName="role"
+                [options]="roles" 
+                placeholder="Select a Role" 
+                optionLabel="label"
+                optionValue="value">
+              </p-dropdown>
+            </div>
+            <app-personal [basicDetailsForm]="basicDetails"></app-personal>
+          </div>
+        </div>
+
+        <div class="step-navigation">
+          <p-button
+            label="Next"
+            icon="pi pi-arrow-right"
+            iconPos="right"
+            (onClick)="nextStep()"
+          ></p-button>
+        </div>
+      </div>
+
+      <!-- Step 2: Family Details -->
+      <div *ngIf="currentStepIndex === 1" class="step-panel">
+        <div class="cards-row">
+          <div class="form-section">
+            <app-family-details [families]="families"></app-family-details>
+          </div>
+        </div>
+
+        <div class="step-navigation">
+          <p-button
+            label="Previous"
+            icon="pi pi-arrow-left"
+            styleClass="p-button-secondary mr-2"
+            (onClick)="prevStep()"
+          ></p-button>
+          <p-button
+            label="Next"
+            icon="pi pi-arrow-right"
+            iconPos="right"
+            (onClick)="nextStep()"
+          ></p-button>
+        </div>
+      </div>
+
+      <!-- Step 3: Address Details -->
+      <div *ngIf="currentStepIndex === 2" class="step-panel">
+        <div class="cards-row">
+          <div class="form-section">
+            <app-address [addresses]="addresses"></app-address>
+          </div>
+        </div>
+
+        <div class="step-navigation">
+          <p-button
+            label="Previous"
+            icon="pi pi-arrow-left"
+            styleClass="p-button-secondary mr-2"
+            (onClick)="prevStep()"
+          ></p-button>
+          <p-button
+            label="Next"
+            icon="pi pi-arrow-right"
+            iconPos="right"
+            (onClick)="nextStep()"
+          ></p-button>
+        </div>
+      </div>
+
+      <!-- Step 4: Education Details -->
+      <div *ngIf="currentStepIndex === 3" class="step-panel">
+        <div class="cards-row">
+          <div class="form-section">
+            <app-education [educationArray]="educations"></app-education>
+          </div>
+        </div>
+
+        <div class="step-navigation">
+          <p-button
+            label="Previous"
+            icon="pi pi-arrow-left"
+            styleClass="p-button-secondary mr-2"
+            (onClick)="prevStep()"
+          ></p-button>
+          <p-button
+            label="Next"
+            icon="pi pi-arrow-right"
+            iconPos="right"
+            (onClick)="nextStep()"
+          ></p-button>
+        </div>
+      </div>
+
+      <!-- Step 5: Experience Details -->
+      <div *ngIf="currentStepIndex === 4" class="step-panel">
+        <div class="cards-row">
+          <div class="form-section">
+            <app-experience [experienceArray]="experiences"></app-experience>
+          </div>
+        </div>
+
+        <div class="step-navigation">
+          <p-button
+            label="Previous"
+            icon="pi pi-arrow-left"
+            styleClass="p-button-secondary mr-2"
+            (onClick)="prevStep()"
+          ></p-button>
+          <p-button
+            label="Next"
+            icon="pi pi-arrow-right"
+            iconPos="right"
+            (onClick)="nextStep()"
+          ></p-button>
+        </div>
+      </div>
+
+      <!-- Step 6: Vehicle Details -->
+      <div *ngIf="currentStepIndex === 5" class="step-panel">
+        <div class="cards-row">
+          <div class="form-section">
+            <app-vehicle [vehicleArray]="vehicles"></app-vehicle>
+          </div>
+        </div>
+
+        <div class="step-navigation">
+          <p-button
+            label="Previous"
+            icon="pi pi-arrow-left"
+            styleClass="p-button-secondary mr-2"
+            (onClick)="prevStep()"
+          ></p-button>
+          <p-button
+            label="Next"
+            icon="pi pi-arrow-right"
+            iconPos="right"
+            (onClick)="nextStep()"
+          ></p-button>
+        </div>
+      </div>
+
+      <!-- Step 7: Medical Details -->
+      <div *ngIf="currentStepIndex === 6" class="step-panel">
+        <div class="cards-row">
+          <div class="form-section">
+            <app-medical [medicalsArray]="medicals"></app-medical>
+          </div>
+        </div>
+
+        <div class="step-navigation">
+          <p-button
+            label="Previous"
+            icon="pi pi-arrow-left"
+            styleClass="p-button-secondary mr-2"
+            (onClick)="prevStep()"
+          ></p-button>
+          <p-button
+            label="Next"
+            icon="pi pi-arrow-right"
+            iconPos="right"
+            (onClick)="nextStep()"
+          ></p-button>
+        </div>
+      </div>
+
+      <!-- Final Step: Review & Submit -->
+      <div *ngIf="currentStepIndex === 7" class="step-panel">
+        <div class="review-container">
+          <h2>Review Your Information</h2>
+
+          <!-- Basic details summary -->
+          <div class="summary-section">
+            <h3>Basic Details</h3>
+            <div class="details-row">
+              <div class="detail-item">
+                <strong>First Name:</strong>
+                {{ basicDetails.get("firstName")?.value }}
+              </div>
+              <div class="detail-item">
+                <strong>Last Name:</strong>
+                {{ basicDetails.get("lastName")?.value }}
+              </div>
+              <div class="detail-item">
+                <strong>Email:</strong> {{ basicDetails.get("email")?.value }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Family details -->
+          <div class="summary-section">
+            <h3>Family Details</h3>
+            <p-accordion>
+              <ng-container
+                *ngFor="let family of families.controls; let i = index"
+              >
+                <p-accordionTab
+                  header="{{ family.get('memberRelation')?.value }} Details"
+                >
+                  <div class="details-row">
+                    <div class="detail-item">
+                      <strong>Name:</strong>
+                      {{ family.get("memberName")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Gender:</strong>
+                      {{ family.get("memberGender")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Date Of Birth:</strong>
+                      {{ family.get("memberDob")?.value | date: 'dd/MM/yyyy'}}
+                    </div>
+
+                    <div class="detail-item">
+                      <strong>Occupation:</strong>
+                      {{ family.get("memberOccupation")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Organisation:</strong>
+                      {{ family.get("memberOrg")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Status:</strong>
+                      {{ family.get("memberStatus")?.value }}
+                    </div>
+                  </div>
+                  <div
+                    class="details-row"
+                    *ngIf="
+                      family.get('memberEmail')?.value ||
+                      family.get('memberMobile')?.value
+                    "
+                  >
+                    <div
+                      class="detail-item"
+                      *ngIf="family.get('memberEmail')?.value"
+                    >
+                      <strong>Email:</strong>
+                      {{ family.get("memberEmail")?.value }}
+                    </div>
+                    <div
+                      class="detail-item"
+                      *ngIf="family.get('memberMobile')?.value"
+                    >
+                      <strong>Mobile:</strong>
+                      {{ family.get("memberMobile")?.value }}
+                    </div>
+                  </div>
+                </p-accordionTab>
+              </ng-container>
+            </p-accordion>
+          </div>
+
+          <!-- Remaining sections with the same pattern -->
+          <!-- Address details -->
+          <div class="summary-section">
+            <h3>Address Details</h3>
+            <p-accordion>
+              <ng-container
+                *ngFor="let address of addresses.controls; let i = index"
+              >
+                <p-accordionTab
+                  header="{{ address.get('addressType')?.value }} Address"
+                >
+                  <div class="details-row">
+                    <div class="detail-item">
+                      <strong>Address Line 1:</strong>
+                      {{ address.get("addressLine1")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Address Line 2:</strong>
+                      {{ address.get("addressLine2")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Unit Number:</strong>
+                      {{ address.get("unitNumber")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Locality:</strong>
+                      {{ address.get("locality")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>District:</strong>
+                      {{ address.get("district")?.value }}
+                    </div>
+
+                    <div class="detail-item">
+                      <strong>State:</strong> {{ address.get("state")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>City:</strong> {{ address.get("city")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>PIN Code:</strong>
+                      {{ address.get("postalCode")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Country Name:</strong>
+                      {{ address.get("countryName")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Country Code:</strong>
+                      {{ address.get("countryCode")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Landmark:</strong>
+                      {{ address.get("landmark")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Status:</strong>
+                      {{ address.get("status")?.value }}
+                    </div>
+                  </div>
+                </p-accordionTab>
+              </ng-container>
+            </p-accordion>
+          </div>
+
+          <!-- Education details -->
+          <div class="summary-section">
+            <h3>Education Details</h3>
+            <p-accordion>
+              <ng-container
+                *ngFor="let edu of educations.controls; let i = index"
+              >
+                <p-accordionTab
+                  header="{{ edu.get('courseName')?.value }} Details"
+                >
+                  <div class="details-row">
+                    <div class="detail-item">
+                      <strong>Course Name:</strong>
+                      {{ edu.get("courseName")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Course Subject:</strong>
+                      {{ edu.get("courseSubject")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Board Name:</strong>
+                      {{ edu.get("boardName")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Status:</strong> {{ edu.get("status")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>College Name:</strong>
+                      {{ edu.get("collegeName")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>University Name:</strong>
+                      {{ edu.get("universityName")?.value }}
+                    </div>
+
+                    <div class="detail-item">
+                      <strong>College City:</strong>
+                      {{ edu.get("collegeCity")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>College State:</strong>
+                      {{ edu.get("collegeState")?.value }}
+                    </div>
+
+                    <div class="detail-item">
+                      <strong>Start Date:</strong>
+                      {{ edu.get("startDate")?.value | date: 'dd/MM/yyyy'}}
+                    </div>
+                    <div class="detail-item">
+                      <strong>End Date:</strong> {{ edu.get("endDate")?.value | date: 'dd/MM/yyyy'}}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Score:</strong> {{ edu.get("score")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Obtain Marks:</strong>
+                      {{ edu.get("obtainMarks")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Maximum Marks:</strong>
+                      {{ edu.get("maxMarks")?.value }}
+                    </div>
+                  </div>
+                </p-accordionTab>
+              </ng-container>
+            </p-accordion>
+          </div>
+
+          <!-- Experience details -->
+          <div class="summary-section">
+            <h3>Experience Details</h3>
+            <p-accordion>
+              <ng-container
+                *ngFor="let exp of experiences.controls; let i = index"
+              >
+                <p-accordionTab
+                  header="{{ exp.get('institutionName')?.value }} Details"
+                >
+                  <div class="details-row">
+                    <div class="detail-item">
+                      <strong>Company Name:</strong>
+                      {{ exp.get("institutionName")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Designation:</strong>
+                      {{ exp.get("designation")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Skills:</strong>
+                      {{ exp.get("skills")?.value }}
+                    </div>
+                  </div>
+                  <div class="details-row">
+                    <div class="detail-item">
+                      <strong>Joining Date:</strong>
+                      {{ exp.get("joiningDate")?.value | date: 'dd/MM/yyyy'}}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Leaving Date:</strong>
+                      {{ exp.get("leavingDate")?.value | date: 'dd/MM/yyyy'}}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Leaving Reason:</strong>
+                      {{ exp.get("leavingReason")?.value }}
+                    </div>
+                  </div>
+                  <!-- <div class="details-row">
+                   
+                  
+                  </div> -->
+                </p-accordionTab>
+              </ng-container>
+            </p-accordion>
+          </div>
+
+          <!-- Vehicle details -->
+          <div class="summary-section">
+            <h3>Vehicle Details</h3>
+            <p-accordion>
+              <ng-container
+                *ngFor="let vehicle of vehicles.controls; let i = index"
+              >
+                <p-accordionTab
+                  header="{{ vehicle.get('vehicleType')?.value }} Details"
+                >
+                  <div class="details-row">
+                    <div class="detail-item">
+                      <strong>Registration Number:</strong>
+                      {{ vehicle.get("registrationNumber")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Registration Date:</strong>
+                      {{ vehicle.get("registrationDate")?.value | date: 'dd/MM/yyyy'}}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Chassis Number:</strong>
+                      {{ vehicle.get("chassisNumber")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Engine Number:</strong>
+                      {{ vehicle.get("engineNumber")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Brand Name:</strong>
+                      {{ vehicle.get("brandName")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Registration Number:</strong>
+                      {{ vehicle.get("vehicleType")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Fuel Type:</strong>
+                      {{ vehicle.get("fuelType")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>DL Number:</strong>
+                      {{ vehicle.get("dlNumber")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>DL Expiry Date:</strong>
+                      {{ vehicle.get("dlExpireDate")?.value | date: 'dd/MM/yyyy'}}
+                    </div>
+                    <div class="detail-item">
+                      <strong>IS Insured:</strong>
+                      {{ vehicle.get("isInsured")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Insurance Id:</strong>
+                      {{ vehicle.get("insuranceId")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Insurance Company Name:</strong>
+                      {{ vehicle.get("insuranceCompanyName")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Insurance Type:</strong>
+                      {{ vehicle.get("insuranceType")?.value }}
+                    </div>
+
+                    <div class="detail-item">
+                      <strong>Insurance Expiry Date:</strong>
+                      {{ vehicle.get("insuranceExpireDate")?.value | date: 'dd/MM/yyyy'}}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Is PUC Certificated:</strong>
+                      {{ vehicle.get("isPucCertificated")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>PUC Certificate Id:</strong>
+                      {{ vehicle.get("pucCertificateId")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>PUC Expiry Date:</strong>
+                      {{ vehicle.get("pucExpireDate")?.value | date: 'dd/MM/yyyy'}}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Remark:</strong>
+                      {{ vehicle.get("remark")?.value }}
+                    </div>
+                  </div>
+                </p-accordionTab>
+              </ng-container>
+            </p-accordion>
+          </div>
+
+          <!-- Medical details -->
+          <div class="summary-section">
+            <h3>Medical Details</h3>
+            <p-accordion>
+              <ng-container
+                *ngFor="let medical of medicals.controls; let i = index"
+              >
+                <p-accordionTab header="Medical History {{ i + 1 }}">
+                  <div class="details-row">
+                    <div class="detail-item">
+                      <strong>Blood Group:</strong>
+                      {{ medical.get("bloodGroup")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Medical History:</strong>
+                      {{ medical.get("medicalHistory")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Diseases:</strong>
+                      {{ medical.get("diseases")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Medications:</strong>
+                      {{ medical.get("medications")?.value }}
+                    </div>
+
+                    <div class="detail-item">
+                      <strong>Treatments:</strong>
+                      {{ medical.get("treatments")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Vitals:</strong>
+                      {{ medical.get("vitals")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Diagnoses:</strong>
+                      {{ medical.get("diagnoses")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Therapies:</strong>
+                      {{ medical.get("therapies")?.value }}
+                    </div>
+                    <div class="detail-item">
+                      <strong>Psychosocial:</strong>
+                      {{ medical.get("psychosocial")?.value }}
+                    </div>
+                  </div>
+                </p-accordionTab>
+              </ng-container>
+            </p-accordion>
+          </div>
+        </div>
+
+        <div class="step-navigation">
+          <p-button
+            label="Previous"
+            icon="pi pi-arrow-left"
+            styleClass="p-button-secondary mr-2"
+            (onClick)="prevStep()"
+          ></p-button>
+          <div class="button-container">
+            <p-button
+              label="Save as Draft"
+              icon="pi pi-save"
+              styleClass="p-button-secondary mr-2"
+              (click)="saveDraft()"
+            ></p-button>
+            <p-button
+              label="Submit"
+              icon="pi pi-check"
+              type="submit"
+              styleClass="submit-btn"
+            ></p-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

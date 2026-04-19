@@ -1,0 +1,192 @@
+<div *ngIf="noDataFound" class="no-data">
+    No profiles found.
+</div>
+<div class="card" *ngIf="!noDataFound">
+    <p-toast />
+    <p-toolbar class="mb-6">
+        <ng-template pTemplate="start">
+            <p-button label="New" icon="pi pi-plus" class="mr-2" (onClick)="openNew()" />
+            <p-button severity="danger" label="Delete" icon="pi pi-trash" outlined (onClick)="deleteSelectedStudents()"
+                [disabled]="!selectedStudents || !selectedStudents.length" />
+        </ng-template>
+    </p-toolbar>
+
+    <p-table #dt [value]="studentList" [(selection)]="selectedStudents" [paginator]="true" [rows]="10"
+        [rowsPerPageOptions]="[10, 25, 50]" [rowHover]="true" dataKey="id"
+        [globalFilterFields]="['name','dob','gender','email','status']" responsiveLayout="scroll">
+
+        <!-- Table Caption -->
+        <ng-template pTemplate="caption">
+            <div class="toolbar-row">
+                <div class="left">
+                    <p-button label="Clear" icon="pi pi-filter-slash" (click)="dt.clear()"></p-button>
+                </div>
+
+                <div class="right">
+                    <p-iconfield iconPosition="left">
+                        <p-inputicon>
+                            <i class="pi pi-search"></i>
+                        </p-inputicon>
+                        <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                            placeholder="Search Students" />
+                    </p-iconfield>
+                </div>
+            </div>
+        </ng-template>
+
+        <!-- Table Header -->
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem"><p-tableHeaderCheckbox /></th>
+                <th pSortableColumn="name">
+                    Name <p-sortIcon field="name"></p-sortIcon>
+                    <p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
+                </th>
+                <th pSortableColumn="dob">
+                    DOB <p-sortIcon field="dob"></p-sortIcon>
+                    <p-columnFilter type="date" field="dob" display="menu"></p-columnFilter>
+                </th>
+                <th pSortableColumn="gender">
+                    Gender <p-sortIcon field="gender"></p-sortIcon>
+                    <p-columnFilter type="text" field="gender" display="menu"></p-columnFilter>
+                </th>
+                <th pSortableColumn="email">
+                    Email <p-sortIcon field="email"></p-sortIcon>
+                    <p-columnFilter type="text" field="email" display="menu"></p-columnFilter>
+                </th>
+                <th pSortableColumn="status">
+                    Status <p-sortIcon field="status"></p-sortIcon>
+                    <p-columnFilter type="text" field="status" display="menu"></p-columnFilter>
+                </th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+
+        <!-- Table Body -->
+        <ng-template pTemplate="body" let-student>
+            <tr>
+                <td><p-tableCheckbox [value]="student" /></td>
+                <td>{{ student.name }}</td>
+                <td>{{ student.dob | date: 'yyyy-MM-dd' }}</td>
+                <td>{{ student.gender }}</td>
+                <td>{{ student.email }}</td>
+                <td><p-tag [value]="student.status" [severity]="getSeverity(student.status!)"></p-tag></td>
+                <td>
+                    <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
+                        (click)="editStudent(student)" />
+                    <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                        (click)="deleteStudent(student)" />
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+
+    <!-- Dialog for Create/Edit -->
+    <p-dialog [(visible)]="studentDialog" [style]="{ width: '550px' }" [modal]="true"
+        [header]="isEdit ? 'Edit Student - Reg No: ' + studentForm.get('registrationNo')?.value : 'Add Student'">
+
+        <ng-template pTemplate="content">
+            <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+                <div class="formgrid grid">
+
+
+                    <!-- Enrollment No -->
+                    <div class="field col-12 md:col-6" *ngIf="isEdit && studentForm.get('enrolmentNo')?.value">
+                        <label for="enrolmentNo">Enrollment No</label>
+                        <input id="enrolmentNo" pInputText formControlName="enrolmentNo" class="w-full" readonly />
+                    </div>
+
+                    <!-- Name -->
+                    <div class="field col-12 md:col-6">
+                        <label for="name">Name</label>
+                        <input id="name" pInputText placeholder="Enter full name" formControlName="name"
+                            class="w-full" />
+                    </div>
+
+                    <!-- DOB -->
+                    <div class="field col-12 md:col-6">
+                        <label for="dob">Date of Birth</label>
+                        <p-datePicker id="dob" formControlName="dob" dateFormat="yy-mm-dd" showIcon
+                            placeholder="Select DOB" class="w-full"></p-datePicker>
+                    </div>
+
+                    <!-- Gender -->
+                    <div class="field col-12 md:col-6">
+                        <label>Gender</label>
+                        <div class="flex align-items-center gap-4">
+                            <p-radioButton name="gender" value="Male" formControlName="gender" inputId="male" />
+                            <label for="male" class="ml-2">Male</label>
+
+                            <p-radioButton name="gender" value="Female" formControlName="gender" inputId="female" />
+                            <label for="female" class="ml-2">Female</label>
+                        </div>
+                    </div>
+
+                    <!-- Father Name -->
+                    <div class="field col-12 md:col-6">
+                        <label for="fatherName">Father Name</label>
+                        <input id="fatherName" pInputText placeholder="Enter father name" formControlName="fatherName"
+                            class="w-full" />
+                    </div>
+
+                    <!-- Mother Name -->
+                    <div class="field col-12 md:col-6">
+                        <label for="motherName">Mother Name</label>
+                        <input id="motherName" pInputText placeholder="Enter mother name" formControlName="motherName"
+                            class="w-full" />
+                    </div>
+
+                    <!-- Email -->
+                    <div class="field col-12 md:col-6">
+                        <label for="email">Email</label>
+                        <input id="email" type="email" pInputText placeholder="Enter email" formControlName="email"
+                            class="w-full" />
+                    </div>
+
+                    <!-- Status (only in Edit) -->
+                    <div *ngIf="isEdit" class="field col-12 md:col-6">
+                        <label>Status</label>
+                        <p-select [options]="statusOptions" formControlName="status" placeholder="Select Status"
+                            class="w-full md:w-56"></p-select>
+                    </div>
+
+                    <div *ngIf="isEdit && studentForm.get('status')?.value === 'ENROLLED'"
+                        class="field col-12 md:col-6">
+                        <p-checkbox formControlName="assignClass" [binary]="true" inputId="assignClass"
+                            (onChange)="onAssignClassChange($event)">
+                        </p-checkbox>
+                        <label for="assignClass" class="ml-3">Assign class?</label>
+                    </div>
+
+                    <!-- Class Dropdown -->
+                    <div class="field col-12 md:col-6"
+                        *ngIf="studentForm.get('status')?.value === 'ENROLLED' && studentForm.get('assignClass')?.value">
+                        <label for="classId">Class</label>
+                        <p-dropdown inputId="classId" formControlName="classId" [options]="classOptions"
+                            optionLabel="className" optionValue="id" placeholder="Select Class"
+                            (onChange)="onClassChange($event.value)" class="w-full">
+                        </p-dropdown>
+                    </div>
+
+                    <!-- Section Dropdown -->
+                    <div class="field col-12 md:col-6"
+                        *ngIf="studentForm.get('status')?.value === 'ENROLLED' && studentForm.get('assignClass')?.value">
+                        <label for="sectionId">Section</label>
+                        <p-dropdown inputId="sectionId" [options]="sectionOptions" formControlName="sectionId"
+                            optionLabel="label" optionValue="value" placeholder="Select Section"
+                            class="w-full"></p-dropdown>
+                    </div>
+                </div>
+
+                <!-- Footer Buttons -->
+                <div class="mt-3 flex justify-content-end gap-3">
+                    <p-button label="Cancel" icon="pi pi-times" text (click)="hideDialog()" />
+                    <p-button type="submit" label="Save Student" icon="pi pi-save" />
+                </div>
+            </form>
+        </ng-template>
+    </p-dialog>
+
+    <p-confirmDialog [style]="{ width: '500px' }" />
+</div>

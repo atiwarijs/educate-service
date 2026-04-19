@@ -1,0 +1,278 @@
+<p-confirmDialog></p-confirmDialog>
+<p-card class="card position-relative">
+  <div class="card-title">Vehicle Details</div>
+  <button
+    type="button"
+    class="p-button p-button-sm p-button-primary add-tab-btn"
+    pTooltip="Add Vehicle"
+    tooltipPosition="top"
+    (click)="addTabs()"
+    title="Add Vehicle"
+  >
+    <i class="pi pi-plus"></i>
+  </button>
+
+  <p-tabs [value]="selectedIndex" scrollable>
+    <p-tablist>
+      @for (vehi of vehicleArray.controls; track $index) {
+      <p-tab [value]="$index">
+        {{
+          asFormGroup(vehi).get("vehicleType")?.value ||
+            "Vehicle " + ($index + 1)
+        }}
+        <button
+          type="button"
+          class="p-button p-button-danger p-button-sm"
+          (click)="confirmDelete($index); $event.stopPropagation()"
+          *ngIf="vehicleArray.controls.length > 1"
+        >
+          <i class="pi pi-times"></i>
+        </button>
+      </p-tab>
+      }
+    </p-tablist>
+
+    <p-tabpanels>
+      @for (vehi of vehicleArray.controls; track $index) {
+      <p-tabpanel [value]="$index">
+        <form [formGroup]="asFormGroup(vehi)">
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="registrationNumber">Registration Number</label>
+              <input
+                id="registrationNumber"
+                type="text"
+                pInputText
+                formControlName="registrationNumber"
+                appFormValidator
+                placeholder="Enter registration number"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="registrationDate">Registration Date</label>
+              <p-datePicker
+                id="registrationDate"
+                [showIcon]="true"
+                formControlName="registrationDate"
+                appFormValidator
+                placeholder="Select registration date"
+              ></p-datePicker>
+            </div>
+
+            <div class="form-field">
+              <label for="chassisNumber">Chassis Number</label>
+              <input
+                id="chassisNumber"
+                type="text"
+                pInputText
+                formControlName="chassisNumber"
+                appFormValidator
+                placeholder="Enter chassis number"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="engineNumber">Engine Number</label>
+              <input
+                id="engineNumber"
+                type="text"
+                pInputText
+                formControlName="engineNumber"
+                appFormValidator
+                placeholder="Enter engine number"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="brandName">Brand Name</label>
+              <input
+                id="brandName"
+                type="text"
+                pInputText
+                formControlName="brandName"
+                appFormValidator
+                placeholder="Enter brand name"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="vehicleType">Vehicle Type</label>
+              <p-select
+                id="vehicleType"
+                [options]="vehicleTypes"
+                formControlName="vehicleType"
+                [style]="{ height: '38px' }"
+                appFormValidator
+                placeholder="Select vehicle type"
+              ></p-select>
+            </div>
+
+            <div class="form-field">
+              <label for="fuelType">Fuel Type</label>
+              <p-select
+                id="fuelType"
+                [options]="fuelTypes"
+                formControlName="fuelType"
+                [style]="{ height: '38px' }"
+                appFormValidator
+                placeholder="Select fuel type"
+              ></p-select>
+            </div>
+
+            <div class="form-field">
+              <label for="dlNumber">DL Number</label>
+              <input
+                id="dlNumber"
+                type="text"
+                pInputText
+                formControlName="dlNumber"
+                appFormValidator
+                placeholder="Enter DL number"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="dlExpireDate">DL Expiry Date</label>
+              <p-datePicker
+                id="dlExpireDate"
+                [showIcon]="true"
+                formControlName="dlExpireDate"
+                appFormValidator
+                placeholder="Select DL expiry date"
+              ></p-datePicker>
+            </div>
+
+            <div class="form-field">
+              <label for="isInsured">Insured?</label>
+              <p-checkbox
+                formControlName="isInsured"
+                label="Insured"
+                binary="true"
+              ></p-checkbox>
+            </div>
+
+            <div class="form-field">
+              <label for="insuranceId">Insurance ID</label>
+              <input
+                id="insuranceId"
+                type="text"
+                pInputText
+                formControlName="insuranceId"
+                appFormValidator
+                placeholder="Enter insurance ID"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="insuranceCompanyName">Insurance Company</label>
+              <input
+                id="insuranceCompanyName"
+                type="text"
+                pInputText
+                formControlName="insuranceCompanyName"
+                appFormValidator
+                placeholder="Enter insurance company name"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="insuranceType">Insurance Type</label>
+              <input
+                id="insuranceType"
+                type="text"
+                pInputText
+                formControlName="insuranceType"
+                appFormValidator
+                placeholder="Enter insurance type"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="insuranceExpireDate">Insurance Expiry</label>
+              <p-datePicker
+                id="insuranceExpireDate"
+                [showIcon]="true"
+                formControlName="insuranceExpireDate"
+                appFormValidator
+                placeholder="Select insurance expiry date"
+              ></p-datePicker>
+            </div>
+
+            <div class="form-field">
+              <label for="isPucCertificated">PUC Certified</label>
+              <p-checkbox
+                formControlName="isPucCertificated"
+                label="isPucCertificated"
+                binary="true"
+                appFormValidator
+              ></p-checkbox>
+            </div>
+
+            <div class="form-field">
+              <label for="pucCertificateId">PUC Certificate Id</label>
+              <input
+                id="pucCertificateId"
+                type="text"
+                pInputText
+                formControlName="pucCertificateId"
+                appFormValidator
+                placeholder="Enter PUC certificate ID"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="pucExpireDate">PUC Expiry</label>
+              <p-datePicker
+                id="pucExpireDate"
+                [showIcon]="true"
+                formControlName="pucExpireDate"
+                appFormValidator
+                placeholder="Select PUC expiry date"
+              ></p-datePicker>
+            </div>
+
+            <div class="form-field">
+              <label for="remark">Remark</label>
+              <input
+                id="remark"
+                type="text"
+                pInputText
+                formControlName="remark"
+                appFormValidator
+                placeholder="Enter remarks"
+              />
+            </div>
+
+            <div formArrayName="vehicleDocuments">
+              <app-file-upload
+                *ngFor="
+                  let doc of getDocumentsArray($index).controls;
+                  let docIndex = index
+                "
+                [formGroupName]="docIndex"
+                [doc]="asFormGroup(doc)"
+                [docIndex]="docIndex"
+                [componentIndex]="$index"
+                [allDocsInArray]="getDocumentsArray($index)"
+                [documentOptions]="documentOptions"
+                [parentFormContext]="'Vehicle'"
+                (fileSelected)="onDocFileSelect($event)"
+                (remove)="removeDocument($index, docIndex)"
+              ></app-file-upload>
+
+              <button
+                type="button"
+                class="p-button p-button-sm p-button-secondary mt-2"
+                (click)="addDocument($index)"
+              >
+                <i class="pi pi-plus"></i> Add Document
+              </button>
+            </div>
+          </div>
+        </form>
+      </p-tabpanel>
+      }
+    </p-tabpanels>
+  </p-tabs>
+</p-card>

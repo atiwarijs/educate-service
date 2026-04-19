@@ -1,0 +1,186 @@
+<p-confirmDialog></p-confirmDialog>
+<p-card class="card position-relative">
+  <div class="card-title">Family Details</div>
+  <button
+    type="button"
+    class="p-button p-button-sm p-button-primary add-tab-btn"
+    pTooltip="Add family"
+    tooltipPosition="top"
+    (click)="addFamily()"
+    title="Add Family Member"
+  >
+    <i class="pi pi-plus"></i>
+  </button>
+
+  <p-tabs [value]="selectedFamilyIndex" scrollable>
+    <p-tablist>
+      @for (family of families.controls; track $index) {
+      <p-tab [value]="$index">
+        {{
+          asFormGroup(family).get("memberRelation")?.value ||
+            "Member " + ($index + 1)
+        }}
+        <button
+          type="button"
+          class="p-button p-button-danger p-button-sm"
+          (click)="confirmDelete($index); $event.stopPropagation()"
+          *ngIf="families.controls.length > 1"
+        >
+          <i class="pi pi-times"></i>
+        </button>
+      </p-tab>
+      }
+    </p-tablist>
+
+    <p-tabpanels>
+      @for (familyForm of families.controls; track $index) {
+      <p-tabpanel [value]="$index">
+        <form [formGroup]="asFormGroup(familyForm)">
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="memberName">Member Name</label>
+              <input
+                id="memberName"
+                type="text"
+                pInputText
+                formControlName="memberName"
+                appFormValidator
+                placeholder="Enter member name"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="memberRelation">Relation</label>
+              <p-select
+                id="memberRelation"
+                [options]="relationOptions"
+                formControlName="memberRelation"
+                [style]="{ height: '38px' }"
+                appFormValidator
+                placeholder="Select relation"
+              ></p-select>
+            </div>
+
+            <div class="form-field">
+              <label>Member Gender</label>
+              <div class="radio-group">
+                <label for="male">Male</label>
+                <p-radioButton
+                  name="memberGender"
+                  value="Male"
+                  label="Male"
+                  formControlName="memberGender"
+                  appFormValidator
+                ></p-radioButton>
+                <label for="female">Female</label>
+                <p-radioButton
+                  name="memberGender"
+                  value="Female"
+                  label="Female"
+                  formControlName="memberGender"
+                ></p-radioButton>
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label for="memberDob">Date Of Birth</label>
+              <p-datePicker
+                id="memberDob"
+                [showIcon]="true"
+                formControlName="memberDob"
+                appFormValidator
+                placeholder="Select date of birth"
+              ></p-datePicker>
+            </div>
+
+            <div class="form-field">
+              <label for="memberOccupation">Occupation</label>
+              <input
+                id="memberOccupation"
+                type="text"
+                pInputText
+                formControlName="memberOccupation"
+                placeholder="Enter occupation"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="memberOrg">Organization</label>
+              <input
+                id="memberOrg"
+                type="text"
+                pInputText
+                formControlName="memberOrg"
+                placeholder="Enter organization"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="memberStatus">Status</label>
+              <p-select
+                id="memberStatus"
+                [options]="statusOptions"
+                formControlName="memberStatus"
+                [style]="{ height: '38px' }"
+                appFormValidator
+                placeholder="Select status"
+              ></p-select>
+            </div>
+
+            <div class="form-field">
+              <label for="memberEmail">Email</label>
+              <input
+                id="memberEmail"
+                type="email"
+                pInputText
+                formControlName="memberEmail"
+                appFormValidator
+                placeholder="Enter email"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="memberMobile">Mobile</label>
+              <input
+                id="memberMobile"
+                type="text"
+                pInputText
+                formControlName="memberMobile"
+                appFormValidator
+                maxlength="10"
+                placeholder="Enter 10-digit mobile number"
+              />
+            </div>
+
+            <div formArrayName="memberDocuments">
+              <app-file-upload
+                *ngFor="
+                  let doc of getDocumentsArray($index).controls;
+                  let docIndex = index
+                "
+                [formGroupName]="docIndex"
+                [doc]="asFormGroup(doc)"
+                [docIndex]="docIndex"
+                [componentIndex]="$index"
+                [allDocsInArray]="getDocumentsArray($index)"
+                [documentOptions]="documentOptions"
+                [parentFormContext]="'Family'"
+                (fileSelected)="onDocFileSelect($event)"
+                (remove)="removeDocument($index, docIndex)"
+              ></app-file-upload>
+
+              <button
+                type="button"
+                class="p-button p-button-sm p-button-secondary mt-2"
+                (click)="addDocument($index)"
+              >
+                <i class="pi pi-plus"></i> Add Document
+              </button>
+            </div>
+          </div>
+        </form>
+      </p-tabpanel>
+      }
+    </p-tabpanels>
+  </p-tabs>
+</p-card>

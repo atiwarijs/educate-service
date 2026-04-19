@@ -1,0 +1,86 @@
+.view-profile-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.profile-grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.profile-section {
+  background: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+}
+
+.profile-section h3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.profile-grid, .profile-sub-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profile-grid > div, .profile-sub-block > p {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-sub-block {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.form-field {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+strong {
+  min-width: 120px;
+  font-weight: 600;
+  color: #555;
+}
+
+.p-button {
+  margin-right: 10px;
+}
+
+.profile-image {
+  max-width: 150px;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.p-radiobutton {
+  margin-right: 15px;
+}
+
+@media (max-width: 768px) {
+  .profile-grid-container {
+    grid-template-columns: 1fr;
+  }
+}

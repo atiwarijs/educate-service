@@ -1,0 +1,30 @@
+server:
+  port: 8085
+  servlet:
+    context-path: /api/v1
+spring:
+  application:
+    name: registration-manager
+  profiles:
+    active: pgsql
+
+# Eureka server config
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+# Services
+service:
+  configuration:
+    base-url: http://localhost:8086/api/v1
+
+# Rest template connection
+rest:
+  template:
+    connect:
+      timeout: 3000
+    read:
+      timeout: 3000

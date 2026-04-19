@@ -1,0 +1,17 @@
+server:
+  port: 8088
+  servlet:
+    context-path: /api/v1
+spring:
+  application:
+    name: organization-service
+  profiles:
+    active: pgsql
+
+# Eureka server config
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/

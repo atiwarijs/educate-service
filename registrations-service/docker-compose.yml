@@ -1,0 +1,24 @@
+version: '2'
+services:
+  app:
+    image: 'registration-service:latest'
+    expose:
+      - "8081"
+    build:
+      context: /app
+    container_name: registration-service
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-server:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
+  postgres:
+    external_links:
+      - postgres-server:postgres-server
+#    image: 'postgres:17.2'
+#    container_name: postgres
+#    environment:
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_PASSWORD=postgres

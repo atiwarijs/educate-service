@@ -1,0 +1,156 @@
+<p-card class="card position-relative">
+  <form [formGroup]="basicDetailsForm">
+    <div class="card-title">Basic Details</div>
+    <div class="form-grid">
+      <div class="form-field">
+        <label for="firstName">First Name</label>
+        <input id="firstName" type="text" pInputText formControlName="firstName" appFormValidator
+          placeholder="First Name" />
+      </div>
+
+      <div class="form-field">
+        <label for="middleName">Middle Name</label>
+        <input id="middleName" type="text" pInputText placeholder="Middle Name" formControlName="middleName" />
+      </div>
+
+      <div class="form-field">
+        <label for="lastName">Last Name</label>
+        <input id="lastName" type="text" pInputText formControlName="lastName" placeholder="Last Name"
+          appFormValidator />
+      </div>
+
+      <!-- <div class="form-field">
+        <label>Gender</label>
+        <div class="radio-group">
+          <label for="male">Male</label>
+          <p-radioButton
+            name="gender"
+            value="Male"
+            label="Male"
+            formControlName="gender"
+            appFormValidator
+            >Male</p-radioButton
+          >
+          <label for="female">Female</label>
+          <p-radioButton
+            name="gender"
+            value="Female"
+            label="Female"
+            formControlName="gender"
+            >Female</p-radioButton
+          >
+        </div>
+      </div> -->
+
+      <div class="field col-12 md:col-4">
+        <label class="block font-semibold mb-2">Gender</label>
+        <div class="flex align-items-center gap-4">
+          <div class="flex align-items-center">
+            <p-radioButton name="gender" value="Male" formControlName="gender" inputId="male" appFormValidator>
+            </p-radioButton>
+            <label for="male" class="ml-2">Male</label>
+          </div>
+          <div class="flex align-items-center">
+            <p-radioButton name="gender" value="Female" formControlName="gender" inputId="female" appFormValidator>
+            </p-radioButton>
+            <label for="female" class="ml-2">Female</label>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input id="email" type="email" pInputText formControlName="email" placeholder="Email" appFormValidator />
+        <div class="error-msg" *ngIf="emailNotFound">
+          <small>Email already exists!</small>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="mobile">Mobile</label>
+        <input id="mobile" type="text" pInputText formControlName="mobile" maxlength="10" placeholder="Mobile Number"
+          appFormValidator />
+      </div>
+
+      <div class="form-field">
+        <label for="alternateMobile">Alternate Mobile</label>
+        <input id="alternateMobile" type="text" pInputText formControlName="alternateMobile"
+          placeholder="Alternate Mobile" maxlength="10" />
+      </div>
+
+      <div class="form-field">
+        <label for="alternateEmail">Alternate Email</label>
+        <input id="alternateEmail" type="email" placeholder="Alternate Email" pInputText
+          formControlName="alternateEmail" appFormValidator />
+      </div>
+
+      <div class="form-field">
+        <label for="dob">Date of Birth</label>
+        <p-datePicker id="dob" [showIcon]="true" formControlName="dob" placeholder="Date Of Birth" appFormValidator
+          appendTo="body" [style]="{ border: 'none', background: 'transparent' }"></p-datePicker>
+        <!-- <small
+          *ngIf="
+            basicDetailsForm.get('dob')?.invalid &&
+            basicDetailsForm.get('dob')?.touched
+          "
+          class="p-error"
+          >Required</small
+        > -->
+      </div>
+
+      <div class="form-field">
+        <label for="caste">Caste</label>
+        <p-select id="caste" [options]="casteOptions" formControlName="caste" placeholder="Select Caste"
+          appFormValidator [style]="{ height: '38px' }" appendTo="body"></p-select>
+        <!-- <small
+          *ngIf="
+            basicDetailsForm.get('caste')?.invalid &&
+            basicDetailsForm.get('caste')?.touched
+          "
+          class="p-error"
+          >Required</small
+        > -->
+      </div>
+
+      <div class="form-field">
+        <label for="community">Community</label>
+        <p-select id="community" [options]="communityOptions" formControlName="community" [style]="{ height: '38px' }"
+          placeholder="Select Community" appendTo="body" appFormValidator></p-select>
+        <!-- <small
+          *ngIf="
+            basicDetailsForm.get('community')?.invalid &&
+            basicDetailsForm.get('community')?.touched
+          "
+          class="p-error"
+          >Required</small
+        > -->
+      </div>
+
+      <div class="form-field">
+        <label for="maritalStatus">Marital Status</label>
+        <p-select id="maritalStatus" [options]="maritalStatusOptions" placeholder="Select Marital Status"
+          formControlName="maritalStatus" [style]="{ height: '38px' }" appFormValidator appendTo="body"></p-select>
+        <!-- <small
+          *ngIf="
+            basicDetailsForm.get('maritalStatus')?.invalid &&
+            basicDetailsForm.get('maritalStatus')?.touched
+          "
+          class="p-error"
+          >Required</small
+        > -->
+      </div>
+
+      <div formArrayName="personalDocuments">
+        <app-file-upload *ngFor="let doc of getDocumentsArray().controls; let docIndex = index"
+          [formGroupName]="docIndex" [doc]="asFormGroup(doc)" [docIndex]="docIndex"
+          [allDocsInArray]="getDocumentsArray()" [documentOptions]="documentOptions" [parentFormContext]="'Personal'"
+          (fileSelected)="onDocFileSelect($event)" (remove)="removeDocument(docIndex)"></app-file-upload>
+
+        <button type="button" class="p-button p-button-sm p-button-secondary mt-2" (click)="addDocument()">
+          <i class="pi pi-plus"></i> Add Document
+        </button>
+      </div>
+    </div>
+  </form>
+</p-card>

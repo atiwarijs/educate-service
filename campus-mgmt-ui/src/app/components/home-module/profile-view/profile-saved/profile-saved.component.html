@@ -1,0 +1,891 @@
+<!-- <div class="breadcrumb-container">
+  <p-breadcrumb [model]="breadcrumbItems" [home]="homeItem"></p-breadcrumb>
+</div> -->
+<div
+  class="view-profile-container"
+  *ngIf="profileForm"
+  [formGroup]="profileForm"
+>
+  <h2>
+    {{ basicDetails.get("firstName")?.value }} Profile Summary
+    <div>
+      <button
+        pButton
+        (click)="toggleEditMode()"
+        [label]="isEditMode ? 'Cancel' : 'Edit'"
+        [icon]="isEditMode ? 'pi pi-times' : 'pi pi-pencil'"
+        class="p-button-rounded"
+      ></button>
+      <button
+        pButton
+        *ngIf="isEditMode"
+        (click)="saveChanges()"
+        [disabled]="profileForm.invalid"
+        label="Save"
+        icon="pi pi-check"
+        class="p-button-rounded p-button-success"
+      ></button>
+    </div>
+  </h2>
+
+  <!-- Basic Details -->
+  <section class="profile-section">
+    <h3>Basic Details</h3>
+    <div class="profile-grid" [formGroup]="basicDetails">
+      <div *ngIf="!isEditMode">
+        <strong>Full Name:</strong> {{ basicDetails.get("firstName")?.value }}
+        {{ basicDetails.get("middleName")?.value }}
+        {{ basicDetails.get("lastName")?.value }}
+      </div>
+      <div *ngIf="isEditMode" class="form-field">
+        <strong>Full Name:</strong>
+        <input
+          pInputText
+          formControlName="firstName"
+          placeholder="First Name"
+        />
+        <input
+          pInputText
+          formControlName="middleName"
+          placeholder="Middle Name"
+        />
+        <input pInputText formControlName="lastName" placeholder="Last Name" />
+      </div>
+      <div>
+        <strong>Gender:</strong>
+        <span *ngIf="!isEditMode">{{ basicDetails.get("gender")?.value }}</span>
+        <p-radioButton
+          *ngIf="isEditMode"
+          name="gender"
+          value="Male"
+          label="Male"
+          formControlName="gender"
+        ></p-radioButton>
+        <p-radioButton
+          *ngIf="isEditMode"
+          name="gender"
+          value="Female"
+          label="Female"
+          formControlName="gender"
+        ></p-radioButton>
+        <p-radioButton
+          *ngIf="isEditMode"
+          name="gender"
+          value="Other"
+          label="Other"
+          formControlName="gender"
+        ></p-radioButton>
+      </div>
+      <div>
+        <strong>Date of Birth:</strong>
+        <span *ngIf="!isEditMode">{{ basicDetails.get("dob")?.value }}</span>
+        <p-datePicker
+          *ngIf="isEditMode"
+          formControlName="dob"
+          [showIcon]="true"
+        ></p-datePicker>
+      </div>
+      <div>
+        <strong>Caste:</strong>
+        <span *ngIf="!isEditMode">{{ basicDetails.get("caste")?.value }}</span>
+        <input *ngIf="isEditMode" pInputText formControlName="caste" />
+      </div>
+      <div>
+        <strong>Community:</strong>
+        <span *ngIf="!isEditMode">{{
+          basicDetails.get("community")?.value
+        }}</span>
+        <input *ngIf="isEditMode" pInputText formControlName="community" />
+      </div>
+      <div>
+        <strong>Email:</strong>
+        <span *ngIf="!isEditMode">{{ basicDetails.get("email")?.value }}</span>
+        <input
+          *ngIf="isEditMode"
+          pInputText
+          type="email"
+          formControlName="email"
+        />
+      </div>
+      <div>
+        <strong>Mobile:</strong>
+        <span *ngIf="!isEditMode">{{ basicDetails.get("mobile")?.value }}</span>
+        <input
+          *ngIf="isEditMode"
+          pInputText
+          type="tel"
+          formControlName="mobile"
+        />
+      </div>
+      <div>
+        <strong>Alternate Email:</strong>
+        <span *ngIf="!isEditMode">{{
+          basicDetails.get("alternateEmail")?.value
+        }}</span>
+        <input
+          *ngIf="isEditMode"
+          pInputText
+          type="email"
+          formControlName="alternateEmail"
+        />
+      </div>
+      <div>
+        <strong>Alternate Mobile:</strong>
+        <span *ngIf="!isEditMode">{{
+          basicDetails.get("alternateMobile")?.value
+        }}</span>
+        <input
+          *ngIf="isEditMode"
+          pInputText
+          type="tel"
+          formControlName="alternateMobile"
+        />
+      </div>
+      <div>
+        <strong>Marital Status:</strong>
+        <span *ngIf="!isEditMode">{{
+          basicDetails.get("maritalStatus")?.value
+        }}</span>
+        <p-select
+          *ngIf="isEditMode"
+          [options]="maritalStatusOptions"
+          formControlName="maritalStatus"
+        ></p-select>
+      </div>
+      <div *ngIf="!isEditMode && profileImage">
+        <strong>Profile Preview:</strong>
+        <ng-container *ngIf="profileImage.docType?.startsWith('image/')">
+          <img
+            [src]="
+              'data:' + profileImage.docType + ';base64,' + profileImage.docData
+            "
+            alt="Profile Image"
+            style="max-width: 200px; max-height: 200px; margin-right: 10px"
+          />
+        </ng-container>
+      </div>
+      <div *ngIf="isEditMode" class="form-field">
+        <p-fileUpload
+          mode="basic"
+          name="profileImage"
+          accept="image/*"
+          (onSelect)="onProfileImageSelect($event)"
+          chooseLabel="Upload Image"
+        ></p-fileUpload>
+        <img
+          [src]="profileImageUrl"
+          alt="Profile Preview"
+          class="profile-image"
+          *ngIf="profileImageUrl"
+        />
+      </div>
+
+      <div *ngIf="!isEditMode && aadharCard" class="mb-3">
+        <strong>Aadhar Card:</strong>
+        <!-- For PDF files -->
+        <ng-container *ngIf="aadharCard.docType === 'application/pdf'">
+          <button
+            class="btn btn-sm btn-primary"
+            (click)="downloadDocument(aadharCard)"
+          >
+            <i class="pi pi-download"></i>
+          </button>
+        </ng-container>
+      </div>
+      <div class="form-field" *ngIf="isEditMode">
+        <label for="aadharCard">Aadhar Card</label>
+        <p-fileUpload
+          #fileUploader
+          mode="basic"
+          name="aadharCard"
+          chooseIcon="pi pi-upload"
+          accept="application/pdf"
+          [auto]="false"
+          (onSelect)="onAadharCardUpload($event, 'aadharCard')"
+          chooseLabel="Browse"
+          styleClass="custom-upload"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Family Details -->
+  <section class="profile-section" *ngIf="families.length">
+    <h3>Family Details</h3>
+    <div formArrayName="families">
+      <div
+        *ngFor="let family of families.controls; let i = index"
+        [formGroupName]="i"
+        class="profile-sub-block"
+      >
+        <p>
+          <strong>Name:</strong>
+          <span *ngIf="!isEditMode">{{ family.get("memberName")?.value }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="memberName" />
+        </p>
+        <p>
+          <strong>Relation:</strong>
+          <span *ngIf="!isEditMode">{{
+            family.get("memberRelation")?.value
+          }}</span>
+          <input
+            *ngIf="isEditMode"
+            pInputText
+            formControlName="memberRelation"
+          />
+        </p>
+        <p>
+          <strong>Gender:</strong>
+          <span *ngIf="!isEditMode">{{
+            family.get("memberGender")?.value
+          }}</span>
+          <ng-container *ngIf="isEditMode">
+            <p-radioButton
+              [name]="'memberGender_' + i"
+              value="Male"
+              label="Male"
+              [formControl]="getFormControl(family, 'memberGender')"
+            ></p-radioButton>
+            <p-radioButton
+              [name]="'memberGender_' + i"
+              value="Female"
+              label="Female"
+              [formControl]="getFormControl(family, 'memberGender')"
+            ></p-radioButton>
+            <p-radioButton
+              [name]="'memberGender_' + i"
+              value="Other"
+              label="Other"
+              [formControl]="getFormControl(family, 'memberGender')"
+            ></p-radioButton>
+          </ng-container>
+        </p>
+        <p>
+          <strong>DOB:</strong>
+          <span *ngIf="!isEditMode">{{ family.get("memberDob")?.value }}</span>
+          <p-datePicker
+            *ngIf="isEditMode"
+            formControlName="memberDob"
+            [showIcon]="true"
+          ></p-datePicker>
+        </p>
+        <p>
+          <strong>Occupation:</strong>
+          <span *ngIf="!isEditMode">{{
+            family.get("memberOccupation")?.value
+          }}</span>
+          <input
+            *ngIf="isEditMode"
+            pInputText
+            formControlName="memberOccupation"
+          />
+        </p>
+        <p>
+          <strong>Organization:</strong>
+          <span *ngIf="!isEditMode">{{ family.get("memberOrg")?.value }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="memberOrg" />
+        </p>
+        <p>
+          <strong>Status:</strong>
+          <span *ngIf="!isEditMode">{{
+            family.get("memberStatus")?.value
+          }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="memberStatus" />
+        </p>
+        <p>
+          <strong>Email:</strong>
+          <span *ngIf="!isEditMode">{{
+            family.get("memberEmail")?.value
+          }}</span>
+          <input
+            *ngIf="isEditMode"
+            pInputText
+            type="email"
+            formControlName="memberEmail"
+          />
+        </p>
+        <p>
+          <strong>Mobile:</strong>
+          <span *ngIf="!isEditMode">{{
+            family.get("memberMobile")?.value
+          }}</span>
+          <input
+            *ngIf="isEditMode"
+            pInputText
+            type="tel"
+            formControlName="memberMobile"
+          />
+        </p>
+        <div *ngIf="!isEditMode && family.value.memberDocuments && family.value.memberDocuments.length > 0">
+          <strong>Profile Preview:</strong>
+          <div *ngFor="let doc of family.value.memberDocuments">
+          <ng-container *ngIf="doc.docType?.startsWith('image/')">
+            <img
+              [src]="
+                'data:' + doc.docType + ';base64,' + doc.docData
+              "
+              alt="Profile Image"
+              style="max-width: 200px; max-height: 200px; margin-right: 10px"
+            />
+          </ng-container>
+        </div>
+        </div>
+        <div *ngIf="isEditMode" class="form-field">
+          <p-fileUpload
+            mode="basic"
+            name="familyProfileImage"
+            accept="image/*"
+            (onSelect)="onProfileImageSelect($event)"
+            chooseLabel="Upload Image"
+          ></p-fileUpload>
+          <img
+            [src]="familyProfileImageUrl"
+            alt="Profile Preview"
+            class="profile-image"
+            *ngIf="familyProfileImageUrl"
+          />
+        </div>
+        <div *ngIf="!isEditMode && family.value.memberDocuments && family.value.memberDocuments.length > 0">
+          <strong>Member Document :</strong>
+          <div *ngFor="let doc of family.value.memberDocuments">
+            <ng-container *ngIf="doc.docType === 'application/pdf'">
+              <button
+              class="btn btn-sm btn-primary"
+              (click)="downloadDocument(doc)"
+            >
+              <i class="pi pi-download"></i>
+            </button>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Address Details -->
+  <section class="profile-section" *ngIf="addresses.length">
+    <h3>Address Details</h3>
+    <div formArrayName="addresses">
+      <div
+        *ngFor="let address of addresses.controls; let i = index"
+        [formGroupName]="i"
+        class="profile-sub-block"
+      >
+        <p>
+          <strong>Address:</strong>
+          <span *ngIf="!isEditMode"
+            >{{ address.get("addressLine1")?.value }},
+            {{ address.get("addressLine2")?.value }},
+            {{ address.get("unitName")?.value }}
+            {{ address.get("unitNumber")?.value }}</span
+          >
+          <input
+            *ngIf="isEditMode"
+            pInputText
+            formControlName="addressLine1"
+            placeholder="Line 1"
+          />
+          <input
+            *ngIf="isEditMode"
+            pInputText
+            formControlName="addressLine2"
+            placeholder="Line 2"
+          />
+          <input
+            *ngIf="isEditMode"
+            pInputText
+            formControlName="unitName"
+            placeholder="Unit Name"
+          />
+          <input
+            *ngIf="isEditMode"
+            pInputText
+            formControlName="unitNumber"
+            placeholder="Unit Number"
+          />
+        </p>
+        <p>
+          <strong>Locality:</strong>
+          <span *ngIf="!isEditMode">{{ address.get("locality")?.value }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="locality" />
+        </p>
+        <p>
+          <strong>City:</strong>
+          <span *ngIf="!isEditMode"
+            >{{ address.get("city")?.value }},
+            {{ address.get("district")?.value }}</span
+          >
+          <input *ngIf="isEditMode" pInputText formControlName="city" />
+          <input *ngIf="isEditMode" pInputText formControlName="district" />
+        </p>
+        <p>
+          <strong>State:</strong>
+          <span *ngIf="!isEditMode">{{ address.get("state")?.value }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="state" />
+        </p>
+        <p>
+          <strong>Postal Code:</strong>
+          <span *ngIf="!isEditMode">{{
+            address.get("postalCode")?.value
+          }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="postalCode" />
+        </p>
+        <p>
+          <strong>Country:</strong>
+          <span *ngIf="!isEditMode"
+            >{{ address.get("countryName")?.value }} ({{
+              address.get("countryCode")?.value
+            }})</span
+          >
+          <input *ngIf="isEditMode" pInputText formControlName="countryName" />
+          <input *ngIf="isEditMode" pInputText formControlName="countryCode" />
+        </p>
+        <p>
+          <strong>Coordinates:</strong>
+          <span *ngIf="!isEditMode"
+            >{{ address.get("latitude")?.value }},
+            {{ address.get("longitude")?.value }}</span
+          >
+          <input *ngIf="isEditMode" pInputText formControlName="latitude" />
+          <input *ngIf="isEditMode" pInputText formControlName="longitude" />
+        </p>
+        <p>
+          <strong>Region:</strong>
+          <span *ngIf="!isEditMode">{{ address.get("region")?.value }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="region" />
+        </p>
+        <p>
+          <strong>Landmark:</strong>
+          <span *ngIf="!isEditMode">{{ address.get("landmark")?.value }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="landmark" />
+        </p>
+        <p>
+          <strong>Type:</strong>
+          <span *ngIf="!isEditMode">{{
+            address.get("addressType")?.value
+          }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="addressType" />
+        </p>
+        <p>
+          <strong>Status:</strong>
+          <span *ngIf="!isEditMode">{{ address.get("status")?.value }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="status" />
+        </p>
+
+        <div *ngIf="!isEditMode && address.value.addressDocuments && address.value.addressDocuments.length > 0">
+          <div *ngFor="let doc of address.value.addressDocuments">
+            <strong>Address Proof(s):</strong>
+            <ng-container *ngIf="doc.docType === 'application/pdf'">
+              <button
+              class="btn btn-sm btn-primary"
+              (click)="downloadDocument(doc)"
+            >
+              <i class="pi pi-download"></i>
+            </button>
+            </ng-container>
+          </div>
+        </div>
+        <!-- <div *ngIf="!isEditMode && addressAadharCard" class="mb-3">
+          <strong>Aadhar Card:</strong>
+          <ng-container *ngIf="addressAadharCard.docType === 'application/pdf'">
+            <button
+              class="btn btn-sm btn-primary"
+              (click)="downloadDocument(addressAadharCard)"
+            >
+              <i class="pi pi-download"></i>
+            </button>
+          </ng-container>
+        </div> -->
+
+        <div class="form-field" *ngIf="isEditMode">
+          <label for="addressDocuments">Address Proof</label>
+          <p-fileUpload
+            #fileUploader
+            mode="basic"
+            name="addressDocuments"
+            chooseIcon="pi pi-upload"
+            accept="image/*"
+            [auto]="false"
+            (onSelect)="onAddressProofSelect($event)"
+            chooseLabel="Browse"
+            styleClass="custom-upload"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Education Details -->
+  <section class="profile-section" *ngIf="educations.length">
+    <h3>Education Details</h3>
+    <div formArrayName="educations">
+      <div
+        *ngFor="let edu of educations.controls; let i = index"
+        [formGroupName]="i"
+        class="profile-sub-block"
+      >
+        <p>
+          <strong>Course:</strong>
+          <span *ngIf="!isEditMode"
+            >{{ edu.get("courseName")?.value }} -
+            {{ edu.get("courseSubject")?.value }}</span
+          >
+          <input *ngIf="isEditMode" pInputText formControlName="courseName" />
+          <input
+            *ngIf="isEditMode"
+            pInputText
+            formControlName="courseSubject"
+          />
+        </p>
+        <p>
+          <strong>College:</strong>
+          <span *ngIf="!isEditMode"
+            >{{ edu.get("collegeName")?.value }},
+            {{ edu.get("collegeCity")?.value }},
+            {{ edu.get("collegeState")?.value }}</span
+          >
+          <input *ngIf="isEditMode" pInputText formControlName="collegeName" />
+          <input *ngIf="isEditMode" pInputText formControlName="collegeCity" />
+          <input *ngIf="isEditMode" pInputText formControlName="collegeState" />
+        </p>
+        <p>
+          <strong>University:</strong>
+          <span *ngIf="!isEditMode">{{
+            edu.get("universityName")?.value
+          }}</span>
+          <input
+            *ngIf="isEditMode"
+            pInputText
+            formControlName="universityName"
+          />
+        </p>
+        <p>
+          <strong>Board:</strong>
+          <span *ngIf="!isEditMode">{{ edu.get("boardName")?.value }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="boardName" />
+        </p>
+        <p>
+          <strong>Duration:</strong>
+          <span *ngIf="!isEditMode"
+            >{{ edu.get("startDate")?.value }} to
+            {{ edu.get("endDate")?.value }}</span
+          >
+          <p-datePicker
+            *ngIf="isEditMode"
+            formControlName="startDate"
+            [showIcon]="true"
+          ></p-datePicker>
+          <p-datePicker
+            *ngIf="isEditMode"
+            formControlName="endDate"
+            [showIcon]="true"
+          ></p-datePicker>
+        </p>
+        <p>
+          <strong>Marks:</strong>
+          <span *ngIf="!isEditMode"
+            >{{ edu.get("obtainMarks")?.value }} /
+            {{ edu.get("maxMarks")?.value }}</span
+          >
+          <input *ngIf="isEditMode" pInputText formControlName="obtainMarks" />
+          <input *ngIf="isEditMode" pInputText formControlName="maxMarks" />
+        </p>
+        <p>
+          <strong>Status:</strong>
+          <span *ngIf="!isEditMode">{{ edu.get("status")?.value }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="status" />
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience Details -->
+  <section class="profile-section" *ngIf="experiences.length">
+    <h3>Experience Details</h3>
+    <div formArrayName="experiences">
+      <div
+        *ngFor="let exp of experiences.controls; let i = index"
+        [formGroupName]="i"
+        class="profile-sub-block"
+      >
+        <p>
+          <strong>Institution:</strong>
+          <span *ngIf="!isEditMode">{{
+            exp.get("institutionName")?.value
+          }}</span>
+          <input
+            *ngIf="isEditMode"
+            pInputText
+            formControlName="institutionName"
+          />
+        </p>
+        <p>
+          <strong>Designation:</strong>
+          <span *ngIf="!isEditMode">{{ exp.get("designation")?.value }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="designation" />
+        </p>
+        <p>
+          <strong>Skills:</strong>
+          <span *ngIf="!isEditMode">{{ exp.get("skills")?.value }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="skills" />
+        </p>
+        <p>
+          <strong>Period:</strong>
+          <span *ngIf="!isEditMode"
+            >{{ exp.get("joiningDate")?.value }} to
+            {{ exp.get("leavingDate")?.value }}</span
+          >
+          <p-datePicker
+            *ngIf="isEditMode"
+            formControlName="joiningDate"
+            [showIcon]="true"
+          ></p-datePicker>
+          <p-datePicker
+            *ngIf="isEditMode"
+            formControlName="leavingDate"
+            [showIcon]="true"
+          ></p-datePicker>
+        </p>
+        <p>
+          <strong>Reason:</strong>
+          <span *ngIf="!isEditMode">{{ exp.get("leavingReason")?.value }}</span>
+          <input
+            *ngIf="isEditMode"
+            pInputText
+            formControlName="leavingReason"
+          />
+        </p>
+        <p>
+          <strong>Remark:</strong>
+          <span *ngIf="!isEditMode">{{ exp.get("remark")?.value }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="remark" />
+        </p>
+        <p>
+          <strong>Status:</strong>
+          <span *ngIf="!isEditMode">{{ exp.get("status")?.value }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="status" />
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vehicle Details -->
+  <section class="profile-section" *ngIf="vehicles.length">
+    <h3>Vehicle Details</h3>
+    <div formArrayName="vehicles">
+      <div
+        *ngFor="let vehicle of vehicles.controls; let i = index"
+        [formGroupName]="i"
+        class="profile-sub-block"
+      >
+        <p>
+          <strong>Registration:</strong>
+          <span *ngIf="!isEditMode"
+            >{{ vehicle.get("registrationNumber")?.value }} ({{
+              vehicle.get("registrationDate")?.value
+            }})</span
+          >
+          <input
+            *ngIf="isEditMode"
+            pInputText
+            formControlName="registrationNumber"
+          />
+          <p-datePicker
+            *ngIf="isEditMode"
+            formControlName="registrationDate"
+            [showIcon]="true"
+          ></p-datePicker>
+        </p>
+        <p>
+          <strong>Chassis:</strong>
+          <span *ngIf="!isEditMode">{{
+            vehicle.get("chassisNumber")?.value
+          }}</span>
+          <input
+            *ngIf="isEditMode"
+            pInputText
+            formControlName="chassisNumber"
+          />
+        </p>
+        <p>
+          <strong>Engine:</strong>
+          <span *ngIf="!isEditMode">{{
+            vehicle.get("engineNumber")?.value
+          }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="engineNumber" />
+        </p>
+        <p>
+          <strong>Brand:</strong>
+          <span *ngIf="!isEditMode">{{ vehicle.get("brandName")?.value }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="brandName" />
+        </p>
+        <p>
+          <strong>Type:</strong>
+          <span *ngIf="!isEditMode">{{
+            vehicle.get("vehicleType")?.value
+          }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="vehicleType" />
+        </p>
+        <p>
+          <strong>Fuel:</strong>
+          <span *ngIf="!isEditMode">{{ vehicle.get("fuelType")?.value }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="fuelType" />
+        </p>
+        <p>
+          <strong>DL:</strong>
+          <span *ngIf="!isEditMode"
+            >{{ vehicle.get("dlNumber")?.value }} (Expires:
+            {{ vehicle.get("dlExpireDate")?.value }})</span
+          >
+          <input *ngIf="isEditMode" pInputText formControlName="dlNumber" />
+          <p-datePicker
+            *ngIf="isEditMode"
+            formControlName="dlExpireDate"
+            [showIcon]="true"
+          ></p-datePicker>
+        </p>
+        <p>
+          <strong>Insurance:</strong>
+          <span *ngIf="!isEditMode"
+            >{{ vehicle.get("isInsured")?.value ? "Yes" : "No" }} -
+            {{ vehicle.get("insuranceCompanyName")?.value }} ({{
+              vehicle.get("insuranceType")?.value
+            }})</span
+          >
+          <p-checkbox
+            *ngIf="isEditMode"
+            formControlName="isInsured"
+            label="Insured"
+            binary="true"
+          ></p-checkbox>
+          <input
+            *ngIf="isEditMode"
+            pInputText
+            formControlName="insuranceCompanyName"
+          />
+          <input
+            *ngIf="isEditMode"
+            pInputText
+            formControlName="insuranceType"
+          />
+        </p>
+        <p>
+          <strong>Insurance Expiry:</strong>
+          <span *ngIf="!isEditMode">{{
+            vehicle.get("insuranceExpireDate")?.value
+          }}</span>
+          <p-datePicker
+            *ngIf="isEditMode"
+            formControlName="insuranceExpireDate"
+            [showIcon]="true"
+          ></p-datePicker>
+        </p>
+        <p>
+          <strong>PUC:</strong>
+          <span *ngIf="!isEditMode">{{
+            vehicle.get("isPucCertificated")?.value ? "Yes" : "No"
+          }}</span>
+          <p-checkbox
+            *ngIf="isEditMode"
+            formControlName="isPucCertificated"
+            label="PUC Certified"
+            binary="true"
+          ></p-checkbox>
+        </p>
+        <p>
+          <strong>PUC Expiry:</strong>
+          <span *ngIf="!isEditMode">{{
+            vehicle.get("pucExpireDate")?.value
+          }}</span>
+          <p-datePicker
+            *ngIf="isEditMode"
+            formControlName="pucExpireDate"
+            [showIcon]="true"
+          ></p-datePicker>
+        </p>
+        <p>
+          <strong>Remark:</strong>
+          <span *ngIf="!isEditMode">{{ vehicle.get("remark")?.value }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="remark" />
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Medical Details -->
+  <section class="profile-section" *ngIf="medicals.length">
+    <h3>Medical Details</h3>
+    <div formArrayName="medicals">
+      <div
+        *ngFor="let medical of medicals.controls; let i = index"
+        [formGroupName]="i"
+        class="profile-sub-block"
+      >
+        <p>
+          <strong>Blood Group:</strong>
+          <span *ngIf="!isEditMode">{{
+            medical.get("bloodGroup")?.value
+          }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="bloodGroup" />
+        </p>
+        <p>
+          <strong>Medical History:</strong>
+          <span *ngIf="!isEditMode">{{
+            medical.get("medicalHistory")?.value
+          }}</span>
+          <input
+            *ngIf="isEditMode"
+            pInputText
+            formControlName="medicalHistory"
+          />
+        </p>
+        <p>
+          <strong>Diseases:</strong>
+          <span *ngIf="!isEditMode">{{ medical.get("diseases")?.value }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="diseases" />
+        </p>
+        <p>
+          <strong>Medications:</strong>
+          <span *ngIf="!isEditMode">{{
+            medical.get("medications")?.value
+          }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="medications" />
+        </p>
+        <p>
+          <strong>Symptoms:</strong>
+          <span *ngIf="!isEditMode">{{ medical.get("symptoms")?.value }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="symptoms" />
+        </p>
+        <p>
+          <strong>Vitals:</strong>
+          <span *ngIf="!isEditMode">{{ medical.get("vitals")?.value }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="vitals" />
+        </p>
+        <p>
+          <strong>Diagnoses:</strong>
+          <span *ngIf="!isEditMode">{{ medical.get("diagnoses")?.value }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="diagnoses" />
+        </p>
+        <p>
+          <strong>Treatments:</strong>
+          <span *ngIf="!isEditMode">{{
+            medical.get("treatments")?.value
+          }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="treatments" />
+        </p>
+        <p>
+          <strong>Therapies:</strong>
+          <span *ngIf="!isEditMode">{{ medical.get("therapies")?.value }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="therapies" />
+        </p>
+        <p>
+          <strong>Psychosocial:</strong>
+          <span *ngIf="!isEditMode">{{
+            medical.get("psychosocial")?.value
+          }}</span>
+          <input *ngIf="isEditMode" pInputText formControlName="psychosocial" />
+        </p>
+      </div>
+    </div>
+  </section>
+</div>

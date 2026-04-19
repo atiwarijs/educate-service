@@ -1,0 +1,200 @@
+<div *ngIf="noDataFound" class="no-data">
+    No profiles found.
+</div>
+<div class="card" *ngIf="!noDataFound">
+    <p-toast />
+    <p-toolbar class="mb-6">
+        <ng-template pTemplate="start">
+            <p-button label="New" icon="pi pi-plus" class="mr-2" (onClick)="openNew()" />
+            <p-button severity="danger" label="Delete" icon="pi pi-trash" outlined (onClick)="deleteSelectedTeachers()"
+                [disabled]="!selectedTeachers || !selectedTeachers.length" />
+        </ng-template>
+    </p-toolbar>
+
+    <p-table #dt [value]="teacherList" [(selection)]="selectedTeachers" [paginator]="true" [rows]="10"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [globalFilterFields]="['name','email','dob','gender','qualification','specialization','status']"
+        responsiveLayout="scroll">
+
+        <!-- Table Caption -->
+        <ng-template pTemplate="caption">
+            <div class="toolbar-row">
+                <div class="left">
+                    <p-button label="Clear" icon="pi pi-filter-slash" (click)="dt.clear()"></p-button>
+                </div>
+                <div class="right">
+                    <p-iconfield iconPosition="left">
+                        <p-inputicon>
+                            <i class="pi pi-search"></i>
+                        </p-inputicon>
+                        <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                            placeholder="Search Teachers" />
+                    </p-iconfield>
+                </div>
+            </div>
+        </ng-template>
+
+        <!-- Table Header -->
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem"><p-tableHeaderCheckbox /></th>
+
+                <th pSortableColumn="name">
+                    Name <p-sortIcon field="name"></p-sortIcon>
+                    <p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
+                </th>
+
+                <th pSortableColumn="email">
+                    Email <p-sortIcon field="email"></p-sortIcon>
+                    <p-columnFilter type="text" field="email" display="menu"></p-columnFilter>
+                </th>
+
+                <th pSortableColumn="dob">
+                    DOB <p-sortIcon field="dob"></p-sortIcon>
+                    <p-columnFilter type="date" field="dob" display="menu"></p-columnFilter>
+                </th>
+
+                <th pSortableColumn="gender">
+                    Gender <p-sortIcon field="gender"></p-sortIcon>
+                    <p-columnFilter type="text" field="gender" display="menu"></p-columnFilter>
+                </th>
+
+                <th pSortableColumn="qualification">
+                    Qualification <p-sortIcon field="qualification"></p-sortIcon>
+                    <p-columnFilter type="text" field="qualification" display="menu"></p-columnFilter>
+                </th>
+
+                <th pSortableColumn="specialization">
+                    Specialization <p-sortIcon field="specialization"></p-sortIcon>
+                    <p-columnFilter type="text" field="specialization" display="menu"></p-columnFilter>
+                </th>
+
+                <th pSortableColumn="status">
+                    Status <p-sortIcon field="status"></p-sortIcon>
+                    <p-columnFilter type="text" field="status" display="menu"></p-columnFilter>
+                </th>
+
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+
+        <!-- Table Body -->
+        <ng-template pTemplate="body" let-teacher>
+            <tr>
+                <td><p-tableCheckbox [value]="teacher" /></td>
+                <td>{{ teacher.name }}</td>
+                <td>{{ teacher.email }}</td>
+                <td>{{ teacher.dob | date: 'yyyy-MM-dd' }}</td>
+                <td>{{ teacher.gender }}</td>
+                <td>{{ teacher.qualification }}</td>
+                <td>{{ teacher.specialization }}</td>
+                <td>
+                    <p-tag [value]="teacher.status" [severity]="getSeverity(teacher.status!)"></p-tag>
+                </td>
+                <td>
+                    <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
+                        (click)="editTeacher(teacher)" />
+                    <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                        (click)="deleteTeacher(teacher)" />
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+
+    <!-- ✅ Dialog for Create/Edit -->
+    <p-dialog [(visible)]="teacherDialog" [style]="{ width: '550px' }" [modal]="true"
+        [header]="isEdit ? 'Edit Teacher - Reg No: ' + teacherForm.get('registrationNo')?.value : 'Add Teacher'">
+
+        <ng-template pTemplate="content">
+            <div class="flex flex-col gap-6">
+                <form [formGroup]="teacherForm" (ngSubmit)="onSubmit()">
+                    <div class="formgrid grid">
+
+                        <!-- Name -->
+                        <div class="field col-12 md:col-6">
+                            <label for="name" class="block font-semibold mb-2">Name</label>
+                            <input id="name" pInputText placeholder="Enter full name" formControlName="name"
+                                class="w-full" />
+                        </div>
+
+                        <!-- Date of Birth -->
+                        <div class="field col-12 md:col-6">
+                            <label for="dob" class="block font-semibold mb-2">Date of Birth</label>
+                            <p-datePicker id="dob" formControlName="dob" dateFormat="yy-mm-dd" showIcon
+                                placeholder="Select DOB" class="w-full">
+                            </p-datePicker>
+                        </div>
+
+                        <!-- Gender -->
+                        <div class="field col-12 md:col-6">
+                            <label class="block font-semibold mb-2">Gender</label>
+                            <div class="flex align-items-center gap-4">
+                                <p-radioButton name="gender" value="Male" formControlName="gender"
+                                    inputId="male"></p-radioButton>
+                                <label for="male" class="ml-2">Male</label>
+
+                                <p-radioButton name="gender" value="Female" formControlName="gender"
+                                    inputId="female"></p-radioButton>
+                                <label for="female" class="ml-2">Female</label>
+                            </div>
+                        </div>
+
+                        <!-- Qualification -->
+                        <div class="field col-12 md:col-6">
+                            <label for="qualification" class="block font-semibold mb-2">Qualification</label>
+                            <input id="qualification" pInputText placeholder="Enter qualification"
+                                formControlName="qualification" class="w-full" />
+                        </div>
+
+                        <!-- Specialization -->
+                        <div class="field col-12 md:col-6">
+                            <label for="specialization" class="block font-semibold mb-2">Specialization</label>
+                            <input id="specialization" pInputText placeholder="Enter specialization"
+                                formControlName="specialization" class="w-full" />
+                        </div>
+
+                        <!-- Email -->
+                        <div class="field col-12 md:col-6">
+                            <label for="email" class="block font-semibold mb-2">Email</label>
+                            <input id="email" type="email" pInputText placeholder="Enter email address"
+                                formControlName="email" class="w-full" />
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="field col-12 md:col-6">
+                            <label for="phone" class="block font-semibold mb-2">Phone</label>
+                            <input id="phone" pInputText placeholder="Enter phone number" formControlName="phone"
+                                class="w-full" />
+                        </div>
+
+                        <!-- Joining Date -->
+                        <div class="field col-12 md:col-6">
+                            <label for="joiningDate" class="block font-semibold mb-2">Joining Date</label>
+                            <p-datePicker id="joiningDate" formControlName="joiningDate" dateFormat="yy-mm-dd" showIcon
+                                placeholder="Select joining date" class="w-full">
+                            </p-datePicker>
+                        </div>
+
+                        <div *ngIf="isEdit" class="field col-12 md:col-6">
+                            <label>Status</label>
+                            <p-select [options]="statusOptions" formControlName="status" placeholder="Select Status"
+                                class="w-full md:w-56"></p-select>
+                        </div>
+
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="mt-3 flex justify-content-end gap-3">
+                        <p-button label="Cancel" icon="pi pi-times" text (click)="hideDialog()" />
+                        <p-button type="submit" label="Save Teacher" icon="pi pi-save" />
+                    </div>
+                </form>
+            </div>
+        </ng-template>
+    </p-dialog>
+
+
+
+    <p-confirmDialog [style]="{ width: '500px' }" />
+</div>

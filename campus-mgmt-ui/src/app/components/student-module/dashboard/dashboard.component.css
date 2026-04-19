@@ -1,0 +1,20 @@
+.toolbar-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 0.5rem 0;
+}
+
+.toolbar-row .left,
+.toolbar-row .right {
+    display: flex;
+    align-items: center;
+}
+
+.highlight-row {
+    background-color: #d1fae5;
+    /* light green */
+    transition: background-color 1s ease;
+}

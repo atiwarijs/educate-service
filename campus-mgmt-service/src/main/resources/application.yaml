@@ -1,0 +1,37 @@
+#Server port & base-path
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1/campus-mgmt
+spring:
+  application:
+    name: campus-mgmt-service
+  profiles:
+    active: h2
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8085/realms/securityrealm
+          jwk-set-uri: http://localhost:8085/realms/securityrealm/protocol/openid-connect/certs
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+     group-id: user-service-group
+     auto-offset-reset: earliest
+     enable-auto-commit: true
+     key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+     value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    properties:
+     spring.json.trusted.packages: com.eduservices.campusmgmt.dto
+     spring.json.type.mapping: PersonalDetailsDto:com.eduservices.campusmgmt.dto.PersonalDetailsDto
+
+
+#Personal API URL
+personal:
+  base:
+    url: 'http://localhost:8082/api/v1/profile'
+#Document API URL
+document:
+  base:
+    url: 'http://localhost:8083/api/v1/document'

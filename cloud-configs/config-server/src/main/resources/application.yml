@@ -1,0 +1,24 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: CONFIG-SERVICE
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/eduservices-Technologies/services-config.git
+          force-pull: true # pull the latest code from GIT in case the local repo has some issues and couldn't able to update the repo
+          skipSslValidation: true # Git Server SSL validation can be disabled
+          timeout: 10 #HTTP connection timeout (in seconds)
+          username: sdsdsdd
+          password: ${GITHUB_TOKEN}
+          default-label: master
+
+# Eureka server config
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/

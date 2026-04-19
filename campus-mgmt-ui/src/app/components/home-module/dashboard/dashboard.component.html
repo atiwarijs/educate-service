@@ -1,0 +1,118 @@
+<router-outlet></router-outlet>
+<div *ngIf="noDataFound" class="no-data">
+  No profiles found.
+</div>
+<div class="card" *ngIf="!noDataFound" style="margin-top: 10px;">
+  <p-table #dt [value]="userDetails" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]"
+    [globalFilterFields]="['firstName', 'dob']" [sortField]="sortField" [sortOrder]="sortOrder"
+    responsiveLayout="scroll">
+    <ng-template pTemplate="caption">
+      <div class="toolbar-row">
+        <div class="left">
+          <p-button label="Clear" icon="pi pi-filter-slash" (click)="dt.clear()"></p-button>
+        </div>
+
+        <div class="right">
+          <p-iconfield iconPosition="left">
+            <p-inputicon>
+              <i class="pi pi-search"></i>
+            </p-inputicon>
+            <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+              placeholder="Search" />
+          </p-iconfield>
+        </div>
+      </div>
+
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="firstName">
+          Name
+          <p-sortIcon field="firstName"></p-sortIcon>
+          <p-columnFilter type="text" field="firstName" display="menu"></p-columnFilter>
+        </th>
+        <th pSortableColumn="email">
+          Email
+          <p-sortIcon field="email"></p-sortIcon>
+          <p-columnFilter type="text" field="email" display="menu"></p-columnFilter>
+        </th>
+        <th pSortableColumn="dob">
+          DOB
+          <p-sortIcon field="dob"></p-sortIcon>
+          <p-columnFilter type="date" field="dob" display="menu"></p-columnFilter>
+        </th>
+        <th pSortableColumn="age">
+          Age
+          <p-sortIcon field="age"></p-sortIcon>
+          <p-columnFilter type="numeric" field="age" display="menu"></p-columnFilter>
+        </th>
+        <th>Family</th>
+        <th>Address</th>
+        <th>Vehicle</th>
+        <th>Medical</th>
+        <th>Experience</th>
+        <th>Education</th>
+        <th>Action</th>
+      </tr>
+    </ng-template>
+
+
+
+    <ng-template pTemplate="body" let-user let-i="rowIndex">
+      <tr>
+        <td>{{ user.firstName }} {{ user.lastName }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.dob | date }}</td>
+        <td>{{ user.age }}</td>
+        <td>
+          <button pButton type="button" icon="pi pi-eye" [outlined]="true" [outlined]="true"
+            class="p-button-sm p-button-info" (click)="openUserDetails(i, 'family')"></button>
+        </td>
+        <td>
+          <button pButton type="button" icon="pi pi-eye" [outlined]="true" class="p-button-sm p-button-info"
+            (click)="openUserDetails(i, 'address')"></button>
+        </td>
+        <td>
+          <button pButton type="button" icon="pi pi-eye" [outlined]="true" class="p-button-sm p-button-info"
+            (click)="openUserDetails(i, 'vehicle')"></button>
+        </td>
+        <td>
+          <button pButton type="button" icon="pi pi-eye" [outlined]="true" class="p-button-sm p-button-info"
+            (click)="openUserDetails(i, 'medical')"></button>
+        </td>
+        <td>
+          <button pButton type="button" icon="pi pi-eye" [outlined]="true" class="p-button-sm p-button-info"
+            (click)="openUserDetails(i, 'experience')"></button>
+        </td>
+        <td>
+          <button pButton type="button" icon="pi pi-eye" [outlined]="true" class="p-button-sm p-button-info"
+            (click)="openUserDetails(i, 'education')"></button>
+        </td>
+
+        <td>
+          <button pButton type="button" icon="pi pi-eye" [outlined]="true" class="p-button-sm p-button-info"
+            (click)="selectedUser = user; displayPopup = true"></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<!-- User Basic Details Dialog -->
+<p-dialog header="User Basic Details" [(visible)]="displayPopup" [modal]="true" [style]="{ width: '500px' }">
+  <div *ngIf="selectedUser">
+    <p>
+      <strong>Name:</strong> {{ selectedUser?.firstName }}
+      {{ selectedUser?.lastName }}
+    </p>
+    <p><strong>Date of birth:</strong> {{ selectedUser?.dob | date : "MM/dd/yyyy" }}</p>
+    <p><strong>Age:</strong> {{ selectedUser?.age }}</p>
+    <p><strong>Email:</strong> {{ selectedUser?.email }}</p>
+    <p><strong>Mobile:</strong> {{ selectedUser?.mobile }}</p>
+  </div>
+</p-dialog>
+
+<!-- Dialog for viewing arrays (Address, Vehicle, etc.) -->
+<app-user-detail-popup [show]="showFamilyPopup" (showChange)="showFamilyPopup = $event" [formArray]="dynamicFormArray"
+  [section]="section" [childComponent]="dynamicComponent" (save)="onFamilySave($event)">
+</app-user-detail-popup>

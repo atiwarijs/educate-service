@@ -1,0 +1,84 @@
+<div class="sidebar" [ngClass]="{'sidebar-visible': visible, 'sidebar-hidden': !visible}">
+  <!-- Sidebar Header -->
+  <!-- <div class="sidebar-header">
+    <div class="logo-section">
+      <img src="assets/school.png" alt="Logo" class="sidebar-logo" />
+      <span class="sidebar-title" [ngClass]="{'title-hidden': !visible}">Education Hub</span>
+    </div>
+  </div> -->
+
+  <!-- Sidebar Navigation -->
+  <nav class="sidebar-nav">
+    <ul class="menu-list">
+      <li *ngFor="let item of menuItems" class="menu-item">
+
+        <!-- Parent Menu Item -->
+        <div class="menu-item-header" [ngClass]="{'has-children': item.children, 'expanded': item.isExpanded}"
+          (click)="item.children ? toggleMenuItem(item) : navigateToRoute(item)">
+
+          <div class="menu-item-content">
+            <i [class]="item.icon" class="menu-icon"></i>
+            <span class="menu-label" [ngClass]="{'label-hidden': !visible}">{{ item.label }}</span>
+          </div>
+
+          <!-- Expand/Collapse Arrow for items with children -->
+          <i *ngIf="item.children" class="menu-arrow pi"
+            [ngClass]="{'pi-chevron-down': item.isExpanded, 'pi-chevron-right': !item.isExpanded}">
+          </i>
+        </div>
+
+        <!-- Children/Sub Menu Items -->
+        <ul *ngIf="item.children" class="submenu-list"
+          [ngClass]="{'submenu-expanded': item.isExpanded, 'submenu-collapsed': !item.isExpanded}">
+
+          <li *ngFor="let child of item.children" class="submenu-item">
+
+            <!-- Child without grandchildren -->
+            <div *ngIf="!child.children" class="submenu-item-header" [ngClass]="{'active': child.isActive}"
+              (click)="navigateToRoute(child)" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+
+              <div class="submenu-item-content">
+                <i [class]="child.icon" class="submenu-icon"></i>
+                <span class="submenu-label" [ngClass]="{'label-hidden': !visible}">{{ child.label }}</span>
+              </div>
+            </div>
+
+            <!-- Child with grandchildren (3rd level) -->
+            <div *ngIf="child.children">
+              <div class="submenu-item-header has-grandchildren" [ngClass]="{'expanded': child.isExpanded}"
+                (click)="toggleMenuItem(child)">
+
+                <div class="submenu-item-content">
+                  <i [class]="child.icon" class="submenu-icon"></i>
+                  <span class="submenu-label" [ngClass]="{'label-hidden': !visible}">{{ child.label }}</span>
+                </div>
+
+                <i class="submenu-arrow pi"
+                  [ngClass]="{'pi-chevron-down': child.isExpanded, 'pi-chevron-right': !child.isExpanded}">
+                </i>
+              </div>
+
+              <!-- Grandchildren -->
+              <ul class="grandchild-list"
+                [ngClass]="{'grandchild-expanded': child.isExpanded, 'grandchild-collapsed': !child.isExpanded}">
+
+                <li *ngFor="let grandchild of child.children" class="grandchild-item">
+                  <div class="grandchild-item-header" [ngClass]="{'active': grandchild.isActive}"
+                    (click)="navigateToRoute(grandchild)" routerLinkActive="active"
+                    [routerLinkActiveOptions]="{exact: true}">
+
+                    <div class="grandchild-item-content">
+                      <i [class]="grandchild.icon" class="grandchild-icon"></i>
+                      <span class="grandchild-label" [ngClass]="{'label-hidden': !visible}">{{ grandchild.label
+                        }}</span>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+</div>

@@ -1,0 +1,180 @@
+<p-toast></p-toast>
+<p-toolbar class="mb-3">
+    <ng-template pTemplate="start">
+        <p-button label="New" icon="pi pi-plus" class="mr-2" (onClick)="openNew()"></p-button>
+        <p-button severity="danger" label="Delete" icon="pi pi-trash" outlined (onClick)="deleteSelectedClasses()"
+            [disabled]="!selectedClasses || !selectedClasses.length">
+        </p-button>
+    </ng-template>
+</p-toolbar>
+
+<div *ngIf="noDataFound" class="no-data p-4 text-center">
+    <i class="pi pi-inbox text-3xl mb-2"></i>
+    <div>No classes found.</div>
+    <!-- (Buttons already visible in toolbar above) -->
+</div>
+
+<div class="card" *ngIf="!noDataFound">
+    <p-table #dt [value]="classList" [(selection)]="selectedClasses" [paginator]="true" [rows]="10"
+        [rowsPerPageOptions]="[10,25,50]" [rowHover]="true" dataKey="id"
+        [globalFilterFields]="['className','section','academicYear','classTeacher','status']" responsiveLayout="scroll">
+
+        <!-- Table Caption -->
+        <ng-template pTemplate="caption">
+            <div class="toolbar-row">
+                <div class="left">
+                    <p-button label="Clear" icon="pi pi-filter-slash" (click)="dt.clear()" />
+                </div>
+                <div class="right">
+                    <p-iconfield iconPosition="left">
+                        <p-inputicon>
+                            <i class="pi pi-search"></i>
+                        </p-inputicon>
+                        <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value,'contains')"
+                            placeholder="Search Classes" />
+                    </p-iconfield>
+                </div>
+            </div>
+        </ng-template>
+
+        <!-- Table Header -->
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width:3rem"><p-tableHeaderCheckbox /></th>
+                <th pSortableColumn="className">
+                    Class <p-sortIcon field="className"></p-sortIcon>
+                    <p-columnFilter type="text" field="className" display="menu"></p-columnFilter>
+                </th>
+                <th pSortableColumn="section">
+                    Section <p-sortIcon field="section"></p-sortIcon>
+                    <p-columnFilter type="text" field="section" display="menu"></p-columnFilter>
+                </th>
+                <th pSortableColumn="academicYear">
+                    Academic Year <p-sortIcon field="academicYear"></p-sortIcon>
+                    <p-columnFilter type="text" field="academicYear" display="menu"></p-columnFilter>
+                </th>
+                <!-- <th pSortableColumn="classTeacher">
+                    Class Teacher <p-sortIcon field="classTeacher"></p-sortIcon>
+                    <p-columnFilter type="text" field="classTeacher" display="menu"></p-columnFilter>
+                </th> 
+                <th pSortableColumn="strength">
+                    Strength <p-sortIcon field="strength"></p-sortIcon>
+                    <p-columnFilter type="numeric" field="strength" display="menu"></p-columnFilter>
+                </th>-->
+                <th pSortableColumn="status">
+                    Status <p-sortIcon field="status"></p-sortIcon>
+                    <p-columnFilter type="text" field="status" display="menu"></p-columnFilter>
+                </th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+
+        <!-- Table Body -->
+        <ng-template pTemplate="body" let-classObj>
+            <tr>
+                <td><p-tableCheckbox [value]="classObj" /></td>
+                <td>{{ classObj.className }}</td>
+                <td>
+                    <p-chip *ngIf="classObj.sections.length === 1" [styleClass]="'p-chip-rounded'"
+                        [label]="classObj.sections[0].sectionName + ' (' + classObj.sections[0].strength + ')'"></p-chip>
+
+                    <button *ngIf="classObj.sections.length > 1" pButton icon="pi pi-eye"
+                        class="p-button-rounded p-button-text p-button-info"
+                        (click)="openSectionsDialog(classObj)"></button>
+
+                </td>
+                <td>{{ classObj.academicYear }}</td>
+                <!-- <td>{{ classObj.classTeacher }}</td> 
+                <td>{{ classObj.strength }}</td>-->
+                <td><p-tag [value]="classObj.status" [severity]="getSeverity(classObj.status)"></p-tag></td>
+                <td>
+                    <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
+                        (click)="editClass(classObj)" />
+                    <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                        (click)="deleteClass(classObj)" />
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+<!-- Dialog for Create/Edit -->
+<p-dialog [(visible)]="classDialog" [style]="{ width: '560px' }" [modal]="true"
+    [header]="isEdit ? 'Edit Class' : 'Add Class'" appendTo="body">
+    <ng-template pTemplate="content">
+        <form [formGroup]="classForm" (ngSubmit)="onSubmit()">
+            <div class="formgrid grid">
+
+                <!-- Class Name (DROPDOWN) -->
+                <div class="field col-12 md:col-6">
+                    <label for="className">Class</label>
+                    <p-dropdown inputId="className" [options]="classOptions" formControlName="className"
+                        optionLabel="label" optionValue="value" placeholder="Select Class" class="w-full"></p-dropdown>
+                </div>
+
+                <!-- Academic Year -->
+                <div class="field col-12 md:col-6">
+                    <label for="academicYear">Academic Year</label>
+                    <input id="academicYear" pInputText formControlName="academicYear" class="w-full" />
+                </div>
+
+                <!-- Sections (MULTISELECT) -->
+                <div class="field col-12 md:col-6">
+                    <label for="section">Sections</label>
+                    <p-multiSelect [options]="sections" formControlName="selectedSections" optionLabel="label"
+                        optionValue="value" placeholder="Select Sections" (onChange)="onSectionChange($event.value)"
+                        display="chip" class="w-full md:w-80" appendTo="body"></p-multiSelect>
+                </div>
+
+                <!-- Status -->
+                <div class="field col-12 md:col-6">
+                    <label for="status">Status</label>
+                    <p-dropdown [options]="statusOptions" formControlName="status" optionLabel="label"
+                        optionValue="value" placeholder="Select Status" class="w-full"></p-dropdown>
+                </div>
+
+                <!-- Dynamic Strengths -->
+                <div class="col-12">
+                    <div formArrayName="sections" class="grid">
+                        <div *ngFor="let secCtrl of sectionsFormArray.controls; let i = index;" [formGroupName]="i"
+                            class="field col-12 md:col-6">
+                            <label>{{ secCtrl.get('sectionName')?.value }} Strength</label>
+                            <input type="number" pInputText formControlName="strength" (input)="recalcTotalStrength()"
+                                placeholder="Enter strength" class="w-full" />
+                        </div>
+                    </div>
+
+                    <!-- Total Strength (read-only display) -->
+                    <div class="mt-2 text-right">
+                        <strong>Total Strength:</strong> {{ totalStrength }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Buttons -->
+            <div class="mt-3 flex justify-content-end gap-3">
+                <p-button label="Cancel" icon="pi pi-times" text (onClick)="hideDialog()"></p-button>
+                <p-button type="submit" label="Save Class" icon="pi pi-save"></p-button>
+            </div>
+        </form>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{ width: '450px' }" />
+
+<p-dialog header="Sections" [(visible)]="sectionDialogVisible" [modal]="true" [style]="{ width: '22vw' }"
+    [closable]="true">
+    <p-table [value]="selectedClass?.sections">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Section</th>
+                <th>Strength</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-section>
+            <tr>
+                <td>{{ section.sectionName }}</td>
+                <td>{{ section.strength }}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>

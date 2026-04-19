@@ -1,0 +1,80 @@
+<div class="card-grid">
+    <p-card header="Teacher Registration">
+        <form [formGroup]="teacherForm" (ngSubmit)="onSubmit()">
+            <div class="formgrid grid">
+
+                <!-- Name -->
+                <div class="field col-12 md:col-4">
+                    <label for="name" class="block font-semibold mb-2">Name</label>
+                    <input id="name" pInputText appFormValidator formControlName="name" class="w-full"
+                        placeholder="Enter full name" />
+                </div>
+
+                <!-- Date of Birth -->
+                <div class="field col-12 md:col-4">
+                    <label for="dob" class="block font-semibold mb-2">Date of Birth</label>
+                    <p-datePicker id="dob" appFormValidator formControlName="dob" showIcon dateFormat="yy-mm-dd"
+                        class="w-full" placeholder="Select date of birth"></p-datePicker>
+                </div>
+
+                <!-- Gender -->
+                <div class="field col-12 md:col-4">
+                    <label class="block font-semibold mb-2">Gender</label>
+                    <div class="flex align-items-center gap-4">
+                        <div class="flex align-items-center">
+                            <p-radioButton name="gender" value="Male" appFormValidator formControlName="gender"
+                                inputId="male"></p-radioButton>
+                            <label for="male" class="ml-2">Male</label>
+                        </div>
+                        <div class="flex align-items-center">
+                            <p-radioButton name="gender" value="Female" appFormValidator formControlName="gender"
+                                inputId="female"></p-radioButton>
+                            <label for="female" class="ml-2">Female</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Qualification -->
+                <div class="field col-12 md:col-4">
+                    <label for="qualification" class="block font-semibold mb-2">Qualification</label>
+                    <input id="qualification" pInputText appFormValidator formControlName="qualification" class="w-full"
+                        placeholder="Enter qualification" />
+                </div>
+
+                <!-- Specialization -->
+                <div class="field col-12 md:col-4">
+                    <label for="specialization" class="block font-semibold mb-2">Specialization</label>
+                    <input id="specialization" pInputText appFormValidator formControlName="specialization"
+                        class="w-full" placeholder="Enter specialization" />
+                </div>
+
+                <!-- Email -->
+                <div class="field col-12 md:col-4">
+                    <label for="email" class="block font-semibold mb-2">Email</label>
+                    <input id="email" type="email" pInputText appFormValidator formControlName="email" class="w-full"
+                        placeholder="Enter email address" />
+                </div>
+
+                <!-- Phone -->
+                <div class="field col-12 md:col-4">
+                    <label for="phone" class="block font-semibold mb-2">Phone</label>
+                    <input id="phone" pInputText appFormValidator formControlName="phone" class="w-full"
+                        placeholder="Enter phone number" />
+                </div>
+
+                <!-- Joining Date -->
+                <div class="field col-12 md:col-4">
+                    <label for="joiningDate" class="block font-semibold mb-2">Joining Date</label>
+                    <p-datePicker id="joiningDate" appFormValidator formControlName="joiningDate" dateFormat="yy-mm-dd"
+                        class="w-full" showIcon placeholder="Select joining date"></p-datePicker>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="mt-3">
+                <p-button type="submit" label="Register Teacher" icon="pi pi-save"></p-button>
+                <!-- [disabled]="teacherForm.invalid" -->
+            </div>
+        </form>
+    </p-card>
+</div>

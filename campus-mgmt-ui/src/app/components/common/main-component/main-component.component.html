@@ -1,0 +1,27 @@
+<div class="app-container">
+  <!-- Header component with toggle event emitter -->
+  <app-header (toggleSidebar)="onSidebarToggle()"></app-header>
+
+  <!-- Main content area with sidebar and dashboard -->
+  <!-- <div class="main-content" [ngClass]="{'sidebar-collapsed': !sidebarVisible}"> -->
+  <!-- Sidebar component -->
+  <app-sidebar [visible]="sidebarVisible"></app-sidebar>
+
+  <!-- Dashboard container that adjusts based on sidebar state -->
+  <div class="dashboard-container" [ngClass]="{'dashboard-expanded': !sidebarVisible}">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-container">
+      <p-breadcrumb [model]="breadcrumbItems" [home]="homeItem"></p-breadcrumb>
+    </div>
+
+    <!-- Page content -->
+    <div class="page-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  <!-- </div> -->
+
+  <!-- Sidebar overlay for mobile -->
+  <div class="sidebar-overlay" [ngClass]="{'overlay-active': sidebarVisible}" (click)="onSidebarToggle(false)">
+  </div>
+</div>

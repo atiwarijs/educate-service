@@ -1,0 +1,170 @@
+<p-confirmDialog></p-confirmDialog>
+<p-card class="card position-relative">
+  <div class="card-title">Medical Details</div>
+  <button
+    type="button"
+    class="p-button p-button-sm p-button-primary add-tab-btn"
+    pTooltip="Add Medical"
+    tooltipPosition="top"
+    (click)="addTabs()"
+    title="Add Medical"
+  >
+    <i class="pi pi-plus"></i>
+  </button>
+
+  <p-tabs [value]="selectedIndex" scrollable>
+    <p-tablist>
+      @for (medi of medicalsArray.controls; track $index) {
+      <p-tab [value]="$index">
+        {{
+          asFormGroup(medi).get("diseases")?.value || "Medical " + ($index + 1)
+        }}
+        <button
+          type="button"
+          class="p-button p-button-danger p-button-sm"
+          (click)="confirmDelete($index); $event.stopPropagation()"
+          *ngIf="medicalsArray.controls.length > 1"
+        >
+          <i class="pi pi-times"></i>
+        </button>
+      </p-tab>
+      }
+    </p-tablist>
+
+    <p-tabpanels>
+      @for (medi of medicalsArray.controls; track $index) {
+      <p-tabpanel [value]="$index">
+        <form [formGroup]="asFormGroup(medi)">
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="bloodGroup">Blood Group</label>
+              <p-select
+                id="bloodGroup"
+                [options]="bloodGroups"
+                formControlName="bloodGroup"
+                [style]="{ height: '38px' }"
+                appFormValidator
+                placeholder="Select blood group"
+              ></p-select>
+            </div>
+
+            <div class="form-field">
+              <label for="medicalHistory">Medical History</label>
+              <input
+                id="medicalHistory"
+                type="text"
+                pInputText
+                formControlName="medicalHistory"
+                placeholder="Enter medical history"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="diseases">Diseases</label>
+              <input
+                id="diseases"
+                type="text"
+                pInputText
+                formControlName="diseases"
+                placeholder="Enter diseases"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="medications">Medications</label>
+              <input
+                id="medications"
+                type="text"
+                pInputText
+                formControlName="medications"
+                placeholder="Enter medications"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="treatments">Treatments</label>
+              <input
+                id="treatments"
+                type="text"
+                pInputText
+                formControlName="treatments"
+                placeholder="Enter treatments"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="vitals">Vitals</label>
+              <input
+                id="vitals"
+                type="text"
+                pInputText
+                formControlName="vitals"
+                placeholder="Enter vitals"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="diagnoses">Diagnoses</label>
+              <input
+                id="diagnoses"
+                type="text"
+                pInputText
+                formControlName="diagnoses"
+                placeholder="Enter diagnoses"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="therapies">Therapies</label>
+              <input
+                id="therapies"
+                type="text"
+                pInputText
+                formControlName="therapies"
+                placeholder="Enter therapies"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="psychosocial">Psychosocial</label>
+              <input
+                id="psychosocial"
+                type="text"
+                pInputText
+                formControlName="psychosocial"
+                placeholder="Enter psychosocial info"
+              />
+            </div>
+
+            <div formArrayName="medicalDocuments">
+              <app-file-upload
+                *ngFor="
+                  let doc of getDocumentsArray($index).controls;
+                  let docIndex = index
+                "
+                [formGroupName]="docIndex"
+                [doc]="asFormGroup(doc)"
+                [docIndex]="docIndex"
+                [componentIndex]="$index"
+                [allDocsInArray]="getDocumentsArray($index)"
+                [documentOptions]="documentOptions"
+                [parentFormContext]="'Medical'"
+                (fileSelected)="onDocFileSelect($event)"
+                (remove)="removeDocument($index, docIndex)"
+              ></app-file-upload>
+
+              <button
+                type="button"
+                class="p-button p-button-sm p-button-secondary mt-2"
+                (click)="addDocument($index)"
+              >
+                <i class="pi pi-plus"></i> Add Document
+              </button>
+            </div>
+          </div>
+        </form>
+      </p-tabpanel>
+      }
+    </p-tabpanels>
+  </p-tabs>
+</p-card>

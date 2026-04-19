@@ -1,0 +1,50 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /api/v1/profile
+
+spring:
+  application:
+    name: PROFILE-MANAGER
+  cloud:
+    discovery:
+      enabled: true
+
+  profiles:
+    active: mysql
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8085/realms/securityrealm
+          jwk-set-uri: http://localhost:8085/realms/securityrealm/protocol/openid-connect/certs
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: user-service-group
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    properties:
+      spring.json.trusted.packages: com.eduservices.profile.dto
+      spring.json.type.mapping: PersonalDetailsDto:com.eduservices.profile.dto.PersonalDetailsDto
+
+management:
+  server:
+    port: 7001
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+eureka:
+   instance:
+     hostname: localhost
+   client:
+     register-with-eureka: true
+     fetch-registry: true
+     service-url:
+      defaultZone: http://localhost:8761/eureka/

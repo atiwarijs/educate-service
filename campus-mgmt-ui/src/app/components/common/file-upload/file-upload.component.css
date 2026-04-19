@@ -1,0 +1,31 @@
+.form-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .form-field {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-field label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+  }
+  
+  .p-fileupload,
+  p-select {
+    min-width: 180px;
+  }
+  
+  img {
+    max-height: 60px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-left: 1rem;
+  }
+  

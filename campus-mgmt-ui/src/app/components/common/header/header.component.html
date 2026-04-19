@@ -1,0 +1,132 @@
+<header class="header-container">
+  <!-- Left Section -->
+  <div class="header-left">
+    <button class="menu-toggle-btn" (click)="toggleSidebarMenu()" type="button">
+      <i class="pi pi-bars"></i>
+    </button>
+
+    <div class="logo-section">
+      <img src="assets/school.png" alt="Education Hub Logo" class="header-logo" />
+      <div class="brand-info">
+        <span class="brand-title">Education Hub</span>
+        <span class="brand-subtitle">School Management System</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Center Section (Search) -->
+  <div class="header-center">
+    <div class="search-container">
+      <i class="pi pi-search search-icon"></i>
+      <input type="text" placeholder="Search students, teachers, classes..." class="search-input"
+        (click)="navigateToSearch()" />
+      <div class="search-shortcut">
+        <kbd>Ctrl</kbd> + <kbd>K</kbd>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Section -->
+  <div class="header-right">
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <button class="action-btn" (click)="navigateToSettings()" title="Settings">
+        <i class="pi pi-cog"></i>
+      </button>
+
+      <!-- Notifications -->
+      <div class="notification-container">
+        <button class="action-btn notification-btn" (click)="toggleNotifications()" title="Notifications">
+          <i class="pi pi-bell"></i>
+          <span *ngIf="unreadNotificationCount > 0" class="notification-badge">
+            {{ unreadNotificationCount > 9 ? '9+' : unreadNotificationCount }}
+          </span>
+        </button>
+
+        <!-- Notifications Dropdown -->
+        <div class="notifications-dropdown" [ngClass]="{'dropdown-open': isNotificationsOpen}">
+          <div class="dropdown-header">
+            <h4>Notifications</h4>
+            <button *ngIf="unreadNotificationCount > 0" class="mark-all-read-btn"
+              (click)="markAllNotificationsAsRead()">
+              Mark all as read
+            </button>
+          </div>
+
+          <div class="notifications-list">
+            <div *ngIf="notifications.length === 0" class="no-notifications">
+              <i class="pi pi-bell-slash"></i>
+              <p>No notifications</p>
+            </div>
+
+            <div *ngFor="let notification of notifications" class="notification-item"
+              [ngClass]="[getNotificationClass(notification.type), ( !notification.read ? 'unread' : '' )]"
+              (click)="markNotificationAsRead(notification)">
+
+              <div class="notification-icon">
+                <i [class]="getNotificationIcon(notification.type)"></i>
+              </div>
+
+              <div class="notification-content">
+                <h5 class="notification-title">{{ notification.title }}</h5>
+                <p class="notification-message">{{ notification.message }}</p>
+                <span class="notification-time">{{ notification.time }}</span>
+              </div>
+
+              <div *ngIf="!notification.read" class="unread-indicator"></div>
+            </div>
+          </div>
+
+          <div class="dropdown-footer">
+            <button class="view-all-btn" routerLink="/notifications">View All Notifications</button>
+          </div>
+        </div>
+      </div>
+
+      <button class="action-btn" title="Grid View">
+        <i class="pi pi-th-large"></i>
+      </button>
+    </div>
+
+    <!-- User Profile -->
+    <div class="user-profile-container">
+      <button class="user-profile-btn" (click)="toggleProfileMenu()">
+        <img [src]="userInfo?.avatar || 'assets/login.png'" [alt]="userInfo?.name" class="profile-avatar" />
+        <div class="user-info" *ngIf="userInfo">
+          <span class="user-name">{{ userInfo.name }}</span>
+          <span class="user-role">{{ userInfo.role }}</span>
+        </div>
+        <i class="pi pi-chevron-down profile-arrow"></i>
+      </button>
+
+      <!-- Profile Dropdown Menu -->
+      <div class="profile-dropdown" [ngClass]="{'dropdown-open': isProfileMenuOpen}">
+        <div class="profile-header">
+          <img [src]="userInfo?.avatar || 'assets/login.png'" [alt]="userInfo?.name" class="profile-dropdown-avatar" />
+          <div class="profile-info">
+            <h4>{{ userInfo?.name }}</h4>
+            <p>{{ userInfo?.email }}</p>
+            <span class="role-badge">{{ userInfo?.role }}</span>
+          </div>
+        </div>
+
+        <div class="profile-menu-divider"></div>
+
+        <ul class="profile-menu-list">
+          <li *ngFor="let item of profileMenuItems" class="profile-menu-item">
+            <div *ngIf="item.separator" class="menu-separator"></div>
+            <button class="profile-menu-btn" [ngClass]="{'logout-btn': item.action === 'logout'}"
+              (click)="onProfileMenuAction(item.action)">
+              <i [class]="item.icon" class="menu-item-icon"></i>
+              <span>{{ item.label }}</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overlay for closing dropdowns -->
+  <div *ngIf="isProfileMenuOpen || isNotificationsOpen" class="dropdown-overlay" (click)="closeMenus()">
+  </div>
+</header>

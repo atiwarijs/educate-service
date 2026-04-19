@@ -1,0 +1,70 @@
+/* .form-card {
+  width: 100%;
+  max-width: 680px;
+  background: #ffffff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.form-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+} */
+
+.card-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #3498db;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.form-field.profile-image-field {
+  grid-column: span 2;
+}
+
+.form-field label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #2c3e50;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+}
+
+.form-field:hover label {
+  color: #3498db;
+}
+
+.position-relative {
+  position: relative;
+}
+
+.add-tab-btn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 5; /* Higher z-index to ensure visibility */
+}
+/* Spacing for document section */
+[formArrayName="medicalDocuments"] {
+  grid-column: span 2;
+  margin-top: 20px;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 15px;
+}

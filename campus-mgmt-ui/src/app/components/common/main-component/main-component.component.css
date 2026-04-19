@@ -1,0 +1,186 @@
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.main-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Dashboard Container */
+.dashboard-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #f8fafc;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow: hidden;
+    margin-left: 280px;
+    /* Default sidebar width */
+}
+
+.dashboard-container.dashboard-expanded {
+    margin-left: 70px;
+    /* Collapsed sidebar width */
+}
+
+/* Breadcrumb Container */
+.breadcrumb-container {
+    padding: 16px 24px;
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    position: relative;
+}
+
+/* Page Content */
+.page-content {
+    flex: 1;
+    /* padding: 24px; */
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #f8fafc;
+}
+
+.page-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.page-content::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+.page-content::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+.page-content::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Sidebar Overlay for Mobile */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+/* .sidebar-overlay.overlay-active {
+    opacity: 1;
+    visibility: visible;
+} */
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+    .dashboard-container {
+        margin-left: 70px;
+    }
+
+    .dashboard-container.dashboard-expanded {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        margin-left: 0;
+    }
+
+    .dashboard-container.dashboard-expanded {
+        margin-left: 0;
+    }
+
+    .page-content {
+        padding: 16px;
+    }
+
+    .breadcrumb-container {
+        padding: 12px 16px;
+    }
+
+    /* Show overlay on mobile when sidebar is open */
+    .sidebar-overlay.overlay-active {
+        display: block;
+    }
+}
+
+/* Animation classes */
+.sidebar-enter {
+    transform: translateX(-100%);
+}
+
+.sidebar-enter-active {
+    transform: translateX(0);
+    transition: transform 300ms ease-in-out;
+}
+
+.sidebar-exit {
+    transform: translateX(0);
+}
+
+.sidebar-exit-active {
+    transform: translateX(-100%);
+    transition: transform 300ms ease-in-out;
+}
+
+/* Content adjustment states */
+.main-content.sidebar-collapsed .dashboard-container {
+    margin-left: 70px;
+}
+
+/* Ensure proper stacking */
+.app-container app-header {
+    z-index: 1001;
+}
+
+.app-container app-sidebar {
+    z-index: 1000;
+}
+
+/* Fix for breadcrumb styling */
+.breadcrumb-container ::ng-deep .p-breadcrumb {
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+.breadcrumb-container ::ng-deep .p-breadcrumb ul {
+    margin: 0;
+    padding: 0;
+}
+
+.breadcrumb-container ::ng-deep .p-breadcrumb .p-breadcrumb-home {
+    margin-right: 8px;
+}
+
+.breadcrumb-container ::ng-deep .p-breadcrumb .p-menuitem-link {
+    color: #64748b;
+    text-decoration: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.breadcrumb-container ::ng-deep .p-breadcrumb .p-menuitem-link:hover {
+    background: #f1f5f9;
+    color: #3b82f6;
+}
+
+.breadcrumb-container ::ng-deep .p-breadcrumb .p-breadcrumb-chevron {
+    color: #94a3b8;
+    margin: 0 8px;
+}

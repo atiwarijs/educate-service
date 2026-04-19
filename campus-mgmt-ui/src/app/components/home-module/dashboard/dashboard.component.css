@@ -1,0 +1,26 @@
+/* .card {
+  background: var(--card-bg);
+  border: var(--card-border);
+  padding: 2rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+} */
+
+.toolbar-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0.5rem 0;
+}
+
+.toolbar-row .left,
+.toolbar-row .right {
+  display: flex;
+  align-items: center;
+}
+
+.toolbar-row .right {
+  min-width: 250px;
+}

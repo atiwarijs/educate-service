@@ -1,0 +1,347 @@
+<p-confirmDialog></p-confirmDialog>
+<p-card class="card position-relative">
+  <div class="card-title">Address Details</div>
+  <button
+    type="button"
+    class="p-button p-button-sm p-button-primary add-tab-btn"
+    pTooltip="Add Address"
+    tooltipPosition="top"
+    (click)="addAddress()"
+    title="Add Address"
+  >
+    <i class="pi pi-plus"></i>
+  </button>
+
+  <p-tabs [value]="selectedIndex" scrollable>
+    <p-tablist>
+      @for (address of addresses.controls; track $index) {
+      <p-tab [value]="$index">
+        {{
+          asFormGroup(address).getRawValue().addressType ||
+            "Address " + ($index + 1)
+        }}
+        <button
+          type="button"
+          class="p-button p-button-danger p-button-sm"
+          (click)="confirmDelete($index); $event.stopPropagation()"
+          *ngIf="$index >= 2"
+        >
+          <i class="pi pi-times"></i>
+        </button>
+      </p-tab>
+      }
+    </p-tablist>
+
+    <p-tabpanels>
+      @for (address of addresses.controls; track $index) {
+      <p-tabpanel [value]="$index">
+        <form [formGroup]="asFormGroup(address)">
+          <!-- Show Same Address checkbox only for Correspondence address (index 1) -->
+          <div
+            class="p-field-checkbox mt-3 mb-3"
+            *ngIf="isCorrespondenceAddress($index)"
+          >
+            <p-checkbox
+              [formControl]="sameAddressControl"
+              [binary]="true"
+              inputId="sameAsAddress"
+              (onChange)="onCheckboxToggle($event)"
+            ></p-checkbox>
+            <label class="ml-2" for="sameAsAddress"
+              >Same as Permanent Address</label
+            >
+          </div>
+
+          <div class="form-grid">
+            <div
+              class="form-field"
+              *ngIf="
+                !isCorrespondenceAddress($index) && !isPermanentAddress($index)
+              "
+            >
+              <label for="addressType">Address Type</label>
+              <p-select
+                id="addressType"
+                [options]="addressOptions"
+                formControlName="addressType"
+                [style]="{ height: '38px' }"
+                appendTo="body"
+                appFormValidator
+                placeholder="Select Address Type"
+              ></p-select>
+              <!-- <small
+                *ngIf="
+                  address.get('addressType')?.invalid &&
+                  address.get('addressType')?.touched
+                "
+                class="p-error"
+                >Required</small
+              > -->
+            </div>
+
+            <div class="form-field">
+              <label for="addressLine1">Address Line 1</label>
+              <input
+                id="addressLine1"
+                type="text"
+                pInputText
+                formControlName="addressLine1"
+                placeholder="Address Line 1"
+                appFormValidator
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="addressLine2">Address Line 2</label>
+              <input
+                id="addressLine2"
+                type="text"
+                pInputText
+                formControlName="addressLine2"
+                placeholder="Address Line 2"
+                appFormValidator
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="unitNumber">Unit Number</label>
+              <input
+                id="unitNumber"
+                type="text"
+                pInputText
+                formControlName="unitNumber"
+                placeholder="Unit Number"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="locality">Locality</label>
+              <input
+                id="locality"
+                type="text"
+                pInputText
+                formControlName="locality"
+                placeholder="Locality"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="state">State</label>
+              <!-- <input
+                id="state"
+                type="text"
+                pInputText
+                formControlName="state"
+                appFormValidator
+              /> -->
+              <p-select
+                id="state"
+                [options]="stateDetails"
+                optionLabel="name"
+                formControlName="state"
+                [style]="{ height: '38px' }"
+                appendTo="body"
+                placeholder="Select State"
+                optionValue="id"
+                (onChange)="onStateChange($event.value)"
+                appFormValidator
+              ></p-select>
+            </div>
+
+            <div class="form-field">
+              <label for="city">City</label>
+              <!-- <input id="city" type="text" pInputText formControlName="city" appFormValidator/> -->
+              <p-dropdown
+                [options]="cityList"
+                optionLabel="name"
+                optionValue="id"
+                formControlName="city"
+                placeholder="Select City"
+              ></p-dropdown>
+            </div>
+
+            <div class="form-field" hidden>
+              <label for="district">District</label>
+              <input
+                id="district"
+                type="text"
+                pInputText
+                formControlName="district"
+                appFormValidator
+                placeholder="District"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="postalCode">Postal Code</label>
+              <input
+                id="postalCode"
+                type="text"
+                pInputText
+                formControlName="postalCode"
+                appFormValidator
+                placeholder="Postal Code"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="countryName">Country Name</label>
+              <input
+                id="countryName"
+                type="text"
+                pInputText
+                formControlName="countryName"
+                placeholder="Country Name"
+                appFormValidator
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="countryCode">Country Code</label>
+              <input
+                id="countryCode"
+                type="text"
+                placeholder="Country Code"
+                pInputText
+                formControlName="countryCode"
+                appFormValidator
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="landmark">Landmark</label>
+              <input
+                id="landmark"
+                type="text"
+                pInputText
+                formControlName="landmark"
+                placeholder="Landmark"
+                appFormValidator
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="status">Status</label>
+              <p-select
+                id="status"
+                [options]="statusOptions"
+                placeholder="Status"
+                formControlName="status"
+                [style]="{ height: '38px' }"
+                appendTo="body"
+                appFormValidator
+              ></p-select>
+              <!-- <small
+                *ngIf="
+                  address.get('status')?.invalid &&
+                  address.get('status')?.touched
+                "
+                class="p-error"
+                >Required</small
+              > -->
+            </div>
+
+            <!-- <div formArrayName="addressDocuments">
+              <div
+                *ngFor="
+                  let doc of getDocumentsArray($index).controls;
+                  let docIndex = index
+                "
+                [formGroupName]="docIndex"
+                class="form-grid"
+              >
+                <div class="form-field mt-6">
+                  <label>Document Type</label>
+                  <p-select
+                    formControlName="docName"
+                    placeholder="Select Type"
+                    [options]="getAvailableDocTypes($index, docIndex)"
+                    appendTo="body"
+                  ></p-select>
+                </div>
+
+                <div class="form-field mt-6">
+                  <label>Upload</label>
+                  <p-fileUpload
+                    #fileUploader
+                    mode="basic"
+                    name="aadharCard"
+                    chooseIcon="pi pi-upload"
+                    accept="application/pdf"
+                    [auto]="false"
+                    (onSelect)="onDocFileSelect($event, $index, docIndex)"
+                    chooseLabel="Upload"
+                    styleClass="custom-upload"
+                  />
+                </div>
+
+                <div class="mt-2">
+                  <button
+                    type="button"
+                    class="p-button p-button-danger p-button-sm"
+                    (click)="removeDocument($index, docIndex)"
+                  >
+                    <i class="pi pi-trash"></i>
+                  </button>
+                </div>
+
+                <div
+                  class="form-field"
+                  *ngIf="
+                    doc.get('docName')?.value === 'Profile' &&
+                    doc.get('docData')?.value
+                  "
+                >
+                  <label>Preview</label>
+                  <img
+                    [src]="
+                      'data:' +
+                      doc.get('docType')?.value +
+                      ';base64,' +
+                      doc.get('docData')?.value
+                    "
+                    alt="Profile Preview"
+                    style="max-width: 150px; height: 80px; border-radius: 8px"
+                  />
+                </div>
+              </div>
+              <button
+                type="button"
+                class="p-button p-button-sm p-button-secondary mt-2"
+                (click)="addDocument($index)"
+              >
+                <i class="pi pi-plus"></i> Add Document
+              </button>
+            </div> -->
+            <div formArrayName="addressDocuments">
+              <app-file-upload
+                *ngFor="
+                  let doc of getDocumentsArray($index).controls;
+                  let docIndex = index
+                "
+                [formGroupName]="docIndex"
+                [doc]="asFormGroup(doc)"
+                [docIndex]="docIndex"
+                [componentIndex]="$index"
+                [allDocsInArray]="getDocumentsArray($index)"
+                [documentOptions]="documentOptions"
+                [parentFormContext]="'Address'"
+                (fileSelected)="onDocFileSelect($event)"
+                (remove)="removeDocument($index, docIndex)"
+              ></app-file-upload>
+
+              <button
+                type="button"
+                class="p-button p-button-sm p-button-secondary mt-2"
+                (click)="addDocument($index)"
+              >
+                <i class="pi pi-plus"></i> Add Document
+              </button>
+            </div>
+          </div>
+        </form>
+      </p-tabpanel>
+      }
+    </p-tabpanels>
+  </p-tabs>
+</p-card>

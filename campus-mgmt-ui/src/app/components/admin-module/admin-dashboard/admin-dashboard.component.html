@@ -1,0 +1,49 @@
+<div class="card-grid">
+    <p-card header="Admin Dashboard">
+        <p>Monitor system performance, view analytics, and manage overall operations
+            from this centralized control panel.</p>
+        <ng-template pTemplate="footer">
+            <p-button label="View Dashboard" icon="pi pi-chart-line"></p-button>
+        </ng-template>
+    </p-card>
+
+    <p-card header="Student Registration">
+        <p>Register new students into the system. Capture essential information and ensure a smooth onboarding
+            process.</p>
+        <ng-template pTemplate="footer">
+            <p-button label="Register Student" icon="pi pi-user" (onClick)="goToStudentRegistration()"></p-button>
+        </ng-template>
+    </p-card>
+
+    <p-card header="Teacher Registration">
+        <p>Register new teachers into the system. Capture essential information and ensure a smooth onboarding
+            process.</p>
+        <ng-template pTemplate="footer">
+            <p-button label="Register Teacher" icon="pi pi-user" (onClick)="goToTeacherRegistration()"></p-button>
+        </ng-template>
+    </p-card>
+
+    <p-card header="User Management">
+        <p>Manage user accounts, permissions, and roles. Add new users, update existing profiles, and control access
+            levels across the system.</p>
+        <ng-template pTemplate="footer">
+            <p-button label="Manage Users" icon="pi pi-users"></p-button>
+        </ng-template>
+    </p-card>
+
+    <!-- <p-card header="Assign Teacher">
+        <p>Assign teachers to specific classes or subjects. Manage teacher allocations and ensure optimal resource
+            utilization.</p>
+        <ng-template pTemplate="footer">
+            <p-button label="Open Settings" icon="pi pi-cog"></p-button>
+        </ng-template>
+    </p-card> -->
+
+    <p-card header="System Settings">
+        <p>Configure system settings, preferences, and global parameters. Customize the application behavior and
+            maintain system configurations.</p>
+        <ng-template pTemplate="footer">
+            <p-button label="Open Settings" icon="pi pi-cog"></p-button>
+        </ng-template>
+    </p-card>
+</div>

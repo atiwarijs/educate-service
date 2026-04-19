@@ -1,0 +1,213 @@
+<p-confirmDialog></p-confirmDialog>
+<p-card class="card position-relative">
+  <div class="card-title">Education Details</div>
+  <button
+    type="button"
+    class="p-button p-button-sm p-button-primary add-tab-btn"
+    pTooltip="Add Education"
+    tooltipPosition="top"
+    (click)="addEducation()"
+    title="Add Education"
+  >
+    <i class="pi pi-plus"></i>
+  </button>
+
+  <p-tabs [value]="selectedIndex" scrollable>
+    <p-tablist>
+      @for (edu of educationArray.controls; track $index) {
+      <p-tab [value]="$index">
+        {{
+          asFormGroup(edu).get("courseName")?.value ||
+            "Education " + ($index + 1)
+        }}
+        <button
+          type="button"
+          class="p-button p-button-danger p-button-sm"
+          (click)="confirmDelete($index); $event.stopPropagation()"
+          *ngIf="educationArray.controls.length > 1"
+        >
+          <i class="pi pi-times"></i>
+        </button>
+      </p-tab>
+      }
+    </p-tablist>
+
+    <p-tabpanels>
+      @for (edu of educationArray.controls; track $index) {
+      <p-tabpanel [value]="$index">
+        <form [formGroup]="asFormGroup(edu)">
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="courseName">Course Name</label>
+              <input
+                id="courseName"
+                type="text"
+                pInputText
+                formControlName="courseName"
+                appFormValidator
+                placeholder="Enter course name"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="courseSubject">Course Subject</label>
+              <input
+                id="courseSubject"
+                type="text"
+                pInputText
+                formControlName="courseSubject"
+                appFormValidator
+                placeholder="Enter course subject"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="boardName">Board Name</label>
+              <input
+                id="boardName"
+                type="text"
+                pInputText
+                formControlName="boardName"
+                appFormValidator
+                placeholder="Enter board name"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="status">Status</label>
+              <p-select
+                id="status"
+                [options]="statusOptions"
+                formControlName="status"
+                [style]="{ height: '38px' }"
+                appFormValidator
+                placeholder="Select status"
+              ></p-select>
+            </div>
+
+            <div class="form-field">
+              <label for="collegeName">College Name</label>
+              <input
+                id="collegeName"
+                type="text"
+                pInputText
+                formControlName="collegeName"
+                appFormValidator
+                placeholder="Enter college name"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="collegeCity">College City</label>
+              <input
+                id="collegeCity"
+                type="text"
+                pInputText
+                formControlName="collegeCity"
+                appFormValidator
+                placeholder="Enter college city"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="collegeState">College State</label>
+              <input
+                id="collegeState"
+                type="text"
+                pInputText
+                formControlName="collegeState"
+                appFormValidator
+                placeholder="Enter college state"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="universityName">University Name</label>
+              <input
+                id="universityName"
+                type="text"
+                pInputText
+                formControlName="universityName"
+                appFormValidator
+                placeholder="Enter university name"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="startDate">Start Date</label>
+              <p-datePicker
+                id="startDate"
+                [showIcon]="true"
+                formControlName="startDate"
+                appFormValidator
+                placeholder="Select start date"
+              ></p-datePicker>
+            </div>
+
+            <div class="form-field">
+              <label for="endDate">End Date</label>
+              <p-datePicker
+                id="endDate"
+                [showIcon]="true"
+                formControlName="endDate"
+                appFormValidator
+                placeholder="Select end date"
+              ></p-datePicker>
+            </div>
+
+            <div class="form-field">
+              <label for="obtainMarks">Obtained Marks</label>
+              <input
+                id="obtainMarks"
+                type="number"
+                pInputText
+                formControlName="obtainMarks"
+                appFormValidator
+                placeholder="Enter obtained marks"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="maxMarks">Maximum Marks</label>
+              <input
+                id="maxMarks"
+                type="number"
+                pInputText
+                formControlName="maxMarks"
+                appFormValidator
+                placeholder="Enter maximum marks"
+              />
+            </div>
+
+            <div formArrayName="educationDocuments">
+              <app-file-upload
+                *ngFor="
+                  let doc of getDocumentsArray($index).controls;
+                  let docIndex = index
+                "
+                [formGroupName]="docIndex"
+                [doc]="asFormGroup(doc)"
+                [docIndex]="docIndex"
+                [componentIndex]="$index"
+                [allDocsInArray]="getDocumentsArray($index)"
+                [documentOptions]="documentOptions"
+                [parentFormContext]="'Education'"
+                (fileSelected)="onDocFileSelect($event)"
+                (remove)="removeDocument($index, docIndex)"
+              ></app-file-upload>
+
+              <button
+                type="button"
+                class="p-button p-button-sm p-button-secondary mt-2"
+                (click)="addDocument($index)"
+              >
+                <i class="pi pi-plus"></i> Add Document
+              </button>
+            </div>
+          </div>
+        </form>
+      </p-tabpanel>
+      }
+    </p-tabpanels>
+  </p-tabs>
+</p-card>

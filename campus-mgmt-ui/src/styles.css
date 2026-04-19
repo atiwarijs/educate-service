@@ -1,0 +1,280 @@
+@import "primeicons/primeicons.css";
+/* You can add global styles to this file, and also import other style files */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+}
+
+.main-content {
+  display: flex;
+  flex: 1;
+  margin-top: 60px; /* Match the header height */
+}
+
+.dashboard-container {
+  flex: 1;
+  padding: 20px;
+  transition: all 0.3s ease;
+  /* margin-left: 250px;
+  width: calc(100% - 250px); */
+  overflow-y: auto;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.dashboard-expanded {
+  /* margin-left: 0;
+  width: 100%; */
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+/* Media query for mobile devices */
+@media screen and (max-width: 768px) {
+  .dashboard-container {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+/* Global validation styles for PrimeNG components */
+/* Styling for p-select validation */
+p-select[data-invalid="true"],
+p-select[data-invalid="true"] .p-select-dropdown {
+  border-color: #f44336 !important;
+}
+
+/* Styling for p-datepicker validation */
+p-datepicker[data-invalid="true"] .p-calendar,
+p-datepicker[data-invalid="true"] input {
+  border-color: #f44336 !important;
+}
+
+/* Force border to be visible */
+/* .p-select-dropdown.p-invalid { */
+  /* border: 1px solid #f44336 !important; */
+/* } */
+
+/* Ensure validation styling applies correctly */
+p-select.ng-invalid .p-select-dropdown {
+  border-color: #f44336 !important;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 60px;
+  background-color: #61d262;
+  padding: 0 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  color: white;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.menu-toggle {
+  font-size: 24px;
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+.logo {
+  height: 40px;
+  margin-right: 10px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.profile-icon {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+
+.user-profile {
+  cursor: pointer;
+
+  .profile-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+  }
+}
+
+.no-data {
+  text-align: center;
+  margin-top: 2rem;
+  color: #888;
+  font-style: italic;
+}
+
+/* Add this to your global styles.css or app.component.css */
+
+/* Reset and Base Styles */
+* {
+  box-sizing: border-box;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* App Root */
+app-root {
+  display: block;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Fix for Angular Router Outlet */
+router-outlet + * {
+  display: block;
+  width: 100%;
+}
+
+/* Layout Container Fixes */
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Header Fixes */
+app-header {
+  position: sticky;
+  top: 0;
+  z-index: 1001;
+  width: 100%;
+}
+
+/* Sidebar Fixes */
+app-sidebar {
+  position: fixed;
+  top: 70px; /* Header height */
+  left: 0;
+  z-index: 1000;
+  height: calc(100vh - 70px);
+}
+
+/* Main Content Area */
+.content-wrapper {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  margin-top: 0; /* Remove if header is not sticky */
+}
+
+/* Page Content Scrolling */
+.page-scroll-container {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: calc(100vh - 70px); /* Minus header height */
+}
+
+/* Sidebar Toggle Animations */
+.sidebar-transition {
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Fix PrimeNG Components Overlapping */
+.p-component {
+  z-index: auto;
+}
+
+.p-dialog {
+  z-index: 1050;
+}
+
+.p-toast {
+  z-index: 1055;
+}
+
+.p-menu-overlay,
+.p-dropdown-panel,
+.p-multiselect-panel {
+  z-index: 1040;
+}
+
+/* Responsive Sidebar */
+@media (max-width: 768px) {
+  app-sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    width: 280px;
+    z-index: 1002;
+  }
+
+  app-sidebar.sidebar-visible {
+    transform: translateX(0);
+  }
+
+  .dashboard-container {
+    margin-left: 0 !important;
+  }
+}
+
+/* Utility Classes */
+.no-scroll {
+  overflow: hidden;
+}
+
+.scroll-y {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.full-height {
+  height: 100%;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+/* Loading States */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* Fix for content jumping */
+.prevent-layout-shift {
+  min-height: calc(100vh - 70px);
+}
+
+/* Smooth transitions */
+.smooth-transition {
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}

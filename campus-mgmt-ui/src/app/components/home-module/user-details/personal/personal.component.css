@@ -1,0 +1,87 @@
+.form-card {
+  width: 100%;
+  max-width: 680px;
+  background: #ffffff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: visible;
+  /* ✅ Allow dropdowns to show properly */
+}
+
+/* Optional: ensure dropdowns stack above */
+::ng-deep .p-dropdown-panel {
+  z-index: 1050 !important;
+}
+
+/* Optional: if using p-card */
+::ng-deep .p-card {
+  overflow: visible !important;
+}
+
+
+.form-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #3498db;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.form-field.profile-image-field {
+  grid-column: span 2;
+}
+
+.form-field label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #2c3e50;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+}
+
+.form-field:hover label {
+  color: #3498db;
+}
+
+.accordion-divider {
+  margin: 1.5rem 0;
+  border-top: 1px solid #ccc;
+}
+
+::ng-deep .p-accordion-header .p-accordion-header-link {
+  font-weight: 700;
+  /* Makes text bolder */
+  text-align: center;
+  /* Center alignment - or use 'left'/'right' as needed */
+}
+
+[formArrayName="personalDocuments"] {
+  grid-column: span 2;
+  margin-top: 20px;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 15px;
+}
+
+.error-msg {
+  color: #f44336
+}

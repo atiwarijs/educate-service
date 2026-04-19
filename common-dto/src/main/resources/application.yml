@@ -1,0 +1,13 @@
+spring:
+  application:
+   name: eduservices-common-dto
+  main:
+   allow-bean-definition-overriding: true
+
+profile:
+  api:
+    url: http://localhost:8082/api/v1/profile
+
+configuration:
+  api:
+    url: http://localhost:8089/api/v1

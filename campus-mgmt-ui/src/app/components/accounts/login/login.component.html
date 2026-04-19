@@ -1,0 +1,73 @@
+<!-- login.component.html -->
+<div class="login-container">
+  <div class="login-background">
+    <div class="login-card-wrapper">
+      <p-card styleClass="login-card">
+        <ng-template pTemplate="header">
+          <div class="login-header">
+            <div class="logo">
+              <i class="pi pi-graduation-cap" style="font-size: 3rem; color: #4f46e5;"></i>
+            </div>
+            <h1>Welcome Back</h1>
+            <p class="subtitle">Sign in to your account</p>
+          </div>
+        </ng-template>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="form-field">
+            <p-floatLabel>
+              <i class="input-icon pi pi-envelope"></i>
+              <input id="email" type="text" pInputText formControlName="username" placeholder="Email address"
+                [ngClass]="{
+                  'ng-invalid ng-dirty': username?.invalid && username?.touched
+                }" class="w-full" />
+              <label for="email">Email Address</label>
+            </p-floatLabel>
+            <small *ngIf="username?.invalid && username?.touched" class="error-message">
+              Please enter a valid email address
+            </small>
+          </div>
+
+          <div class="form-field">
+            <label for="password">Password</label>
+            <div class="input-wrapper">
+              <i class="input-icon pi pi-lock"></i>
+              <p-password id="password" formControlName="password" [feedback]="false" [toggleMask]="true"
+                placeholder="Password" [ngClass]="{
+                  'ng-invalid ng-dirty': password?.invalid && password?.touched
+                }" styleClass="w-full"></p-password>
+            </div>
+            <small *ngIf="password?.invalid && password?.touched" class="error-message">
+              Password must be at least 6 characters
+            </small>
+          </div>
+
+          <div class="login-options">
+            <div class="remember-me">
+              <p-checkbox formControlName="rememberMe" [binary]="true" inputId="rememberMe">
+              </p-checkbox>
+              <label for="rememberMe">Remember me</label>
+            </div>
+            <a routerLink="/account/forgot-password" class="forgot-password">Forgot password?</a>
+          </div>
+
+          <p-button label="Sign In" type="submit" styleClass="w-full login-button" [loading]="isLoading"></p-button>
+        </form>
+
+        <!-- <p-divider align="center">
+          <span class="divider-text">OR</span>
+        </p-divider>
+
+        <div class="oauth-buttons">
+          <p-button class="oauth-button google" icon="pi pi-google" label="Sign in with Google" styleClass="p-button-outlined p-button-rounded"></p-button>
+          <p-button class="oauth-button microsoft" icon="pi pi-microsoft" label="Sign in with Microsoft" styleClass="p-button-outlined p-button-rounded"></p-button>
+        </div> 
+
+        <div class="signup-prompt">
+          <span>Don't have an account?</span>
+          <a href="#" class="signup-link">Sign up now</a>
+        </div>-->
+      </p-card>
+    </div>
+  </div>
+</div>

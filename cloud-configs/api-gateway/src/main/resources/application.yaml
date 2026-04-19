@@ -1,0 +1,29 @@
+server:
+  port: 8000
+#  servlet:
+#    context-path: /api
+#  security:
+#    basic:
+#      enabled: true
+#    user:
+#      name: ompal431
+#      password: 12345
+spring:
+  application:
+    name: GATEWAY-SERVICE
+  profiles:
+    active: routes
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8085/realms/securityrealm
+          jwk-set-uri: http://localhost:8085/realms/securityrealm/protocol/openid-connect/certs
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/

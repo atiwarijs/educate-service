@@ -1,0 +1,54 @@
+<div [formGroup]="doc" class="form-grid border p-3 mb-3 rounded">
+  <!-- Document Type Select -->
+  <div class="form-field">
+    <label>Document Name</label>
+    <p-select
+      formControlName="docName"
+      placeholder="Select Document"
+      [options]="getAvailableDocTypes()"
+    ></p-select>
+  </div>
+
+  <!-- Upload -->
+  <div class="form-field">
+    <label>Upload</label>
+    <p-fileUpload
+      mode="basic"
+      [accept]="getAcceptType(doc.get('docName')?.value)"
+      [auto]="false"
+      (onSelect)="handleFileSelect($event)"
+      chooseLabel="Upload"
+      chooseIcon="pi pi-upload"
+    ></p-fileUpload>
+  </div>
+
+  <!-- Preview (only for profile images) -->
+  <div
+    class="form-field"
+    *ngIf="
+    doc.get('docName')?.value === 'Profile' &&
+    doc.get('docData')?.value"
+  >
+    <label>Preview</label>
+    <img
+      [src]="
+        'data:' +
+        doc.get('docType')?.value +
+        ';base64,' +
+        doc.get('docData')?.value
+      "
+      style="max-width: 150px; height: 80px; border-radius: 8px"
+    />
+  </div>
+
+  <!-- Remove -->
+  <div class="form-field">
+    <button
+      type="button"
+      class="p-button p-button-danger p-button-sm"
+      (click)="removeDoc()"
+    >
+      <i class="pi pi-trash"></i>
+    </button>
+  </div>
+</div>

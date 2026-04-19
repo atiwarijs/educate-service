@@ -1,0 +1,167 @@
+<!-- Updated experience.component.html with placeholders -->
+<p-confirmDialog></p-confirmDialog>
+<p-card class="card position-relative">
+  <div class="card-title">Experience Details</div>
+  <button
+    type="button"
+    class="p-button p-button-sm p-button-primary add-tab-btn"
+    pTooltip="Add Experience"
+    tooltipPosition="top"
+    (click)="addTabs()"
+    title="Add Experience"
+  >
+    <i class="pi pi-plus"></i>
+  </button>
+
+  <p-tabs [value]="selectedIndex" scrollable>
+    <p-tablist>
+      @for (exp of experienceArray.controls; track $index) {
+      <p-tab [value]="$index">
+        {{
+          asFormGroup(exp).get("designation")?.value ||
+            "Experience " + ($index + 1)
+        }}
+        <button
+          type="button"
+          class="p-button p-button-danger p-button-sm"
+          (click)="confirmDelete($index); $event.stopPropagation()"
+          *ngIf="experienceArray.controls.length > 1"
+        >
+          <i class="pi pi-times"></i>
+        </button>
+      </p-tab>
+      }
+    </p-tablist>
+
+    <p-tabpanels>
+      @for (exp of experienceArray.controls; track $index) {
+      <p-tabpanel [value]="$index">
+        <form [formGroup]="asFormGroup(exp)">
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="institutionName">Institution Name</label>
+              <input
+                id="institutionName"
+                type="text"
+                pInputText
+                formControlName="institutionName"
+                placeholder="Enter institution name"
+                appFormValidator
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="designation">Designation</label>
+              <input
+                id="designation"
+                type="text"
+                pInputText
+                appFormValidator
+                formControlName="designation"
+                placeholder="Enter designation"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="skills">Skills</label>
+              <input
+                id="skills"
+                type="text"
+                pInputText
+                formControlName="skills"
+                appFormValidator
+                placeholder="Enter relevant skills"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="joiningDate">Joining Date</label>
+              <p-datePicker
+                id="joiningDate"
+                [showIcon]="true"
+                formControlName="joiningDate"
+                appFormValidator
+                placeholder="Select joining date"
+              ></p-datePicker>
+            </div>
+
+            <div class="form-field">
+              <label for="leavingDate">Leaving Date</label>
+              <p-datePicker
+                id="leavingDate"
+                [showIcon]="true"
+                formControlName="leavingDate"
+                appFormValidator
+                placeholder="Select leaving date"
+              ></p-datePicker>
+            </div>
+
+            <div class="form-field">
+              <label for="leavingReason">Leaving Reason</label>
+              <input
+                id="leavingReason"
+                type="text"
+                pInputText
+                formControlName="leavingReason"
+                appFormValidator
+                placeholder="Enter reason for leaving"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="remark">Remark</label>
+              <input
+                id="remark"
+                type="text"
+                pInputText
+                formControlName="remark"
+                appFormValidator
+                placeholder="Enter any remarks"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="status">Status</label>
+              <p-select
+                id="status"
+                [options]="statusOptions"
+                formControlName="status"
+                [style]="{ height: '38px' }"
+                appFormValidator
+              ></p-select>
+            </div>
+
+            <div formArrayName="experienceDocuments">
+              <app-file-upload
+                *ngFor="
+                  let doc of getDocumentsArray($index).controls;
+                  let docIndex = index
+                "
+                [formGroupName]="docIndex"
+                [doc]="asFormGroup(doc)"
+                [docIndex]="docIndex"
+                [componentIndex]="$index"
+                [allDocsInArray]="getDocumentsArray($index)"
+                [documentOptions]="documentOptions"
+                [parentFormContext]="'Experience'"
+                (fileSelected)="onDocFileSelect($event)"
+                (remove)="removeDocument($index, docIndex)"
+              ></app-file-upload>
+
+              <button
+                type="button"
+                class="p-button p-button-sm p-button-secondary mt-2"
+                (click)="addDocument($index)"
+              >
+                <i class="pi pi-plus"></i> Add Document
+              </button>
+            </div>
+          </div>
+        </form>
+      </p-tabpanel>
+      }
+    </p-tabpanels>
+  </p-tabs>
+</p-card>
+
+<!-- Vehicle component version available on request -->

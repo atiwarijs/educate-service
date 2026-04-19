@@ -1,0 +1,1298 @@
+<div class="account-details-container" *ngIf="!noUserDetailsFound">
+  <div class="card-grid">
+    <!-- Basic Details Card -->
+    <p-card header="Basic Details" class="form-card">
+      <div class="card-actions">
+        <p-button *ngIf="getSectionMode('basicDetails') === 'view'" severity="success" [outlined]="true"
+          icon="pi pi-pencil" [rounded]="true" (click)="onEdit('basicDetails')" pTooltip="Edit" tooltipPosition="top">
+        </p-button>
+      </div>
+
+      <div *ngIf="getSectionMode('basicDetails') === 'view'" class="view-mode">
+        <div class="details-row">
+          <div class="detail-item"
+            *ngIf="basicDetails.get('firstName')?.value || basicDetails.get('middleName')?.value || basicDetails.get('lastName')?.value">
+            <strong>Name:</strong>
+            {{ (basicDetails.get('firstName')?.value || '') + ' ' + (basicDetails.get('middleName')?.value || '') + ' '
+            + (basicDetails.get('lastName')?.value || '') }}
+          </div>
+          <div class="detail-item" *ngIf="basicDetails.get('email')?.value">
+            <strong>Email:</strong> {{ basicDetails.get('email')?.value }}
+          </div>
+        </div>
+        <div class="details-row">
+          <div class="detail-item" *ngIf="basicDetails.get('mobile')?.value">
+            <strong>Mobile:</strong> {{ basicDetails.get('mobile')?.value }}
+          </div>
+          <div class="detail-item" *ngIf="basicDetails.get('alternateMobile')?.value">
+            <strong>Alternate Mobile:</strong> {{ basicDetails.get('alternateMobile')?.value }}
+          </div>
+        </div>
+        <div class="details-row">
+          <div class="detail-item" *ngIf="basicDetails.get('alternateEmail')?.value">
+            <strong>Alternate Email:</strong> {{ basicDetails.get('alternateEmail')?.value }}
+          </div>
+          <div class="detail-item" *ngIf="basicDetails.get('gender')?.value">
+            <strong>Gender:</strong> {{ basicDetails.get('gender')?.value }}
+          </div>
+        </div>
+        <div class="details-row">
+          <div class="detail-item" *ngIf="basicDetails.get('dob')?.value">
+            <strong>Date of Birth:</strong> {{ basicDetails.get('dob')?.value | date }}
+          </div>
+          <div class="detail-item" *ngIf="basicDetails.get('caste')?.value">
+            <strong>Caste:</strong> {{ basicDetails.get('caste')?.value }}
+          </div>
+        </div>
+        <div class="details-row">
+          <div class="detail-item" *ngIf="basicDetails.get('community')?.value">
+            <strong>Community:</strong> {{ basicDetails.get('community')?.value }}
+          </div>
+          <div class="detail-item" *ngIf="basicDetails.get('maritalStatus')?.value">
+            <strong>Marital Status:</strong> {{ basicDetails.get('maritalStatus')?.value }}
+          </div>
+        </div>
+      </div>
+
+      <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
+        <div *ngIf="getSectionMode('basicDetails') === 'edit'" [formGroup]="basicDetails" class="edit-mode">
+          <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col-12 p-md-6">
+              <label for="firstName">First Name</label>
+              <input pInputText id="firstName" formControlName="firstName" />
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+              <label for="middleName">Middle Name</label>
+              <input pInputText id="middleName" formControlName="middleName" />
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+              <label for="lastName">Last Name</label>
+              <input pInputText id="lastName" formControlName="lastName" />
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+              <label for="email">Email</label>
+              <input pInputText id="email" formControlName="email" />
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+              <label for="alternateEmail">Alternate Email</label>
+              <input pInputText id="alternateEmail" formControlName="alternateEmail" />
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+              <label for="mobile">Mobile</label>
+              <input pInputText id="mobile" formControlName="mobile" />
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+              <label for="alternateMobile">Alternate Mobile</label>
+              <input pInputText id="alternateMobile" formControlName="alternateMobile" />
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+              <label>Gender</label>
+              <div class="radio-group">
+                <label for="male">Male</label>
+                <p-radioButton name="gender" value="Male" label="Male" formControlName="gender"
+                  appFormValidator>Male</p-radioButton>
+                <label for="female">Female</label>
+                <p-radioButton name="gender" value="Female" label="Female"
+                  formControlName="gender">Female</p-radioButton>
+              </div>
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+              <label for="dob">Date of Birth</label>
+              <p-datePicker id="dob" formControlName="dob" dateFormat="dd/mm/yy"></p-datePicker>
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+              <!-- <label for="caste">Caste</label>
+              <input pInputText id="caste" formControlName="caste" /> -->
+              <label for="caste">Caste</label>
+              <p-select id="caste" [options]="casteOptions" formControlName="caste" placeholder="Select Caste"
+                appFormValidator [style]="{ height: '38px' }" appendTo="body"></p-select>
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+              <label for="community">Community</label>
+              <!-- <input pInputText id="community" formControlName="community" /> -->
+              <p-select id="community" [options]="communityOptions" formControlName="community"
+                [style]="{ height: '38px' }" placeholder="Select Community" appendTo="body" appFormValidator></p-select>
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+              <label for="maritalStatus">Marital Status</label>
+              <p-select id="maritalStatus" formControlName="maritalStatus" [options]="maritalStatusOptions"
+                placeholder="Select Marital Status">
+              </p-select>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="getSectionMode('basicDetails') === 'edit'">
+          <p-button (click)="saveBasicDetails()" severity="success" icon="pi pi-check" [rounded]="true"
+            [outlined]="true">
+          </p-button>
+          <p-button (click)="onCancel('basicDetails')" icon="pi pi-times" [rounded]="true" severity="warn"
+            [outlined]="true">
+          </p-button>
+        </div>
+
+
+        <!-- <div class="form-actions mt-3">
+          <p-button class="p-button p-button-sm p-button-success" (click)="saveFamily($index)">Save</p-button>
+          <p-button class="p-button p-button-sm p-button-secondary"
+            (click)="cancelFamily($index)">Cancel</p-button>
+        </div> -->
+      </form>
+    </p-card>
+
+    <!-- Family Details Card -->
+    <p-card class="card position-relative">
+      <div class="card-title">Family Details</div>
+      <p-button pTooltip="Add family" severity="success" [outlined]="true" icon="pi pi-plus" [rounded]="true"
+        tooltipPosition="top" (click)="addFamily()" title="Add Family Member">
+      </p-button>
+
+      <p-tabs [value]="selectedFamilyIndex" scrollable>
+        <p-tablist>
+          @for (family of families.controls; track $index) {
+          <p-tab [value]="$index">
+            {{
+            asFormGroup(family).get("memberRelation")?.value ||
+            "Member " + ($index + 1)
+            }}
+
+            <!-- Edit Icon -->
+            <p-button severity="success" [outlined]="true" icon="pi pi-pencil" [rounded]="true"
+              (click)="editFamilyTab($index); $event.stopPropagation()"
+              *ngIf="getSectionMode('families', $index) === 'view'" pTooltip="Edit" tooltipPosition="top">
+            </p-button>
+
+            <!-- Delete Icon -->
+            <p-button severity="danger" [outlined]="true" icon="pi pi-trash" [rounded]="true"
+              (click)="confirmDelete($index); $event.stopPropagation()" *ngIf="families.controls.length > 1">
+            </p-button>
+          </p-tab>
+          }
+        </p-tablist>
+
+        <p-tabpanels>
+          @for (familyForm of families.controls; track $index) {
+          <p-tabpanel [value]="$index">
+            <form [formGroup]="asFormGroup(familyForm)">
+              <ng-container *ngIf="getSectionMode('families', $index) === 'edit'; else viewFamilyForm">
+                <div class="form-grid">
+                  <!-- All family fields in edit mode -->
+                  <div class="form-field">
+                    <label for="memberName">Member Name</label>
+                    <input id="memberName" type="text" pInputText formControlName="memberName" appFormValidator
+                      placeholder="Enter member name" />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="memberRelation">Relation</label>
+                    <p-select id="memberRelation" [options]="relationOptions" formControlName="memberRelation"
+                      [style]="{ height: '38px' }" appFormValidator placeholder="Select relation"></p-select>
+                  </div>
+
+                  <div class="form-field">
+                    <label>Member Gender</label>
+                    <div class="radio-group">
+                      <p-radioButton name="memberGender" value="Male" label="Male" formControlName="memberGender"
+                        appFormValidator></p-radioButton>
+                      <p-radioButton name="memberGender" value="Female" label="Female"
+                        formControlName="memberGender"></p-radioButton>
+                    </div>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="memberDob">Date Of Birth</label>
+                    <p-datePicker id="memberDob" [showIcon]="true" formControlName="memberDob" appFormValidator
+                      placeholder="Select date of birth"></p-datePicker>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="memberOccupation">Occupation</label>
+                    <input id="memberOccupation" type="text" pInputText formControlName="memberOccupation"
+                      placeholder="Enter occupation" />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="memberOrg">Organization</label>
+                    <input id="memberOrg" type="text" pInputText formControlName="memberOrg"
+                      placeholder="Enter organization" />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="memberStatus">Status</label>
+                    <p-select id="memberStatus" [options]="statusOptions" formControlName="memberStatus"
+                      [style]="{ height: '38px' }" appFormValidator placeholder="Select status"></p-select>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="memberEmail">Email</label>
+                    <input id="memberEmail" type="email" pInputText formControlName="memberEmail" appFormValidator
+                      placeholder="Enter email" />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="memberMobile">Mobile</label>
+                    <input id="memberMobile" type="text" pInputText formControlName="memberMobile" appFormValidator
+                      maxlength="10" placeholder="Enter 10-digit mobile number" />
+                  </div>
+
+                  <!-- Save / Cancel -->
+                  <div class="form-actions mt-3">
+                    <p-button severity="success" icon="pi pi-check" [rounded]="true" [outlined]="true"
+                      (click)="saveFamily($index)"></p-button>
+                    <p-button icon="pi pi-times" [rounded]="true" severity="warn" [outlined]="true"
+                      (click)="cancelFamily($index)"></p-button>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-template #viewFamilyForm>
+                <div class="view-grid">
+                  <div class="view-field" *ngIf="familyForm.get('memberName')?.value">
+                    <strong>Name:</strong> {{ familyForm.get('memberName')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="familyForm.get('memberRelation')?.value">
+                    <strong>Relation:</strong> {{ familyForm.get('memberRelation')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="familyForm.get('memberGender')?.value">
+                    <strong>Gender:</strong> {{ familyForm.get('memberGender')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="familyForm.get('memberDob')?.value">
+                    <strong>DOB:</strong> {{ familyForm.get('memberDob')?.value | date: 'dd/MM/yyyy' }}
+                  </div>
+                  <div class="view-field" *ngIf="familyForm.get('memberOccupation')?.value">
+                    <strong>Occupation:</strong> {{ familyForm.get('memberOccupation')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="familyForm.get('memberOrg')?.value">
+                    <strong>Organisation:</strong> {{ familyForm.get('memberOrg')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="familyForm.get('memberStatus')?.value">
+                    <strong>Status:</strong> {{ familyForm.get('memberStatus')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="familyForm.get('memberEmail')?.value">
+                    <strong>Email:</strong> {{ familyForm.get('memberEmail')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="familyForm.get('memberMobile')?.value">
+                    <strong>Mobile:</strong> {{ familyForm.get('memberMobile')?.value }}
+                  </div>
+                </div>
+              </ng-template>
+            </form>
+          </p-tabpanel>
+          }
+        </p-tabpanels>
+      </p-tabs>
+    </p-card>
+  </div>
+
+  <div class="card-grid">
+    <!-- Address Details Card -->
+    <p-card class="card position-relative">
+      <div class="card-title">Address Details</div>
+      <p-button severity="success" [outlined]="true" icon="pi pi-plus" [rounded]="true" pTooltip="Add address"
+        tooltipPosition="top" (click)="addAddress()" title="Add Address">
+      </p-button>
+
+      <p-tabs [value]="selectedAddressIndex" scrollable>
+        <p-tablist>
+          @for (address of addresses.controls; track $index) {
+          <p-tab [value]="$index">
+            {{
+            asFormGroup(address).get("addressType")?.value ||
+            "Address " + ($index + 1)
+            }}
+
+            <!-- Edit Icon -->
+            <p-button severity="success" [outlined]="true" icon="pi pi-pencil" [rounded]="true"
+              (click)="editAddressTab($index); $event.stopPropagation()"
+              *ngIf="getSectionMode('addresses', $index) === 'view'" pTooltip="Edit" tooltipPosition="top">
+            </p-button>
+
+            <!-- Delete Icon -->
+            <p-button severity="danger" [outlined]="true" icon="pi pi-trash" [rounded]="true"
+              (click)="removeAddress($index); $event.stopPropagation()" *ngIf="addresses.controls.length > 1">
+            </p-button>
+          </p-tab>
+          }
+        </p-tablist>
+
+        <p-tabpanels>
+          @for (addressForm of addresses.controls; track $index) {
+          <p-tabpanel [value]="$index">
+            <form [formGroup]="asFormGroup(addressForm)">
+              <ng-container *ngIf="getSectionMode('addresses', $index) === 'edit'; else viewAddressForm">
+                <div class="form-grid">
+                  <!-- All address fields in edit mode -->
+                  <div class="form-field">
+                    <label for="addressType">Address Type</label>
+                    <p-select id="addressType" formControlName="addressType" [options]="addressTypeOptions"
+                      placeholder="Select Type"></p-select>
+                  </div>
+                  <div class="form-field">
+                    <label for="addressLine1">Address Line 1</label>
+                    <input id="addressLine1" pInputText formControlName="addressLine1"
+                      placeholder="Enter address line 1" />
+                  </div>
+                  <div class="form-field">
+                    <label for="addressLine2">Address Line 2</label>
+                    <input id="addressLine2" pInputText formControlName="addressLine2"
+                      placeholder="Enter address line 2" />
+                  </div>
+                  <div class="form-field">
+                    <label for="unitNumber">Unit Number</label>
+                    <input id="unitNumber" pInputText formControlName="unitNumber" placeholder="Enter unit number" />
+                  </div>
+                  <div class="form-field">
+                    <label for="unitName">Unit Name</label>
+                    <input id="unitName" pInputText formControlName="unitName" placeholder="Enter unit name" />
+                  </div>
+                  <div class="form-field">
+                    <label for="locality">Locality</label>
+                    <input id="locality" pInputText formControlName="locality" placeholder="Enter locality" />
+                  </div>
+                  <div class="form-field">
+                    <label for="city">City</label>
+                    <input id="city" pInputText formControlName="city" placeholder="Enter city" />
+                  </div>
+                  <div class="form-field">
+                    <label for="district">District</label>
+                    <input id="district" pInputText formControlName="district" placeholder="Enter district" />
+                  </div>
+                  <div class="form-field">
+                    <label for="state">State</label>
+                    <input id="state" pInputText formControlName="state" placeholder="Enter state" />
+                  </div>
+                  <div class="form-field">
+                    <label for="postalCode">Postal Code</label>
+                    <input id="postalCode" pInputText formControlName="postalCode" placeholder="Enter postal code" />
+                  </div>
+                  <div class="form-field">
+                    <label for="countryCode">Country Code</label>
+                    <input id="countryCode" pInputText formControlName="countryCode" placeholder="Enter country code" />
+                  </div>
+                  <div class="form-field">
+                    <label for="countryName">Country</label>
+                    <input id="countryName" pInputText formControlName="countryName" placeholder="Enter country" />
+                  </div>
+                  <div class="form-field">
+                    <label for="latitude">Latitude</label>
+                    <input id="latitude" pInputText formControlName="latitude" placeholder="Enter latitude" />
+                  </div>
+                  <div class="form-field">
+                    <label for="longitude">Longitude</label>
+                    <input id="longitude" pInputText formControlName="longitude" placeholder="Enter longitude" />
+                  </div>
+                  <div class="form-field">
+                    <label for="region">Region</label>
+                    <input id="region" pInputText formControlName="region" placeholder="Enter region" />
+                  </div>
+                  <div class="form-field">
+                    <label for="landmark">Landmark</label>
+                    <input id="landmark" pInputText formControlName="landmark" placeholder="Enter landmark" />
+                  </div>
+
+                  <!-- Save / Cancel -->
+                  <div class="form-actions mt-3">
+                    <p-button severity="success" icon="pi pi-check" [rounded]="true" [outlined]="true"
+                      (click)="saveAddress($index)"></p-button>
+                    <p-button icon="pi pi-times" [rounded]="true" severity="warn" [outlined]="true"
+                      (click)="cancelAddress($index)"></p-button>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-template #viewAddressForm>
+                <div class="view-grid">
+                  <div class="view-field" *ngIf="addressForm.get('addressType')?.value">
+                    <strong>Type:</strong> {{ addressForm.get('addressType')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="addressForm.get('addressLine1')?.value">
+                    <strong>Address Line 1:</strong> {{ addressForm.get('addressLine1')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="addressForm.get('addressLine2')?.value">
+                    <strong>Address Line 2:</strong> {{ addressForm.get('addressLine2')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="addressForm.get('unitNumber')?.value">
+                    <strong>Unit Number:</strong> {{ addressForm.get('unitNumber')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="addressForm.get('unitName')?.value">
+                    <strong>Unit Name:</strong> {{ addressForm.get('unitName')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="addressForm.get('locality')?.value">
+                    <strong>Locality:</strong> {{ addressForm.get('locality')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="addressForm.get('city')?.value">
+                    <strong>City:</strong> {{ addressForm.get('city')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="addressForm.get('district')?.value">
+                    <strong>District:</strong> {{ addressForm.get('district')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="addressForm.get('state')?.value">
+                    <strong>State:</strong> {{ addressForm.get('state')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="addressForm.get('postalCode')?.value">
+                    <strong>Postal Code:</strong> {{ addressForm.get('postalCode')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="addressForm.get('countryName')?.value">
+                    <strong>Country:</strong> {{ addressForm.get('countryName')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="addressForm.get('region')?.value">
+                    <strong>Region:</strong> {{ addressForm.get('region')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="addressForm.get('landmark')?.value">
+                    <strong>Landmark:</strong> {{ addressForm.get('landmark')?.value }}
+                  </div>
+                </div>
+              </ng-template>
+            </form>
+          </p-tabpanel>
+          }
+        </p-tabpanels>
+      </p-tabs>
+    </p-card>
+
+    <!-- Education Details Card -->
+    <p-card class="card position-relative">
+      <div class="card-title">Education Details</div>
+      <p-button severity="success" [outlined]="true" icon="pi pi-plus" [rounded]="true" pTooltip="Add education"
+        tooltipPosition="top" (click)="addEducation()" title="Add Education">
+      </p-button>
+
+      <p-tabs [value]="selectedEducationIndex" scrollable>
+        <p-tablist>
+          @for (education of educations.controls; track $index) {
+          <p-tab [value]="$index">
+            {{
+            asFormGroup(education).get("courseName")?.value ||
+            "Education " + ($index + 1)
+            }}
+
+            <!-- Edit Icon -->
+            <p-button severity="success" [outlined]="true" icon="pi pi-pencil" [rounded]="true"
+              (click)="editEducationTab($index); $event.stopPropagation()"
+              *ngIf="getSectionMode('educations', $index) === 'view'" pTooltip="Edit" tooltipPosition="top">
+            </p-button>
+
+            <!-- Delete Icon -->
+            <p-button severity="danger" [outlined]="true" icon="pi pi-trash" [rounded]="true"
+              (click)="removeEducation($index); $event.stopPropagation()" *ngIf="educations.controls.length > 1">
+            </p-button>
+          </p-tab>
+          }
+        </p-tablist>
+
+        <p-tabpanels>
+          @for (educationForm of educations.controls; track $index) {
+          <p-tabpanel [value]="$index">
+            <form [formGroup]="asFormGroup(educationForm)">
+              <ng-container *ngIf="getSectionMode('educations', $index) === 'edit'; else viewEducationForm">
+                <div class="form-grid">
+                  <!-- All education fields in edit mode -->
+                  <div class="form-field">
+                    <label for="courseName">Course Name</label>
+                    <input id="courseName" pInputText formControlName="courseName" placeholder="Enter course name" />
+                  </div>
+                  <div class="form-field">
+                    <label for="courseSubject">Course Subject</label>
+                    <input id="courseSubject" pInputText formControlName="courseSubject"
+                      placeholder="Enter course subject" />
+                  </div>
+                  <div class="form-field">
+                    <label for="collegeName">College Name</label>
+                    <input id="collegeName" pInputText formControlName="collegeName" placeholder="Enter college name" />
+                  </div>
+                  <div class="form-field">
+                    <label for="collegeCity">College City</label>
+                    <input id="collegeCity" pInputText formControlName="collegeCity" placeholder="Enter college city" />
+                  </div>
+                  <div class="form-field">
+                    <label for="collegeState">College State</label>
+                    <input id="collegeState" pInputText formControlName="collegeState"
+                      placeholder="Enter college state" />
+                  </div>
+                  <div class="form-field">
+                    <label for="universityName">University Name</label>
+                    <input id="universityName" pInputText formControlName="universityName"
+                      placeholder="Enter university name" />
+                  </div>
+                  <div class="form-field">
+                    <label for="boardName">Board Name</label>
+                    <input id="boardName" pInputText formControlName="boardName" placeholder="Enter board name" />
+                  </div>
+                  <div class="form-field">
+                    <label for="startDate">Start Date</label>
+                    <p-datePicker id="startDate" formControlName="startDate" dateFormat="dd/mm/yy"
+                      placeholder="Select start date"></p-datePicker>
+                  </div>
+                  <div class="form-field">
+                    <label for="endDate">End Date</label>
+                    <p-datePicker id="endDate" formControlName="endDate" dateFormat="dd/mm/yy"
+                      placeholder="Select end date"></p-datePicker>
+                  </div>
+                  <div class="form-field">
+                    <label for="obtainMarks">Obtained Marks</label>
+                    <input id="obtainMarks" pInputText formControlName="obtainMarks"
+                      placeholder="Enter obtained marks" />
+                  </div>
+                  <div class="form-field">
+                    <label for="maxMarks">Maximum Marks</label>
+                    <input id="maxMarks" pInputText formControlName="maxMarks" placeholder="Enter maximum marks" />
+                  </div>
+                  <div class="form-field">
+                    <label for="status">Status</label>
+                    <p-select id="status" formControlName="status" [options]="educationStatusOptions"
+                      placeholder="Select Status"></p-select>
+                  </div>
+
+                  <!-- Save / Cancel -->
+                  <div class="form-actions mt-3">
+                    <p-button severity="success" icon="pi pi-check" [rounded]="true" [outlined]="true"
+                      (click)="saveEducation($index)"></p-button>
+                    <p-button icon="pi pi-times" [rounded]="true" severity="warn" [outlined]="true"
+                      (click)="cancelEducation($index)"></p-button>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-template #viewEducationForm>
+                <div class="view-grid">
+                  <div class="view-field" *ngIf="educationForm.get('courseName')?.value">
+                    <strong>Course Name:</strong> {{ educationForm.get('courseName')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="educationForm.get('courseSubject')?.value">
+                    <strong>Course Subject:</strong> {{ educationForm.get('courseSubject')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="educationForm.get('collegeName')?.value">
+                    <strong>College:</strong> {{ educationForm.get('collegeName')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="educationForm.get('collegeCity')?.value">
+                    <strong>College City:</strong> {{ educationForm.get('collegeCity')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="educationForm.get('collegeState')?.value">
+                    <strong>College State:</strong> {{ educationForm.get('collegeState')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="educationForm.get('universityName')?.value">
+                    <strong>University:</strong> {{ educationForm.get('universityName')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="educationForm.get('boardName')?.value">
+                    <strong>Board Name:</strong> {{ educationForm.get('boardName')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="educationForm.get('startDate')?.value">
+                    <strong>Start Date:</strong> {{ educationForm.get('startDate')?.value | date}}
+                  </div>
+                  <div class="view-field" *ngIf="educationForm.get('endDate')?.value">
+                    <strong>End Date:</strong> {{ educationForm.get('endDate')?.value | date}}
+                  </div>
+                  <div class="view-field" *ngIf="educationForm.get('obtainMarks')?.value">
+                    <strong>Obtain Marks:</strong> {{ educationForm.get('obtainMarks')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="educationForm.get('maxMarks')?.value">
+                    <strong>Max Marks:</strong> {{ educationForm.get('maxMarks')?.value }}
+                  </div>
+                  <div class="view-field" *ngIf="educationForm.get('status')?.value">
+                    <strong>Status:</strong> {{ educationForm.get('status')?.value }}
+                  </div>
+                </div>
+              </ng-template>
+            </form>
+          </p-tabpanel>
+          }
+        </p-tabpanels>
+      </p-tabs>
+    </p-card>
+  </div>
+  <div class="card-grid">
+    <p-card class="card position-relative">
+      <div class="card-title">Experience Details</div>
+      <p-button severity="success" [outlined]="true" icon="pi pi-plus" [rounded]="true" pTooltip="Add experience"
+        tooltipPosition="top" (click)="addExperience()" title="Add Experience">
+      </p-button>
+
+      <p-tabs [value]="selectedExperienceIndex" scrollable>
+        <p-tablist>
+          @for (experience of experiences.controls; track $index) {
+          <p-tab [value]="$index">
+            {{
+            asFormGroup(experience).get("institutionName")?.value ||
+            "Experience " + ($index + 1)
+            }}
+
+            <!-- Edit Icon -->
+            <p-button severity="success" [outlined]="true" icon="pi pi-pencil" [rounded]="true"
+              (click)="editExperienceTab($index); $event.stopPropagation()"
+              *ngIf="getSectionMode('experiences', $index) === 'view'" pTooltip="Edit" tooltipPosition="top">
+            </p-button>
+
+            <!-- Delete Icon -->
+            <p-button severity="danger" [outlined]="true" icon="pi pi-trash" [rounded]="true"
+              (click)="removeExperience($index); $event.stopPropagation()" *ngIf="experiences.controls.length > 1">
+            </p-button>
+          </p-tab>
+          }
+        </p-tablist>
+
+        <p-tabpanels>
+          @for (experienceForm of experiences.controls; track $index) {
+          <p-tabpanel [value]="$index">
+            <form [formGroup]="asFormGroup(experienceForm)">
+              <ng-container *ngIf="getSectionMode('experiences', $index) === 'edit'; else viewExperienceForm">
+                <div class="form-grid">
+                  <div class="form-field">
+                    <label for="institutionName">Institution/Company Name <span class="required">*</span></label>
+                    <input id="institutionName" pInputText formControlName="institutionName"
+                      placeholder="Enter institution/company name" />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="designation">Designation <span class="required">*</span></label>
+                    <input id="designation" pInputText formControlName="designation" placeholder="Enter designation" />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="skills">Skills</label>
+                    <input id="skills" pInputText formControlName="skills"
+                      placeholder="Enter skills (comma separated)" />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="joiningDate">Joining Date <span class="required">*</span></label>
+                    <p-datePicker id="joiningDate" formControlName="joiningDate" dateFormat="dd/mm/yy"
+                      placeholder="Select joining date"></p-datePicker>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="leavingDate">Leaving Date</label>
+                    <p-datePicker id="leavingDate" formControlName="leavingDate" dateFormat="dd/mm/yy"
+                      placeholder="Select leaving date"></p-datePicker>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="leavingReason">Leaving Reason</label>
+                    <input id="leavingReason" pInputText formControlName="leavingReason"
+                      placeholder="Enter leaving reason" />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="status">Status</label>
+                    <p-select id="status" formControlName="status" [options]="expStatusOptions"
+                      placeholder="Select status"></p-select>
+                  </div>
+
+                  <div class="form-field full-width">
+                    <label for="remark">Remark</label>
+                    <input id="remark" pInputText formControlName="remark" rows="3" placeholder="Enter remark" />
+                  </div>
+
+                  <!-- <div class="form-field full-width">
+                    <label for="experienceDocuments">Experience Documents</label>
+                    <p-fileUpload id="experienceDocuments" mode="basic" [multiple]="true"
+                      accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" maxFileSize="5000000" chooseLabel="Choose Files"
+                      (onSelect)="onDocumentSelect($event, $index)">
+                    </p-fileUpload>
+
+                    <div class="uploaded-files" *ngIf="getUploadedDocuments($index).length > 0">
+                      <div class="file-item" *ngFor="let doc of getUploadedDocuments($index); let i = index">
+                        <i class="pi pi-file"></i>
+                        <span>{{ doc.name }}</span>
+                        <p-button class="p-button p-button-text p-button-sm p-button-danger"
+                          (click)="removeDocument($index, i)">
+                          <i class="pi pi-times"></i>
+                        </p-button>
+                      </div>
+                    </div>
+                  </div> -->
+
+                  <!-- Save / Cancel -->
+                  <div class="form-actions mt-3">
+                    <p-button severity="success" icon="pi pi-check" [rounded]="true" [outlined]="true"
+                      (click)="saveExperience($index)"></p-button>
+                    <p-button icon="pi pi-times" [rounded]="true" severity="warn" [outlined]="true"
+                      (click)="cancelExperience($index)"></p-button>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-template #viewExperienceForm>
+                <div class="view-grid">
+                  <div class="view-field" *ngIf="experienceForm.get('institutionName')?.value">
+                    <strong>Institution/Company:</strong> {{ experienceForm.get('institutionName')?.value }}
+                  </div>
+
+                  <div class="view-field" *ngIf="experienceForm.get('designation')?.value">
+                    <strong>Designation:</strong> {{ experienceForm.get('designation')?.value }}
+                  </div>
+
+                  <div class="view-field" *ngIf="experienceForm.get('skills')?.value">
+                    <strong>Skills:</strong> {{ experienceForm.get('skills')?.value }}
+                  </div>
+
+                  <div class="view-field" *ngIf="experienceForm.get('joiningDate')?.value">
+                    <strong>Joining Date:</strong> {{ experienceForm.get('joiningDate')?.value | date }}
+                  </div>
+
+                  <div class="view-field" *ngIf="experienceForm.get('leavingDate')?.value">
+                    <strong>Leaving Date:</strong> {{ experienceForm.get('leavingDate')?.value | date }}
+                  </div>
+
+                  <div class="view-field" *ngIf="experienceForm.get('leavingReason')?.value">
+                    <strong>Leaving Reason:</strong> {{ experienceForm.get('leavingReason')?.value }}
+                  </div>
+
+                  <div class="view-field" *ngIf="experienceForm.get('status')?.value">
+                    <strong>Status:</strong> {{ experienceForm.get('status')?.value }}
+                  </div>
+
+                  <div class="view-field full-width" *ngIf="experienceForm.get('remark')?.value">
+                    <strong>Remark:</strong> {{ experienceForm.get('remark')?.value }}
+                  </div>
+
+                  <!-- <div class="view-field full-width" *ngIf="getUploadedDocuments($index).length > 0">
+                    <strong>Experience Documents:</strong>
+                    <div class="document-list">
+                      <div class="document-item" *ngFor="let doc of getUploadedDocuments($index)">
+                        <i class="pi pi-file"></i>
+                        <span>{{ doc.name }}</span>
+                        <p-button class="p-button p-button-text p-button-sm"
+                          (click)="downloadDocument(doc)">
+                          <i class="pi pi-download"></i>
+                        </p-button>
+                      </div>
+                    </div>
+                  </div> -->
+                </div>
+              </ng-template>
+            </form>
+          </p-tabpanel>
+          }
+        </p-tabpanels>
+      </p-tabs>
+    </p-card>
+    <p-card class="card position-relative">
+      <div class="card-title">Vehicle Details</div>
+      <p-button severity="success" [outlined]="true" icon="pi pi-plus" [rounded]="true" pTooltip="Add vehicle"
+        tooltipPosition="top" (click)="addVehicle()" title="Add Vehicle">
+      </p-button>
+
+      <p-tabs [value]="selectedVehicleIndex" scrollable>
+        <p-tablist>
+          @for (vehicle of vehicles.controls; track $index) {
+          <p-tab [value]="$index">
+            {{
+            asFormGroup(vehicle).get("registrationNumber")?.value ||
+            "Vehicle " + ($index + 1)
+            }}
+
+            <!-- Edit Icon -->
+            <p-button severity="success" [outlined]="true" icon="pi pi-pencil" [rounded]="true"
+              (click)="editVehicleTab($index); $event.stopPropagation()"
+              *ngIf="getSectionMode('vehicles', $index) === 'view'" pTooltip="Edit" tooltipPosition="top">
+            </p-button>
+
+            <!-- Delete Icon -->
+            <p-button severity="danger" [outlined]="true" icon="pi pi-trash" [rounded]="true"
+              (click)="removeVehicle($index); $event.stopPropagation()" *ngIf="vehicles.controls.length > 1">
+            </p-button>
+          </p-tab>
+          }
+        </p-tablist>
+
+        <p-tabpanels>
+          @for (vehicleForm of vehicles.controls; track $index) {
+          <p-tabpanel [value]="$index">
+            <form [formGroup]="asFormGroup(vehicleForm)">
+              <ng-container *ngIf="getSectionMode('vehicles', $index) === 'edit'; else viewVehicleForm">
+                <div class="form-grid">
+                  <!-- Basic Vehicle Information -->
+                  <div class="form-field">
+                    <label for="registrationNumber">Registration Number <span class="required">*</span></label>
+                    <input id="registrationNumber" pInputText formControlName="registrationNumber"
+                      placeholder="Enter registration number" />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="registrationDate">Registration Date <span class="required">*</span></label>
+                    <p-datePicker id="registrationDate" formControlName="registrationDate" dateFormat="dd/mm/yy"
+                      placeholder="Select registration date"></p-datePicker>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="chassisNumber">Chassis Number <span class="required">*</span></label>
+                    <input id="chassisNumber" pInputText formControlName="chassisNumber"
+                      placeholder="Enter chassis number" />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="engineNumber">Engine Number <span class="required">*</span></label>
+                    <input id="engineNumber" pInputText formControlName="engineNumber"
+                      placeholder="Enter engine number" />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="brandName">Brand Name <span class="required">*</span></label>
+                    <input id="brandName" pInputText formControlName="brandName" placeholder="Enter brand name" />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="vehicleType">Vehicle Type <span class="required">*</span></label>
+                    <p-select id="vehicleType" formControlName="vehicleType" [options]="vehicleTypeOptions"
+                      placeholder="Select vehicle type"></p-select>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="fuelType">Fuel Type <span class="required">*</span></label>
+                    <p-select id="fuelType" formControlName="fuelType" [options]="fuelTypeOptions"
+                      placeholder="Select fuel type"></p-select>
+                  </div>
+
+                  <!-- Driving License Details -->
+                  <div class="section-header full-width">
+                    <h4>Driving License Details</h4>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="dlNumber">DL Number</label>
+                    <input id="dlNumber" pInputText formControlName="dlNumber"
+                      placeholder="Enter driving license number" />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="dlExpireDate">DL Expire Date</label>
+                    <p-datePicker id="dlExpireDate" formControlName="dlExpireDate" dateFormat="dd/mm/yy"
+                      placeholder="Select DL expire date"></p-datePicker>
+                  </div>
+
+                  <!-- Insurance Details -->
+                  <div class="section-header full-width">
+                    <h4>Insurance Details</h4>
+                  </div>
+
+                  <div class="form-field">
+                    <!-- <label for="isInsured">Is Insured</label>
+                    <p-select id="isInsured" formControlName="isInsured" [options]="booleanOptions"
+                      placeholder="Select insurance status"
+                      (onChange)="onInsuranceStatusChange($event, $index)"></p-select> -->
+                    <label for="isInsured">Insured?</label>
+                    <p-checkbox formControlName="isInsured" label="Insured" binary="true"></p-checkbox>
+                  </div>
+
+                  <div class="form-field" *ngIf="asFormGroup(vehicleForm).get('isInsured')?.value">
+                    <label for="insuranceId">Insurance ID</label>
+                    <input id="insuranceId" pInputText formControlName="insuranceId" placeholder="Enter insurance ID" />
+                  </div>
+
+                  <div class="form-field" *ngIf="asFormGroup(vehicleForm).get('isInsured')?.value">
+                    <label for="insuranceCompanyName">Insurance Company</label>
+                    <input id="insuranceCompanyName" pInputText formControlName="insuranceCompanyName"
+                      placeholder="Enter insurance company name" />
+                  </div>
+
+                  <div class="form-field" *ngIf="asFormGroup(vehicleForm).get('isInsured')?.value">
+                    <label for="insuranceType">Insurance Type</label>
+                    <p-select id="insuranceType" formControlName="insuranceType" [options]="insuranceTypeOptions"
+                      placeholder="Select insurance type"></p-select>
+                  </div>
+
+                  <div class="form-field" *ngIf="asFormGroup(vehicleForm).get('isInsured')?.value">
+                    <label for="insuranceExpireDate">Insurance Expire Date</label>
+                    <p-datePicker id="insuranceExpireDate" formControlName="insuranceExpireDate" dateFormat="dd/mm/yy"
+                      placeholder="Select insurance expire date"></p-datePicker>
+                  </div>
+
+                  <!-- PUC Certificate Details -->
+                  <div class="section-header full-width">
+                    <h4>PUC Certificate Details</h4>
+                  </div>
+
+                  <div class="form-field">
+                    <!-- <label for="isPucCertificated">Has PUC Certificate</label>
+                    <p-select id="isPucCertificated" formControlName="isPucCertificated" [options]="booleanOptions"
+                      placeholder="Select PUC status" (onChange)="onPucStatusChange($event, $index)"></p-select> -->
+                    <label for="isPucCertificated">PUC Certified</label>
+                    <p-checkbox formControlName="isPucCertificated" label="isPucCertificated" binary="true"
+                      appFormValidator></p-checkbox>
+                  </div>
+
+                  <div class="form-field" *ngIf="asFormGroup(vehicleForm).get('isPucCertificated')?.value">
+                    <label for="pucCertificateId">PUC Certificate ID</label>
+                    <input id="pucCertificateId" pInputText formControlName="pucCertificateId"
+                      placeholder="Enter PUC certificate ID" />
+                  </div>
+
+                  <div class="form-field" *ngIf="asFormGroup(vehicleForm).get('isPucCertificated')?.value">
+                    <label for="pucExpireDate">PUC Expire Date</label>
+                    <p-datePicker id="pucExpireDate" formControlName="pucExpireDate" dateFormat="dd/mm/yy"
+                      placeholder="Select PUC expire date"></p-datePicker>
+                  </div>
+
+                  <div class="form-field full-width">
+                    <label for="remark">Remark</label>
+                    <input id="remark" pInputText formControlName="remark" rows="3" placeholder="Enter remark" />
+                  </div>
+
+                  <!-- <div class="form-field full-width">
+                    <label for="vehicleDocuments">Vehicle Documents</label>
+                    <p-fileUpload id="vehicleDocuments" mode="basic" [multiple]="true"
+                      accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" maxFileSize="5000000" chooseLabel="Choose Files"
+                      (onSelect)="onDocumentSelect($event, $index)">
+                    </p-fileUpload>
+
+                    <div class="uploaded-files" *ngIf="getUploadedDocuments($index).length > 0">
+                      <div class="file-item" *ngFor="let doc of getUploadedDocuments($index); let i = index">
+                        <i class="pi pi-file"></i>
+                        <span>{{ doc.name }}</span>
+                        <p-button class="p-button p-button-text p-button-sm p-button-danger"
+                          (click)="removeDocument($index, i)">
+                          <i class="pi pi-times"></i>
+                        </p-button>
+                      </div>
+                    </div>
+                  </div> -->
+
+                  <!-- Save / Cancel -->
+                  <div class="form-actions mt-3">
+                    <p-button severity="success" icon="pi pi-check" [rounded]="true" [outlined]="true"
+                      (click)="saveVehicle($index)"></p-button>
+                    <p-button icon="pi pi-times" [rounded]="true" severity="warn" [outlined]="true"
+                      (click)="cancelVehicle($index)"></p-button>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-template #viewVehicleForm>
+                <div class="view-grid">
+                  <!-- Basic Vehicle Information -->
+                  <div class="view-field" *ngIf="vehicleForm.get('registrationNumber')?.value">
+                    <strong>Registration Number:</strong> {{ vehicleForm.get('registrationNumber')?.value }}
+                  </div>
+
+                  <div class="view-field" *ngIf="vehicleForm.get('registrationDate')?.value">
+                    <strong>Registration Date:</strong> {{ vehicleForm.get('registrationDate')?.value | date }}
+                  </div>
+
+                  <div class="view-field" *ngIf="vehicleForm.get('chassisNumber')?.value">
+                    <strong>Chassis Number:</strong> {{ vehicleForm.get('chassisNumber')?.value }}
+                  </div>
+
+                  <div class="view-field" *ngIf="vehicleForm.get('engineNumber')?.value">
+                    <strong>Engine Number:</strong> {{ vehicleForm.get('engineNumber')?.value }}
+                  </div>
+
+                  <div class="view-field" *ngIf="vehicleForm.get('brandName')?.value">
+                    <strong>Brand Name:</strong> {{ vehicleForm.get('brandName')?.value }}
+                  </div>
+
+                  <div class="view-field" *ngIf="vehicleForm.get('vehicleType')?.value">
+                    <strong>Vehicle Type:</strong> {{ vehicleForm.get('vehicleType')?.value }}
+                  </div>
+
+                  <div class="view-field" *ngIf="vehicleForm.get('fuelType')?.value">
+                    <strong>Fuel Type:</strong> {{ vehicleForm.get('fuelType')?.value }}
+                  </div>
+
+                  <!-- Driving License Details -->
+                  <div class="section-header full-width"
+                    *ngIf="vehicleForm.get('dlNumber')?.value || vehicleForm.get('dlExpireDate')?.value">
+                    <h4>Driving License Details</h4>
+                  </div>
+
+                  <div class="view-field" *ngIf="vehicleForm.get('dlNumber')?.value">
+                    <strong>DL Number:</strong> {{ vehicleForm.get('dlNumber')?.value }}
+                  </div>
+
+                  <div class="view-field" *ngIf="vehicleForm.get('dlExpireDate')?.value">
+                    <strong>DL Expire Date:</strong> {{ vehicleForm.get('dlExpireDate')?.value | date }}
+                  </div>
+
+                  <!-- Insurance Details -->
+                  <div class="section-header full-width" *ngIf="vehicleForm.get('isInsured')?.value">
+                    <h4>Insurance Details</h4>
+                  </div>
+
+                  <div class="view-field" *ngIf="vehicleForm.get('isInsured')?.value">
+                    <strong>Insurance Status:</strong> {{ vehicleForm.get('isInsured')?.value ? 'Insured' :
+                    'Not Insured' }}
+                  </div>
+
+                  <div class="view-field"
+                    *ngIf="vehicleForm.get('insuranceId')?.value && vehicleForm.get('isInsured')?.value">
+                    <strong>Insurance ID:</strong> {{ vehicleForm.get('insuranceId')?.value }}
+                  </div>
+
+                  <div class="view-field"
+                    *ngIf="vehicleForm.get('insuranceCompanyName')?.value && vehicleForm.get('isInsured')?.value">
+                    <strong>Insurance Company:</strong> {{ vehicleForm.get('insuranceCompanyName')?.value }}
+                  </div>
+
+                  <div class="view-field"
+                    *ngIf="vehicleForm.get('insuranceType')?.value && vehicleForm.get('isInsured')?.value">
+                    <strong>Insurance Type:</strong> {{ vehicleForm.get('insuranceType')?.value }}
+                  </div>
+
+                  <div class="view-field"
+                    *ngIf="vehicleForm.get('insuranceExpireDate')?.value && vehicleForm.get('isInsured')?.value">
+                    <strong>Insurance Expire Date:</strong> {{ vehicleForm.get('insuranceExpireDate')?.value | date }}
+                  </div>
+
+                  <!-- PUC Certificate Details -->
+                  <div class="section-header full-width" *ngIf="vehicleForm.get('isPucCertificated')?.value">
+                    <h4>PUC Certificate Details</h4>
+                  </div>
+
+                  <div class="view-field" *ngIf="vehicleForm.get('isPucCertificated')?.value">
+                    <strong>PUC Status:</strong> {{ vehicleForm.get('isPucCertificated')?.value ? 'Certified'
+                    : 'Not Certified' }}
+                  </div>
+
+                  <div class="view-field"
+                    *ngIf="vehicleForm.get('pucCertificateId')?.value && vehicleForm.get('isPucCertificated')?.value">
+                    <strong>PUC Certificate ID:</strong> {{ vehicleForm.get('pucCertificateId')?.value }}
+                  </div>
+
+                  <div class="view-field"
+                    *ngIf="vehicleForm.get('pucExpireDate')?.value && vehicleForm.get('isPucCertificated')?.value">
+                    <strong>PUC Expire Date:</strong> {{ vehicleForm.get('pucExpireDate')?.value | date }}
+                  </div>
+
+                  <div class="view-field full-width" *ngIf="vehicleForm.get('remark')?.value">
+                    <strong>Remark:</strong> {{ vehicleForm.get('remark')?.value }}
+                  </div>
+
+                  <!-- <div class="view-field full-width" *ngIf="getUploadedDocuments($index).length > 0">
+                    <strong>Vehicle Documents:</strong>
+                    <div class="document-list">
+                      <div class="document-item" *ngFor="let doc of getUploadedDocuments($index)">
+                        <i class="pi pi-file"></i>
+                        <span>{{ doc.name }}</span>
+                        <p-button class="p-button p-button-text p-button-sm"
+                          (click)="downloadDocument(doc)">
+                          <i class="pi pi-download"></i>
+                        </p-button>
+                      </div>
+                    </div>
+                  </div> -->
+                </div>
+              </ng-template>
+            </form>
+          </p-tabpanel>
+          }
+        </p-tabpanels>
+      </p-tabs>
+    </p-card>
+  </div>
+  <div class="card-grid">
+    <p-card class="card position-relative">
+      <div class="card-title">Medical Details</div>
+      <p-button severity="success" [outlined]="true" icon="pi pi-plus" [rounded]="true" pTooltip="Add medical record"
+        tooltipPosition="top" (click)="addMedical()" title="Add Medical Record">
+      </p-button>
+
+      <p-tabs [value]="selectedMedicalIndex" scrollable>
+        <p-tablist>
+          @for (medical of medicals.controls; track $index) {
+          <p-tab [value]="$index">
+            {{
+            asFormGroup(medical).get("bloodGroup")?.value ||
+            "Medical " + ($index + 1)
+            }}
+
+            <!-- Edit Icon -->
+            <p-button severity="success" [outlined]="true" icon="pi pi-pencil" [rounded]="true"
+              (click)="editMedicalTab($index); $event.stopPropagation()"
+              *ngIf="getSectionMode('medicals', $index) === 'view'" pTooltip="Edit" tooltipPosition="top">
+            </p-button>
+            <p-button severity="danger" [outlined]="true" icon="pi pi-trash" [rounded]="true"
+              (click)="removeMedical($index); $event.stopPropagation()" *ngIf="medicals.controls.length > 1">
+            </p-button>
+          </p-tab>
+          }
+        </p-tablist>
+        <p-tabpanels>
+          @for (medicalForm of medicals.controls; track $index) {
+          <p-tabpanel [value]="$index">
+            <form [formGroup]="asFormGroup(medicalForm)">
+              <ng-container *ngIf="getSectionMode('medicals', $index) === 'edit'; else viewMedicalForm">
+                <div class="form-grid">
+                  <div class="form-field">
+                    <label for="bloodGroup">Blood Group</label>
+                    <p-select id="bloodGroup" [options]="bloodGroups" formControlName="bloodGroup"
+                      [style]="{ height: '38px' }" appFormValidator placeholder="Select blood group"></p-select>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="medicalHistory">Medical History</label>
+                    <input id="medicalHistory" pInputText formControlName="medicalHistory"
+                      placeholder="Enter medical history" rows="3" />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="diseases">Diseases</label>
+                    <input id="diseases" pInputText formControlName="diseases" placeholder="Enter diseases" rows="2" />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="medications">Medications</label>
+                    <input id="medications" pInputText formControlName="medications"
+                      placeholder="Enter current medications" rows="2" />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="symptoms">Symptoms</label>
+                    <input id="symptoms" pInputText formControlName="symptoms" placeholder="Enter current symptoms"
+                      rows="2" />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="vitals">Vitals</label>
+                    <input id="vitals" pInputText formControlName="vitals"
+                      placeholder="Enter vital signs (BP, Heart Rate, etc.)" rows="2" />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="diagnoses">Diagnoses</label>
+                    <input id="diagnoses" pInputText formControlName="diagnoses" placeholder="Enter medical diagnoses"
+                      rows="2" />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="treatments">Treatments</label>
+                    <input id="treatments" pInputText formControlName="treatments"
+                      placeholder="Enter treatments received" rows="2" />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="therapies">Therapies</label>
+                    <input id="therapies" pInputText formControlName="therapies" placeholder="Enter therapy details"
+                      rows="2" />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="psychosocial">Psychosocial</label>
+                    <input id="psychosocial" pInputText formControlName="psychosocial"
+                      placeholder="Enter psychosocial information" rows="2" />
+                  </div>
+
+                  <!-- Medical Documents Section -->
+                  <!-- <div class="form-field full-width" formArrayName="medicalDocuments">
+                    <label>Medical Documents</label>
+                    <div class="documents-container">
+                      <app-file-upload *ngFor="
+                    let doc of getDocumentsArray($index).controls;
+                    let docIndex = index
+                  " [formGroupName]="docIndex" [doc]="asFormGroup(doc)" [docIndex]="docIndex" [componentIndex]="$index"
+                        [allDocsInArray]="getDocumentsArray($index)" [documentOptions]="documentOptions"
+                        [parentFormContext]="'Medical'" (fileSelected)="onDocFileSelect($event)"
+                        (remove)="removeDocument($index, docIndex)"></app-file-upload>
+
+                      <p-button class="p-button p-button-sm p-button-secondary mt-2"
+                        (click)="addDocument($index)">
+                        <i class="pi pi-plus"></i> Add Document
+                      </p-button>
+                    </div>
+                  </div> -->
+
+                  <div class="form-actions mt-3">
+                    <p-button severity="success" icon="pi pi-check" [rounded]="true" [outlined]="true"
+                      (click)="saveMedical($index)"></p-button>
+                    <p-button icon="pi pi-times" [rounded]="true" severity="warn" [outlined]="true"
+                      (click)="cancelMedical($index)"></p-button>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-template #viewMedicalForm>
+                <div class="view-grid">
+                  <!-- Blood Group - Always show -->
+                  <div class="view-field" *ngIf="medicalForm.get('bloodGroup')?.value">
+                    <strong>Blood Group:</strong> {{ medicalForm.get('bloodGroup')?.value }}
+                  </div>
+
+                  <!-- Medical History - Show if present -->
+                  <div class="view-field"
+                    *ngIf="medicalForm.get('medicalHistory')?.value && medicalForm.get('medicalHistory')?.value !== 'None'">
+                    <strong>Medical History:</strong>
+                    <div class="field-content">{{ medicalForm.get('medicalHistory')?.value }}</div>
+                  </div>
+
+                  <!-- Diseases - Show if present -->
+                  <div class="view-field"
+                    *ngIf="medicalForm.get('diseases')?.value && medicalForm.get('diseases')?.value !== 'None'">
+                    <strong>Diseases:</strong>
+                    <div class="field-content">{{ medicalForm.get('diseases')?.value }}</div>
+                  </div>
+
+                  <!-- Medications - Show if present -->
+                  <div class="view-field"
+                    *ngIf="medicalForm.get('medications')?.value && medicalForm.get('medications')?.value !== 'None'">
+                    <strong>Medications:</strong>
+                    <div class="field-content">{{ medicalForm.get('medications')?.value }}</div>
+                  </div>
+
+                  <!-- Symptoms - Show if present -->
+                  <div class="view-field"
+                    *ngIf="medicalForm.get('symptoms')?.value && medicalForm.get('symptoms')?.value !== 'None'">
+                    <strong>Symptoms:</strong>
+                    <div class="field-content">{{ medicalForm.get('symptoms')?.value }}</div>
+                  </div>
+
+                  <!-- Vitals - Show if present -->
+                  <div class="view-field"
+                    *ngIf="medicalForm.get('vitals')?.value && medicalForm.get('vitals')?.value !== 'None'">
+                    <strong>Vitals:</strong>
+                    <div class="field-content">{{ medicalForm.get('vitals')?.value }}</div>
+                  </div>
+
+                  <!-- Diagnoses - Show if present -->
+                  <div class="view-field"
+                    *ngIf="medicalForm.get('diagnoses')?.value && medicalForm.get('diagnoses')?.value !== 'None'">
+                    <strong>Diagnoses:</strong>
+                    <div class="field-content">{{ medicalForm.get('diagnoses')?.value }}</div>
+                  </div>
+
+                  <!-- Treatments - Show if present -->
+                  <div class="view-field"
+                    *ngIf="medicalForm.get('treatments')?.value && medicalForm.get('treatments')?.value !== 'None'">
+                    <strong>Treatments:</strong>
+                    <div class="field-content">{{ medicalForm.get('treatments')?.value }}</div>
+                  </div>
+
+                  <!-- Therapies - Show if present -->
+                  <div class="view-field"
+                    *ngIf="medicalForm.get('therapies')?.value && medicalForm.get('therapies')?.value !== 'None'">
+                    <strong>Therapies:</strong>
+                    <div class="field-content">{{ medicalForm.get('therapies')?.value }}</div>
+                  </div>
+
+                  <!-- Psychosocial - Show if present -->
+                  <div class="view-field"
+                    *ngIf="medicalForm.get('psychosocial')?.value && medicalForm.get('psychosocial')?.value !== 'None'">
+                    <strong>Psychosocial:</strong>
+                    <div class="field-content">{{ medicalForm.get('psychosocial')?.value }}</div>
+                  </div>
+
+                  <!-- Medical Documents - Show if present -->
+                  <!-- <div class="view-field" *ngIf="getDocumentsArray($index).controls.length > 0">
+                    <strong>Medical Documents:</strong>
+                    <div class="documents-list">
+                      <div *ngFor="let doc of getDocumentsArray($index).controls" class="document-item">
+                        {{ asFormGroup(doc).get('fileName')?.value || 'Document' }}
+                      </div>
+                    </div>
+                  </div> -->
+
+                  <!-- Show message if no data -->
+                  <div class="view-field" *ngIf="!hasAnyMedicalData(medicalForm)">
+                    <em>No medical information available</em>
+                  </div>
+                </div>
+              </ng-template>
+            </form>
+          </p-tabpanel>
+          }
+        </p-tabpanels>
+      </p-tabs>
+    </p-card>
+  </div>
+</div>
+
+<div *ngIf="noUserDetailsFound" class="no-user-data">
+  <p>No user details found. Please contact support or log in again.</p>
+</div>

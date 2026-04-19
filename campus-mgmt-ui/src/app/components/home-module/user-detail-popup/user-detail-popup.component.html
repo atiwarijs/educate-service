@@ -1,0 +1,28 @@
+<p-dialog
+  [(visible)]="show"
+  [modal]="true"
+  [style]="{ width: '1000px' }"
+  [closable]="true"
+>
+  <div *ngIf="formArray">
+    <div *ngIf="formArray.length > 0">
+      <div #componentsContainer></div>
+    </div>
+    <p *ngIf="formArray.length === 0">No data available.</p>
+  </div>
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      label="Cancel"
+      class="p-button-secondary"
+      (click)="close()"
+    ></button>
+    <button
+      pButton
+      label="Save"
+      class="p-button-success"
+      (click)="onSave()"
+      [disabled]="formArray.invalid"
+    ></button>
+  </ng-template>
+</p-dialog>
