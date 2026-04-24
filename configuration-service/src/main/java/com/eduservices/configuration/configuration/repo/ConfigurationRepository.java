@@ -1,7 +1,7 @@
 package com.eduservices.configuration.repo;
 
 import com.eduservices.configuration.entity.ConfigurationEntity;
-import com.eduservices.common.repo.GenericRepository;
+import com.eduservices.repo.GenericRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

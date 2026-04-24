@@ -1,7 +1,7 @@
 package com.eduservices.classes.repo;
 
 import com.eduservices.classes.entity.SectionEntity;
-import com.eduservices.common.repo.GenericRepository;
+import com.eduservices.repo.GenericRepository;
 import org.springframework.stereotype.Repository;
 
 

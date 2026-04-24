@@ -1,12 +1,10 @@
 package com.eduservices.classes.controller;
 
-import com.eduservices.classes.dto.ClassDto;
 import com.eduservices.classes.dto.SectionDto;
-import com.eduservices.classes.entity.ClassEntity;
 import com.eduservices.classes.entity.SectionEntity;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import com.eduservices.common.controller.GenericController;
-import com.eduservices.common.repo.GenericRepository;
+import com.eduservices.controller.GenericController;
+import com.eduservices.repo.GenericRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

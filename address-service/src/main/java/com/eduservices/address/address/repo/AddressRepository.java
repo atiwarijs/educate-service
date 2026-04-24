@@ -1,7 +1,7 @@
 package com.eduservices.address.repo;
 
 import com.eduservices.address.entity.AddressDetails;
-import com.eduservices.common.repo.GenericRepository;
+import com.eduservices.repo.GenericRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

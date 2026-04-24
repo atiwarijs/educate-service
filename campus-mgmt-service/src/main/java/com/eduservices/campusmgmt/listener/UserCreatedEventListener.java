@@ -6,7 +6,6 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 import com.eduservices.profile.dto.PersonalDetailsDto;
-import com.eduservices.profile.dto.UserDTO;
 import com.eduservices.campusmgmt.service.ProfileServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;

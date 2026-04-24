@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.eduservices.profile.config.FeignClientConfig;
-import com.eduservices.common.profile.keycloak.KeycloakRoleDto;
 
 /**
  * Feign client interface for Keycloak API

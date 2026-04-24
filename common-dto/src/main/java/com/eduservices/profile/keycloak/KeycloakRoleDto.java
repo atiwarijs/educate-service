@@ -1,4 +1,4 @@
-package com.eduservices.common.profile.keycloak;
+package com.eduservices.profile.keycloak;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,6 @@
 package com.eduservices.teacher.advice;
 
-import com.eduservices.common.advice.GenericAdviceController;
+import com.eduservices.advice.GenericAdviceController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice

@@ -1,7 +1,7 @@
 package com.eduservices.registrations.repo;
 
 import com.eduservices.registrations.entity.RegistrationEntity;
-import com.eduservices.common.repo.GenericRepository;
+import com.eduservices.repo.GenericRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

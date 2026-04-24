@@ -4,11 +4,11 @@ This project is a **Spring Boot microservice** that handles authentication and a
 
 ## Package Structure
 
-The service uses the `com.ashish.security` package structure, replacing the previous `com.educamp.security` naming convention.
+The service uses the `com.ashish.security` package structure, replacing the previous `com.eduservices.security` naming convention.
 
 ## Ownership
 
-This service is now part of the Ashish platform, replacing the previous EduCamp platform references.
+This service is now part of the Ashish platform, replacing the previous eduservices platform references.
 
 ## ✨ Features
 

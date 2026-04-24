@@ -3,7 +3,7 @@ package com.eduservices.classes.services;
 import com.eduservices.classes.dto.ClassDto;
 import com.eduservices.classes.entity.ClassEntity;
 import com.eduservices.classes.repo.ClassRepository;
-import com.eduservices.common.exception.NoContentException;
+import com.eduservices.exception.NoContentException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

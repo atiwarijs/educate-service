@@ -1,6 +1,6 @@
 package com.eduservices.teacher.repo;
 
-import com.eduservices.common.repo.GenericRepository;
+import com.eduservices.repo.GenericRepository;
 
 import com.eduservices.teacher.entity.Teacher;
 

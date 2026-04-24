@@ -1,13 +1,12 @@
 package com.eduservices.registrations.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
-import com.eduservices.common.service.Encrypt;
+import com.eduservices.service.Encrypt;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;

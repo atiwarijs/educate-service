@@ -6,7 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
-import com.eduservices.common.service.Encrypt;
+import com.eduservices.service.Encrypt;
 
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.JoinTable;

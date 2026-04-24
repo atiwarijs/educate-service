@@ -3,15 +3,13 @@ package com.eduservices.address.controller;
 import com.eduservices.address.entity.AddressDetails;
 import com.eduservices.address.service.AddressService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import com.eduservices.common.controller.GenericController;
-import com.eduservices.common.repo.GenericRepository;
+import com.eduservices.controller.GenericController;
+import com.eduservices.repo.GenericRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Tag(name = "Address", description = "Address management api")
 @RestController

@@ -15,7 +15,6 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import com.eduservices.profile.dto.PersonalDetailsDto;
-import com.eduservices.profile.dto.UserDTO;
 
 @EnableKafka
 @Configuration

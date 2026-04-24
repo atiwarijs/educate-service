@@ -7,14 +7,7 @@ spring:
   application:
     name: SECURITY-SERVICE
   profiles:
-    active: none
-  cloud:
-    compatibility-verifier:
-      enabled: false
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
-      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+    active: mysql
   security:
     oauth2:
       resourceserver:

@@ -3,6 +3,7 @@ package com.eduservices.security.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.eduservices.profile.audit.Auditable;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
